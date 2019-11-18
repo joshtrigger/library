@@ -1,23 +1,25 @@
 language: node_js
 node_js:
-  - 10
-
+- 10
 addons:
   apt:
     sources:
-      - google-chrome
+    - google-chrome
     packages:
-      - google-chrome-stable
-
+    - google-chrome-stable
 cache:
   directories:
-    - ./node_modules
-
+  - "./node_modules"
 install:
-  - npm install
-
+- npm install
 script:
-  - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
-
+- npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessNoSandbox
+deploy:
+  provider: heroku
+  api_key:
+    secure: C41hVIQGE2PUcDyclLvNTpB2dnbRbozvdXyA9qpqEXvxOP6jJ5LW6sftW4SbS/wfNifBP/LGSm2KOQdyabkdZK0kfkh9ckEu1aM4dBkMdtKBbddjq334p8A0XlSNehB1Y9XRsoA048bF9xP3sSBSKZ8LTGbPBN8twlfPvQYlAJmAhvNotfL9fvNI3NMljbAX7XmDF+3yhcrGswSiv80VKk80cWKvJh1WIBMNBmFTbjTJuVei+jDXsXvml3nF6NwdRl3CIvxzjhy8UecVv9nRwQyHthSI4GvqeThfjdtx0HDgb6zmSfPOf6wDNHxerLQZHm/i7Xxzaz/xKSnnA/Cuv5ez3g0k3M5dLcroWiBKeRSPNBz90ilyq9l2LkXK7+V2wXSoru4SFcVmI9McQZZ9OopSeNa0TMXH4IAKcGooyGGjxezQr7dEI6MCC5PMZ45aHZlayd5r87NFySwyNkkogQyFRER+n3G0PC/HG3FCdQe/IRDWmNSHtdL5xmnchYdfHBGwE8H9q0DLXYa+EiM727KelrgrFosVs+wABcJ+5q1vfopSdNCs5XuDX/R3eFv7+5wMwgP/k0um/nG6U3c9c/OaLoMJxJlkaNb3hwbzlu+miEG0H/swH3qfk4SQNhl7E30EIHYmE9cb2ssBnau3e5FUNp9OaR2q/u3UWziZHJQ=
+    app:
+      master: library-production
+      staging: library-staging
 notifications:
   email: false
