@@ -8,17 +8,15 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "test-cov": "nyc npm test --watch=false --no-progress && nyc report --reporter=text-lcov | coveralls"
+    "test-cov": "nyc npm test --watch=false --no-progress && nyc report --reporter=text-lcov | coveralls",
+    "preinstall": "npm install -g @angular/cli",
+    "postinstall": "ng build && cd dist/library"
   },
   "private": true,
   "dependencies": {
-    "@angular/cli": "~8.2.0",
     "@angular/animations": "~8.2.0",
     "@angular/common": "~8.2.0",
     "@angular/compiler": "~8.2.0",
-    "@angular-devkit/build-angular": "~0.802.0",
-    "@angular/compiler-cli": "~8.2.0",
-    "@angular/language-service": "~8.2.0",
     "@angular/core": "~8.2.0",
     "@angular/forms": "~8.2.0",
     "@angular/platform-browser": "~8.2.0",
@@ -30,8 +28,8 @@
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
-    "@angular/compiler": "~8.2.0",
     "@angular-devkit/build-angular": "~0.802.0",
+    "@angular/cli": "~8.2.0",
     "@angular/compiler-cli": "~8.2.0",
     "@angular/language-service": "~8.2.0",
     "@types/jasmine": "~3.3.8",
