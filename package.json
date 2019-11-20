@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "test-cov": "nyc npm test --watch=false --no-progress && nyc report --reporter=text-lcov | coveralls",
     "preinstall": "npm install -g @angular/cli",
-    "postinstall": "ng build && cd dist/library"
+    "postinstall": "ng build"
   },
   "private": true,
   "dependencies": {
