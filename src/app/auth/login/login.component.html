@@ -1,14 +1,9 @@
-<mat-card fxLayout="column wrap">
-  <mat-card-title>
-    Login
-  </mat-card-title>
-  <mat-card-content>
-    <mat-form-field>
-      <input matInput placeholder="Email" type="email" />
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Password" type="password" />
-    </mat-form-field>
-    <button mat-raised-button>Login</button>
-  </mat-card-content>
-</mat-card>
+<div class="card-container" fxLayout="row wrap" fxLayoutAlign="center center">
+  <mat-card fxLayout="column wrap" fxLayoutAlign="space-evenly center" [formGroup]="loginForm">
+    <mat-card-title>Login</mat-card-title>
+    <input matInput type="text" placeholder="Email" formControlName="email">
+    <input matInput type="password" placeholder="Password" formControlName="password">
+    <button mat-raised-button [disabled]="loginForm.status=='INVALID'" (click)="login()">Login</button>
+    <a href="">Forgot password?</a>
+  </mat-card>
+</div>
