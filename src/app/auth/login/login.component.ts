@@ -15,7 +15,6 @@ export class LoginComponent implements OnInit {
   constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit() {
-    this.getAllLibrarians();
     const re = /\S+@\S+\.\S+/;
     this.loginForm = this.fb.group({
       email: ["", [Validators.required, Validators.pattern(re)]],
@@ -23,26 +22,15 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  getAllLibrarians(): void {
-    this.authService.fetchLibrarians().subscribe(
-      users => {
-        this.librarians = users;
+  login(): any {
+    const data = this.loginForm.value;
+    this.authService.loginUser("login", data).subscribe(
+      value => {
+        console.log(value);
       },
       err => {
         console.log(err);
       }
     );
-  }
-
-  login(): any {
-    const { email, password } = this.loginForm.value;
-    for (const user of this.librarians) {
-      if (email === user.email && password === user.password) {
-        console.log("there was a match");
-        return true;
-      } else {
-        console.error("there was no match");
-      }
-    }
   }
 }

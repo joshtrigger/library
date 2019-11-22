@@ -3,7 +3,7 @@
     <mat-card-title>Login</mat-card-title>
     <input matInput type="text" placeholder="Email" formControlName="email">
     <input matInput type="password" placeholder="Password" formControlName="password">
-    <button mat-raised-button [disabled]="loginForm.status=='INVALID'" (click)="login()">Login</button>
+    <button mat-raised-button [disabled]="loginForm.status=='INVALID'" on-click="login()">Login</button>
     <a href="">Forgot password?</a>
   </mat-card>
 </div>
