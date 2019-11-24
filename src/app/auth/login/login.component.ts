@@ -11,6 +11,7 @@ import { Librarian } from "src/app/interfaces";
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   librarians: Array<Librarian>;
+  errorMessage: String;
 
   constructor(private fb: FormBuilder, private authService: AuthService) {}
 
@@ -20,16 +21,22 @@ export class LoginComponent implements OnInit {
       email: ["", [Validators.required, Validators.pattern(re)]],
       password: ["", [Validators.required, Validators.minLength(6)]]
     });
+    this.loginForm.valueChanges.subscribe(() => {
+      this.errorMessage = "";
+    });
   }
 
-  login(): any {
+  login(): void {
     const data = this.loginForm.value;
-    this.authService.loginUser("login", data).subscribe(
+    this.authService.loginUser(data).subscribe(
       value => {
         console.log(value);
       },
       err => {
-        console.log(err);
+        const {
+          error: { body }
+        } = err;
+        this.errorMessage = body;
       }
     );
   }

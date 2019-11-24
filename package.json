@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "test-cov": "nyc npm test --watch=false --no-progress && nyc report --reporter=text-lcov | coveralls",
+    "test-cov": "npm test --code-coverage",
     "preinstall": "npm install -g @angular/cli",
     "postinstall": "ng build"
   },
