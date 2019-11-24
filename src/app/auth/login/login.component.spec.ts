@@ -1,10 +1,4 @@
-import {
-  async,
-  ComponentFixture,
-  TestBed,
-  tick,
-  fakeAsync
-} from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { LoginComponent } from "./login.component";
 import { MaterialModule } from "src/app/material.module";
@@ -19,7 +13,7 @@ import { Router } from "@angular/router";
 describe("LoginComponent", () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
-  let router, routerNavigateSpy;
+  let router;
   let authServiceSpy = jasmine.createSpyObj("AuthService", ["loginUser"]);
 
   beforeEach(async(() => {
@@ -95,20 +89,20 @@ describe("LoginComponent", () => {
     spyOn(component, "login");
 
     loginBtn.triggerEventHandler("click", null);
-    
+
     expect(component.login).toHaveBeenCalled();
   });
 
   it("should call the login function on success", () => {
     const mockResponse = { status: 200, token: "the token" };
     spyOn(component, "hideButton");
-    routerNavigateSpy = spyOn(router, "navigate");
-    routerNavigateSpy.and.returnValue(null);
+    spyOn(router, "navigateByUrl");
     authServiceSpy.loginUser.and.returnValue(of(mockResponse));
 
     component.login();
 
     expect(component.hideButton).toHaveBeenCalled();
+    expect(router.navigateByUrl).toHaveBeenCalledWith("/books");
   });
 
   it("should return error observer on login function call", () => {

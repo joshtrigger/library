@@ -10,7 +10,6 @@ export class AuthService {
   baseUrl: String = 'http://localhost:8080/api';
   constructor(private http: HttpClient) {}
   loginUser(payload): Observable<any> {
-    console.log('the test reached here')
     return this.http.post<any>(`${this.baseUrl}/login`, payload);
   }
   fetchLibrarians():Observable<Librarian>{
