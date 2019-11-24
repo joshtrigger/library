@@ -8,6 +8,7 @@ import { DataService } from './db/data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from './auth/auth.module';
+import { BooksModule } from './Books/books.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AuthModule } from './auth/auth.module';
     HttpClientModule,
     InMemoryWebApiModule.forRoot(DataService),
     BrowserAnimationsModule,
-    AuthModule
+    AuthModule,
+    BooksModule
   ],
   providers: [],
   bootstrap: [AppComponent]

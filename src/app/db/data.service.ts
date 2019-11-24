@@ -91,7 +91,7 @@ export class DataService implements InMemoryDbService {
         return {
           status: 401,
           error: {
-            body: "authentication failure"
+            body: "Incorrect email or password"
           }
         };
       }

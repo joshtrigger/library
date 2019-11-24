@@ -5,6 +5,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from "@angular/common/http/testing";
+import { Librarian } from 'src/app/interfaces';
 
 describe("AuthService", () => {
   beforeEach(() =>
@@ -38,7 +39,7 @@ describe("AuthService", () => {
 
   it("should fetch all librarians", () => {
     const { service, httpTestingController } = setUp();
-    const mockData = {
+    const mockData:Librarian = {
       id: 1,
       name: "john doe",
       email: "me@me.com",
