@@ -47,7 +47,8 @@ export class LoginComponent implements OnInit {
     this.hideButton();
     const data = this.loginForm.value;
     this.authService.loginUser(data).subscribe(
-      () => {
+      (value) => {
+        console.log(value)
         this.router.navigateByUrl("/books");
       },
       err => {

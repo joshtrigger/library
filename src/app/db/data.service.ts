@@ -75,26 +75,29 @@ export class DataService implements InMemoryDbService {
   }
 
   private authenticate(reqInfo: RequestInfo) {
+    let response = {};
+    const { headers, url, req } = reqInfo;
+    const { email, password } = req["body"];
+    const allLibrarians = this.createDb()["librarians"];
     return reqInfo.utils.createResponse$(() => {
-      const { headers, url, req } = reqInfo;
-      const { email, password } = req["body"];
-      const allLibrarians = this.createDb()["librarians"];
-      for (const user of allLibrarians) {
-        if (email === user.email && password === user.password) {
-          return {
-            status: 200,
-            headers,
-            url,
-            token: "this is the token"
-          };
-        }
+
+      if (email === "me@me.com" && password === "pass123") {
         return {
-          status: 401,
-          error: {
-            body: "Incorrect email or password"
+          status: 200,
+          headers,
+          url,
+          body: {
+            token:
+              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
           }
         };
       }
+      return {
+        status: 401,
+        headers,
+        url,
+        error: { body: "Incorrect email or password" }
+      };
     });
   }
 }
