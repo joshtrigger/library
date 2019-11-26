@@ -45,18 +45,18 @@ export class LoginComponent implements OnInit {
       this.errorMessage = "";
       this.disabled = this.loginForm.status === "VALID" ? false : true;
     });
-
+    
     const emailFormControl = this.loginForm.get("email");
     const passwordFormControl = this.loginForm.get("password");
-
+    
     emailFormControl.valueChanges.subscribe(() =>
-      this.setMessage(emailFormControl)
+    this.setMessage(emailFormControl)
     );
     passwordFormControl.valueChanges.subscribe(() =>
-      this.setMessage(passwordFormControl)
+    this.setMessage(passwordFormControl)
     );
   }
-
+  
   hideButton(): void {
     this.btnText = "Logging in...";
     this.disabled = true;
@@ -65,9 +65,10 @@ export class LoginComponent implements OnInit {
     this.btnText = "Login";
     this.disabled = false;
   }
-
+  
   login(): void {
     this.hideButton();
+    this.errorMessage = "";
     const data = this.loginForm.value;
     this.authService.loginUser(data).subscribe(
       value => {

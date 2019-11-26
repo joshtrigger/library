@@ -5,7 +5,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from "@angular/common/http/testing";
-import { Librarian } from 'src/app/interfaces';
+import { Librarian } from "src/app/interfaces";
 
 describe("AuthService", () => {
   beforeEach(() =>
@@ -39,7 +39,7 @@ describe("AuthService", () => {
 
   it("should fetch all librarians", () => {
     const { service, httpTestingController } = setUp();
-    const mockData:Librarian = {
+    const mockData: Librarian = {
       id: 1,
       name: "john doe",
       email: "me@me.com",
@@ -54,6 +54,29 @@ describe("AuthService", () => {
       "http://localhost:8080/api/librarians"
     );
     expect(req.request.method).toBe("GET");
+  });
+
+  it("should should return true when no user is logged in", () => {
+    const { service } = setUp();
+    const mockUser = { name: "johndoe", email: "jon.doe@email.com" };
+    const localStorageSpy = jasmine.createSpyObj("localStorage", [
+      "setItem",
+      "getItem"
+    ]);
+
+    localStorageSpy.getItem.and.returnValue(mockUser)
+
+    expect(service.getCurrentUser()).toBeTruthy();
+  });
+
+  it("should should return false when no user is logged in", () => {
+    const { service } = setUp();
+
+    spyOn(localStorage, "getItem").and.callFake((key: string) => {
+      return null;
+    });
+
+    expect(service.getCurrentUser()).toBeFalsy();
   });
 
   afterEach(() => {
