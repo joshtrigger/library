@@ -5,12 +5,11 @@
     width: 500px;
     height: 400px;
 
-    input {
-      width: 400px;
-      height: 40px;
-      border: 1px gray solid;
-      border-radius: 5px;
+    .mat-form-field{
+      width: 100%;
+    }
 
+    input {
       &::placeholder {
         font-size: medium;
       }

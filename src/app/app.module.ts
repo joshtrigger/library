@@ -16,12 +16,12 @@ import { BooksModule } from './Books/books.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
     InMemoryWebApiModule.forRoot(DataService),
     BrowserAnimationsModule,
     AuthModule,
-    BooksModule
+    BooksModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
