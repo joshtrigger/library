@@ -24,7 +24,7 @@ describe("DataService", () => {
 
   it("should 'return authentication function call when collectionName='login'", () => {
     const service = TestBed.get(DataService);
-    const spy = (()=>{});
+    spyOn(service, 'authenticate')
     const req = {
       apiBase: "api/",
       req: {
@@ -42,10 +42,11 @@ describe("DataService", () => {
       resourceUrl: "api/login/",
       url: "http://localhost:8080/api/login",
       utils: {
-        createResponse$:(jasmine.createSpy())
+        createResponse$:jasmine.createSpy()
       }
     };
     service.post(req);
+    expect(service.authenticate).toHaveBeenCalled()
   });
 
   it("should return undefined if collectionName is not 'login'", () => {

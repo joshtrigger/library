@@ -56,7 +56,7 @@ describe("AuthService", () => {
     expect(req.request.method).toBe("GET");
   });
 
-  it("should should return true when no user is logged in", () => {
+  it("should return true when user is logged in", () => {
     const { service } = setUp();
     const mockUser = { name: "johndoe", email: "jon.doe@email.com" };
     const localStorageSpy = jasmine.createSpyObj("localStorage", [
@@ -69,7 +69,7 @@ describe("AuthService", () => {
     expect(service.getCurrentUser()).toBeTruthy();
   });
 
-  it("should should return false when no user is logged in", () => {
+  it("should return false when no user is logged in", () => {
     const { service } = setUp();
 
     spyOn(localStorage, "getItem").and.callFake((key: string) => {

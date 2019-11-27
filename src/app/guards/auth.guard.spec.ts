@@ -65,7 +65,7 @@ describe("AuthGuard", () => {
       ]);
       authServiceSpy.getCurrentUser.and.returnValue(false);
 
-      guard.canActivate({}, {});
+      guard.canActivate(activatedRouteSnapShot, routerStateSnapShop);
 
       expect(guard.canActivate).toBeTruthy();
     }
