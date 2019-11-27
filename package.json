@@ -4,13 +4,13 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "build": "ng build",
+    "build": "ng build --prod --base-href https://library-staging.herokuapp.com/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "test-cov": "npm test --code-coverage",
     "preinstall": "npm install -g @angular/cli",
-    "postinstall": "ng build"
+    "postinstall": "npm run build"
   },
   "private": true,
   "dependencies": {
