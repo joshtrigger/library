@@ -1,0 +1,37 @@
+.card-container {
+  height: 100%;
+
+  .mat-card {
+    width: 500px;
+    height: 400px;
+
+    .mat-form-field{
+      width: 100%;
+    }
+
+    input {
+      &::placeholder {
+        font-size: medium;
+      }
+      &:focus{
+        outline: none;
+      }
+    }
+
+    button {
+      width: 300px;
+      background-color: #3498DB;
+      color: white;
+      &:disabled{
+        background-color: rgb(125, 191, 235);
+      }
+    }
+    a{
+      color: #3498DB;
+    }
+    span{
+      color:red;
+      font-size: small;
+    }
+  }
+}

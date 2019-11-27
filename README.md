@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/joshtrigger/library.svg?branch=master)](https://travis-ci.org/joshtrigger/library)
+[![Coverage Status](https://coveralls.io/repos/github/joshtrigger/library/badge.svg?branch=staging)](https://coveralls.io/github/joshtrigger/library?branch=staging)
 # Library
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.2.0.

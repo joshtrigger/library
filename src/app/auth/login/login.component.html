@@ -1,0 +1,16 @@
+<div class="card-container" fxLayout="row wrap" fxLayoutAlign="center center">
+  <mat-card fxLayout="column wrap" fxLayoutAlign="space-evenly center" [formGroup]="loginForm">
+    <mat-card-title>Login</mat-card-title>
+    <mat-form-field>
+      <input matInput type="email" placeholder="Email" formControlName="email">
+      <mat-error>{{validationMessage}}</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="password" placeholder="Password" formControlName="password">
+      <mat-error>{{validationMessage}}</mat-error>
+    </mat-form-field>
+    <span>{{errorMessage}}</span>
+    <button mat-raised-button [disabled]="disabled" on-click="login()">{{btnText}}</button>
+    <a href="">Forgot password?</a>
+  </mat-card>
+</div>
