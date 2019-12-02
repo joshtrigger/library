@@ -17,10 +17,16 @@ export class AuthService {
     }
     return false;
   }
+
   loginUser(payload): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/login`, payload);
   }
+
   fetchLibrarians(): Observable<Librarian> {
     return this.http.get<Librarian>(`${this.baseUrl}/librarians`);
+  }
+
+  forgotPassword(payload):Observable<any>{
+    return this.http.post<any>(`${this.baseUrl}/forgot-password`,payload)
   }
 }
