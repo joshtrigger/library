@@ -5,11 +5,12 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { MaterialModule } from '../material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 
 @NgModule({
-  declarations: [LoginComponent, ForgotPasswordComponent],
+  declarations: [LoginComponent, ForgotPasswordComponent, ResetPasswordComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,

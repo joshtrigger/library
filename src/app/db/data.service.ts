@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { InMemoryDbService, RequestInfo } from "angular-in-memory-web-api";
+import { Observable, of, throwError } from "rxjs";
 
 @Injectable({
   providedIn: "root"
@@ -70,24 +71,52 @@ export class DataService implements InMemoryDbService {
   post(reqInfo: RequestInfo) {
     if (reqInfo.collectionName === "login") {
       return this.authenticate(reqInfo);
+    } else if (reqInfo.collectionName === "forgot-password") {
+      return this.sendEmail(reqInfo);
+    } else {
+      return undefined;
     }
-    return undefined;
+  }
+
+  private sendEmail(reqInfo: RequestInfo) {
+    const allUsers = this.createDb()["librarians"];
+    const { req, headers, url } = reqInfo;
+    const { email } = req["body"];
+    const response = { status: 200, message: "Email sent successfully" };
+    const user = allUsers.find(user => user.email === email);
+    const err = {
+      status: 400,
+      statusText: "Bad Request",
+      error: { body: "User does not exist" }
+    };
+    
+    return reqInfo.utils.createResponse$(() => {
+      if (user) {
+        return {
+          status: 200,
+          headers,
+          url,
+          body: {
+            response
+          }
+        };
+      } else {
+        return err;
+      }
+    });
   }
 
   private authenticate(reqInfo: RequestInfo) {
     const { headers, url, req } = reqInfo;
     const { email, password } = req["body"];
     const allLibrarians = this.createDb()["librarians"];
-    return reqInfo.utils.createResponse$(() => {
-      const loginInUser = allLibrarians.filter(user => {
-        if (user.email === email && user.password === password) {
-          return true;
-        } else {
-          return false;
-        }
-      });
+    const loggedInUser = allLibrarians.find(
+      user => user.email === email && user.password === password
+    );
 
-      if (loginInUser.length > 0) {
+    return reqInfo.utils.createResponse$(() => {
+
+      if (loggedInUser) {
         return {
           status: 200,
           headers,
@@ -95,7 +124,7 @@ export class DataService implements InMemoryDbService {
           body: {
             token:
               "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c",
-              user: loginInUser[0]
+            user: loggedInUser
           }
         };
       }
