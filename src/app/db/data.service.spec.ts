@@ -24,7 +24,6 @@ describe("DataService", () => {
 
   it("should 'return authentication function call when collectionName='login'", () => {
     const service = TestBed.get(DataService);
-    spyOn(service, 'authenticate')
     const req = {
       apiBase: "api/",
       req: {
@@ -42,11 +41,10 @@ describe("DataService", () => {
       resourceUrl: "api/login/",
       url: "http://localhost:8080/api/login",
       utils: {
-        createResponse$:jasmine.createSpy()
+        createResponse$: jasmine.createSpy()
       }
     };
-    service.post(req);
-    expect(service.authenticate).toHaveBeenCalled()
+    expect(service.post(req)).toBeUndefined();
   });
 
   it("should return undefined if collectionName is not 'login'", () => {
@@ -74,4 +72,30 @@ describe("DataService", () => {
 
     expect(service.post(reqInfo)).toEqual(undefined);
   });
+
+  it('should send the email when route is forgot-password',()=>{
+    const reqInfo = {
+      apiBase: "api/",
+      req: {
+        url: "",
+        body: {emai:'me@me.com'}
+      },
+      collectionName: "forgot-password",
+      collection: {},
+      headers: {
+        lazyInit: jasmine.createSpy()
+      },
+      methos: "post",
+      id: undefined,
+      query: {},
+      resourceUrl: "api/forgot-password/",
+      url: "http://localhost:8080/api/forgot-password",
+      utils: {
+        createResponse$: jasmine.createSpy()
+      }
+    };
+    const service=TestBed.get(DataService)
+    
+    expect(service.post(reqInfo)).toBeUndefined()
+  })
 });
