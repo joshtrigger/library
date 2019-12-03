@@ -64,7 +64,7 @@ describe("AuthService", () => {
       "getItem"
     ]);
 
-    localStorageSpy.getItem.and.returnValue(mockUser);
+    localStorageSpy.setItem.and.returnValue(mockUser);
 
     expect(service.getCurrentUser()).toBeTruthy();
   });
