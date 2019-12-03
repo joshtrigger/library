@@ -29,4 +29,8 @@ export class AuthService {
   forgotPassword(payload):Observable<any>{
     return this.http.post<any>(`${this.baseUrl}/forgot-password`,payload)
   }
+
+  resetPassword(payload):Observable<any>{
+    return this.http.put<any>(`${this.baseUrl}/reset-password`,payload)
+  }
 }

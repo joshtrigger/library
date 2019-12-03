@@ -7,7 +7,6 @@ import {
 } from "@angular/forms";
 import { AuthService } from "../services/auth.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { tap, take } from "rxjs/operators";
 import { Router } from '@angular/router';
 
 @Component({
@@ -49,7 +48,7 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
-  send() {
+  send():void {
     const data = this.emailForm.value;
     this.authService.forgotPassword(data).subscribe(
       value => {
@@ -75,7 +74,7 @@ export class ForgotPasswordComponent implements OnInit {
     }
   }
 
-  showError(message) {
+  showError(message):void {
     this._snackBar.open(message, "close", {
       duration: 3000,
       verticalPosition: "bottom",
@@ -83,7 +82,7 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
-  showSuccess(message) {
+  showSuccess(message):void {
     this._snackBar.open(message, "close", {
       duration: 3000,
       verticalPosition: "bottom",
