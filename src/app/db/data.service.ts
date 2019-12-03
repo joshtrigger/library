@@ -7,7 +7,6 @@ import { Observable, of, throwError } from "rxjs";
 })
 export class DataService implements InMemoryDbService {
   constructor() {}
-
   createDb() {
     const librarians = [
       { id: 1, name: "josh", email: "me@me.com", password: "pass123" },
@@ -78,6 +77,31 @@ export class DataService implements InMemoryDbService {
     }
   }
 
+  put(reqInfo: RequestInfo) {
+    if (reqInfo.collectionName === "reset-password") {
+      return this.reset(reqInfo);
+    }
+  }
+
+  private reset(reqInfo: RequestInfo) {
+    const users = this.createDb()["librarians"];
+    const { req } = reqInfo;
+    const { confirmPassword } = req["body"];
+    const user = users.find(user => user.password === confirmPassword);
+
+    return reqInfo.utils.createResponse$(() => {
+      if (user) {
+        return {
+          status:200,
+          body: { message: "Password has been reset" }
+        };
+      }
+      return {
+        error: { body: "User does not exist" }
+      };
+    });
+  }
+
   private sendEmail(reqInfo: RequestInfo) {
     const allUsers = this.createDb()["librarians"];
     const { req, headers, url } = reqInfo;
@@ -89,7 +113,7 @@ export class DataService implements InMemoryDbService {
       statusText: "Bad Request",
       error: { body: "User does not exist" }
     };
-    
+
     return reqInfo.utils.createResponse$(() => {
       if (user) {
         return {
@@ -115,7 +139,6 @@ export class DataService implements InMemoryDbService {
     );
 
     return reqInfo.utils.createResponse$(() => {
-
       if (loggedInUser) {
         return {
           status: 200,
