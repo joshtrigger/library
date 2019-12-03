@@ -24,6 +24,7 @@ describe("AuthService", () => {
     const { service } = setUp();
     expect(service).toBeTruthy();
   });
+
   it("should login user", () => {
     const { service, httpTestingController } = setUp();
     const payload = { email: "me@me.com", password: "pass" };
@@ -46,7 +47,6 @@ describe("AuthService", () => {
       password: "pass"
     };
     service.fetchLibrarians().subscribe(data => {
-      console.log(data);
       expect(data).toEqual(mockData);
     });
 
@@ -64,7 +64,7 @@ describe("AuthService", () => {
       "getItem"
     ]);
 
-    localStorageSpy.getItem.and.returnValue(mockUser)
+    localStorageSpy.getItem.and.returnValue(mockUser);
 
     expect(service.getCurrentUser()).toBeTruthy();
   });
@@ -77,6 +77,34 @@ describe("AuthService", () => {
     });
 
     expect(service.getCurrentUser()).toBeFalsy();
+  });
+
+  it("should call forgot password", () => {
+    const { service, httpTestingController } = setUp();
+    const mockData = { email: "me@me.com" };
+
+    service.forgotPassword(mockData).subscribe(data => {
+      expect(data).toEqual("");
+    });
+
+    const request = httpTestingController.expectOne(
+      "http://localhost:8080/api/forgot-password"
+    );
+    expect(request.request.method).toEqual("POST");
+  });
+
+  it("should call reset password", () => {
+    const { service, httpTestingController } = setUp();
+    const mockData = { newPassword: "pass", confirmPassword: "pass" };
+
+    service.resetPassword(mockData).subscribe(data => {
+      expect(data).toEqual("");
+    });
+
+    const request = httpTestingController.expectOne(
+      "http://localhost:8080/api/reset-password"
+    );
+    expect(request.request.method).toEqual("PUT");
   });
 
   afterEach(() => {

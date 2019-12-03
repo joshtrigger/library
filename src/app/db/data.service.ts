@@ -81,6 +81,7 @@ export class DataService implements InMemoryDbService {
     if (reqInfo.collectionName === "reset-password") {
       return this.reset(reqInfo);
     }
+    return undefined;
   }
 
   private reset(reqInfo: RequestInfo) {
