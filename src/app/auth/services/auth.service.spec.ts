@@ -58,13 +58,6 @@ describe("AuthService", () => {
 
   it("should return true when user is logged in", () => {
     const { service } = setUp();
-    const mockUser = { name: "johndoe", email: "jon.doe@email.com" };
-    const localStorageSpy = jasmine.createSpyObj("localStorage", [
-      "setItem",
-      "getItem"
-    ]);
-
-    localStorageSpy.getItem.and.returnValue(mockUser);
 
     expect(service.getCurrentUser()).toBeTruthy();
   });
