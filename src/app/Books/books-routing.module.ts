@@ -1,9 +1,9 @@
 import { NgModule } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { RouterModule, Routes } from "@angular/router";
 import { BooksComponent } from "./books/books.component";
 import { AuthGuard } from "../guards/auth.guard";
 
-const routes = [
+const routes: Routes = [
   { path: "books", component: BooksComponent, canActivate: [AuthGuard] }
 ];
 

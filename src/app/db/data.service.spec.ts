@@ -24,7 +24,6 @@ describe("DataService", () => {
 
   it("should 'return authentication function call when collectionName='login'", () => {
     const service = TestBed.get(DataService);
-    spyOn(service, 'authenticate')
     const req = {
       apiBase: "api/",
       req: {
@@ -42,11 +41,12 @@ describe("DataService", () => {
       resourceUrl: "api/login/",
       url: "http://localhost:8080/api/login",
       utils: {
-        createResponse$:jasmine.createSpy()
+        createResponse$: jasmine.createSpy()
       }
     };
-    service.post(req);
-    expect(service.authenticate).toHaveBeenCalled()
+    service.post(req)
+
+    expect(service.authenticate).toBeDefined();
   });
 
   it("should return undefined if collectionName is not 'login'", () => {
@@ -74,4 +74,88 @@ describe("DataService", () => {
 
     expect(service.post(reqInfo)).toEqual(undefined);
   });
+
+  it('should send the email when route is forgot-password',()=>{
+    const reqInfo = {
+      apiBase: "api/",
+      req: {
+        url: "",
+        body: {emai:'me@me.com'}
+      },
+      collectionName: "forgot-password",
+      collection: {},
+      headers: {
+        lazyInit: jasmine.createSpy()
+      },
+      methos: "post",
+      id: undefined,
+      query: {},
+      resourceUrl: "api/forgot-password/",
+      url: "http://localhost:8080/api/forgot-password",
+      utils: {
+        createResponse$: jasmine.createSpy()
+      }
+    };
+    const service=TestBed.get(DataService)
+    
+    service.post(reqInfo)
+
+    expect(service.sendEmail).toBeDefined()
+  })
+
+  it('should override the put method',()=>{
+    const reqInfo = {
+      apiBase: "api/",
+      req: {
+        url: "",
+        body: {}
+      },
+      collectionName: "reset-password",
+      collection: {},
+      headers: {
+        lazyInit: jasmine.createSpy()
+      },
+      methos: "put",
+      id: undefined,
+      query: {},
+      resourceUrl: "api/forgot-password/",
+      url: "http://localhost:8080/api/forgot-password",
+      utils: {
+        createResponse$: jasmine.createSpy()
+      }
+    };
+    const service=TestBed.get(DataService)
+
+    service.put(reqInfo)
+
+    expect(service.reset).toBeDefined()
+  })
+
+  it('should not override the put method',()=>{
+    const reqInfo = {
+      apiBase: "api/",
+      req: {
+        url: "",
+        body: {}
+      },
+      collectionName: "",
+      collection: {},
+      headers: {
+        lazyInit: jasmine.createSpy()
+      },
+      methos: "put",
+      id: undefined,
+      query: {},
+      resourceUrl: "api/forgot-password/",
+      url: "http://localhost:8080/api/",
+      utils: {
+        createResponse$: jasmine.createSpy()
+      }
+    };
+    const service=TestBed.get(DataService)
+
+    service.put(reqInfo)
+
+    expect(service.reset).toBeDefined()
+  })
 });
