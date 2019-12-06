@@ -63,6 +63,10 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
+  /**
+   * This methods is responsible for resetting the user's
+   * new password.
+   */
   reset(): void {
     const data = this.passwordForm.value;
     this.authService.resetPassword(data).subscribe(
@@ -79,6 +83,13 @@ export class ResetPasswordComponent implements OnInit {
     );
   }
 
+  /**
+   * This method is responsible for setting the validation messages 
+   * by matching the keys of the [[inputErrors]] object with those
+   * from the errors collection of the form control or form group.
+   * 
+   * @param c - form control or form group
+   */
   setMessage(c: AbstractControl): void {
     this.validationMessage = "";
     if ((c.touched || c.dirty) && c.errors) {
@@ -88,6 +99,12 @@ export class ResetPasswordComponent implements OnInit {
     }
   }
 
+  /**
+   * This method displays a red angular material snack bar
+   * with an error message.
+   * 
+   * @param message - message to display on the snack bar
+   */
   showError(message) {
     this._snackBar.open(message, "close", {
       duration: 3000,
@@ -96,6 +113,12 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
+  /**
+   * This method displays a green angular material snack bar 
+   * with success message
+   * 
+   * @param message - message to display on the snack bar
+   */
   showSuccess(message) {
     this._snackBar.open(message, "close", {
       duration: 3000,

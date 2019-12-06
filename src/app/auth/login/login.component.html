@@ -9,7 +9,6 @@
       <input matInput type="password" placeholder="Password" formControlName="password">
       <mat-error>{{validationMessage}}</mat-error>
     </mat-form-field>
-    <span>{{errorMessage}}</span>
     <button mat-raised-button [disabled]="disabled" on-click="login()">{{btnText}}</button>
     <a routerLink="/forgot-password">Forgot password?</a>
   </mat-card>

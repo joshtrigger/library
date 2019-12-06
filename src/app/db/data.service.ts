@@ -1,12 +1,20 @@
 import { Injectable } from "@angular/core";
 import { InMemoryDbService, RequestInfo } from "angular-in-memory-web-api";
-import { Observable, of, throwError } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
 export class DataService implements InMemoryDbService {
+
   constructor() {}
+
+  /**
+   * This method creates a "database" hash whose keys are collection
+   * names and whose values are arrays of collection objects to return
+   * or update.
+   * 
+   * @returns object literals of the data collections
+   */
   createDb() {
     const librarians = [
       { id: 1, name: "josh", email: "me@me.com", password: "pass123" },
@@ -67,6 +75,15 @@ export class DataService implements InMemoryDbService {
     return { librarians, books, borrower_books, readers, reports };
   }
 
+  /**
+   * This method is an override for the post method from an incoming
+   * http request
+   * 
+   * @param reqInfo information about the incoming http request
+   * 
+   * @returns function call when endpoint is either login or
+   * forgot-password otherwise undefined
+   */
   post(reqInfo: RequestInfo) {
     if (reqInfo.collectionName === "login") {
       return this.authenticate(reqInfo);
@@ -77,6 +94,15 @@ export class DataService implements InMemoryDbService {
     }
   }
 
+  /**
+   * This method is an override for the put method from an incoming
+   * http request
+   * 
+   * @param reqInfo information about the incoming http request
+   * 
+   * @returns function call when endpoint is 'reset-password' otherwise
+   * undefined
+   */
   put(reqInfo: RequestInfo) {
     if (reqInfo.collectionName === "reset-password") {
       return this.reset(reqInfo);
@@ -84,6 +110,14 @@ export class DataService implements InMemoryDbService {
     return undefined;
   }
 
+  /**
+   * This private function is responsible for resetting the user's
+   * password
+   * 
+   * @param reqInfo infomation about the incoming request
+   * 
+   * @returns http response
+   */
   private reset(reqInfo: RequestInfo) {
     const users = this.createDb()["librarians"];
     const { req } = reqInfo;
@@ -103,6 +137,14 @@ export class DataService implements InMemoryDbService {
     });
   }
 
+  /**
+   * This private function is responsible for processing
+   * user's password reset request
+   * 
+   * @param reqInfo infomation about the incoming request
+   * 
+   * @returns http response
+   */
   private sendEmail(reqInfo: RequestInfo) {
     const allUsers = this.createDb()["librarians"];
     const { req, headers, url } = reqInfo;
@@ -131,6 +173,14 @@ export class DataService implements InMemoryDbService {
     });
   }
 
+  /**
+   * This private function is responsible for granting the user
+   * access to the application
+   * 
+   * @param reqInfo infomation about the incoming request
+   * 
+   * @returns http response
+   */
   private authenticate(reqInfo: RequestInfo) {
     const { headers, url, req } = reqInfo;
     const { email, password } = req["body"];

@@ -48,6 +48,10 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
+  /**
+   * This method processes user's request to reset their
+   * password
+   */
   send():void {
     const data = this.emailForm.value;
     this.authService.forgotPassword(data).subscribe(
@@ -65,6 +69,13 @@ export class ForgotPasswordComponent implements OnInit {
     );
   }
 
+  /**
+   * This method is responsible for setting the validation messages 
+   * by matching the keys of the [[inputErrors]] object with those
+   * from the errors collection of the form control or form group.
+   * 
+   * @param c - form control or form group
+   */
   setMessage(c: AbstractControl): void {
     this.validationMessage = "";
     if ((c.touched || c.dirty) && c.errors) {
@@ -74,6 +85,12 @@ export class ForgotPasswordComponent implements OnInit {
     }
   }
 
+  /**
+   * This method displays a red angular material snack bar
+   * with an error message.
+   * 
+   * @param message - message to display on the snack bar
+   */
   showError(message):void {
     this._snackBar.open(message, "close", {
       duration: 3000,
@@ -82,6 +99,12 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
+  /**
+   * This method displays a green angular material snack bar 
+   * with success message
+   * 
+   * @param message - message to display on the snack bar
+   */
   showSuccess(message):void {
     this._snackBar.open(message, "close", {
       duration: 3000,

@@ -8,6 +8,7 @@ import {
 import { AuthService } from "../services/auth.service";
 import { Librarian } from "src/app/interfaces";
 import { Router } from "@angular/router";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: "app-login",
@@ -17,7 +18,6 @@ import { Router } from "@angular/router";
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   librarians: Array<Librarian>;
-  errorMessage: String;
   disabled: Boolean = true;
   btnText: String = "Login";
   validationMessage: String;
@@ -25,7 +25,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private _snackBar: MatSnackBar
   ) {}
 
   private inputErrors = {
@@ -42,7 +43,6 @@ export class LoginComponent implements OnInit {
     });
 
     this.loginForm.valueChanges.subscribe(() => {
-      this.errorMessage = "";
       this.disabled = this.loginForm.status === "VALID" ? false : true;
     });
     
@@ -57,18 +57,30 @@ export class LoginComponent implements OnInit {
     );
   }
   
+  /**
+   * This method is responsible for disabling the login button
+   * and changing the button text to Logging in...
+   */
   hideButton(): void {
     this.btnText = "Logging in...";
     this.disabled = true;
   }
+
+  /**
+   * This method is responsible for re enabling the login button
+   * and changing the button text back to Login
+   */
   showButton(): void {
     this.btnText = "Login";
     this.disabled = false;
   }
   
+  /**
+   * This method is responsible granting or declining user access to
+   * the application
+   */
   login(): void {
     this.hideButton();
-    this.errorMessage = "";
     const data = this.loginForm.value;
     this.authService.loginUser(data).subscribe(
       value => {
@@ -80,11 +92,18 @@ export class LoginComponent implements OnInit {
         const {
           error: { body }
         } = err;
-        this.errorMessage = body;
+        this.showError(body);
       }
     );
   }
 
+  /**
+   * This method is responsible for setting the validation messages 
+   * by matching the keys of the [[inputErrors]] object with those
+   * from the errors collection of the form control or form group.
+   * 
+   * @param c - form control or form group
+   */
   setMessage(c: AbstractControl): void {
     this.validationMessage = "";
     if ((c.touched || c.dirty) && c.errors) {
@@ -92,5 +111,19 @@ export class LoginComponent implements OnInit {
         .map(key => (this.validationMessage += this.inputErrors[key]))
         .join(" ");
     }
+  }
+
+  /**
+   * This method displays a red angular material snack bar
+   * with an error message.
+   * 
+   * @param message - message to display on the snack bar
+   */
+  showError(message):void {
+    this._snackBar.open(message, "close", {
+      duration: 3000,
+      verticalPosition: "bottom",
+      panelClass: ["error-snackbar"]
+    });
   }
 }

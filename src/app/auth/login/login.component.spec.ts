@@ -67,7 +67,6 @@ describe("LoginComponent", () => {
     fixture.detectChanges();
 
     expect(component.loginForm.status).toEqual("INVALID");
-    expect(component.errorMessage).toEqual("");
   });
 
   it("should have a valid login form", () => {
@@ -83,7 +82,6 @@ describe("LoginComponent", () => {
     fixture.detectChanges();
 
     expect(component.loginForm.status).toEqual("VALID");
-    expect(component.errorMessage).toEqual("");
   });
 
   it("should invoke setMessage function when receiving input", () => {
@@ -100,7 +98,6 @@ describe("LoginComponent", () => {
     fixture.detectChanges();
 
     expect(component.loginForm.status).toEqual("VALID");
-    expect(component.errorMessage).toEqual("");
     expect(component.setMessage).toHaveBeenCalledTimes(2)
   });
 
@@ -133,6 +130,15 @@ describe("LoginComponent", () => {
     component.login();
 
     expect(component.showButton).toHaveBeenCalled();
-    expect(component.errorMessage).toEqual(error.body);
+  });
+
+  it("should return error observer on login function call and showError function", () => {
+    const error = { body: "error has occured" };
+    spyOn(component, "showError");
+    authServiceSpy.loginUser.and.returnValue(throwError({ error }));
+
+    component.login();
+
+    expect(component.showError).toHaveBeenCalled();
   });
 });
