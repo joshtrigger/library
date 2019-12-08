@@ -8,7 +8,7 @@ import {
 import { AuthService } from "../services/auth.service";
 import { Librarian } from "src/app/interfaces";
 import { Router } from "@angular/router";
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "app-login",
@@ -17,10 +17,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  signUpForm: FormGroup;
   librarians: Array<Librarian>;
-  disabled: Boolean = true;
+  disabled: Boolean;
   btnText: String = "Login";
+  signUpBtnText: String = "Sign Up";
   validationMessage: String;
+  tabIndex: Number;
 
   constructor(
     private fb: FormBuilder,
@@ -42,21 +45,21 @@ export class LoginComponent implements OnInit {
       password: ["", [Validators.required, Validators.minLength(6)]]
     });
 
-    this.loginForm.valueChanges.subscribe(() => {
-      this.disabled = this.loginForm.status === "VALID" ? false : true;
+    this.signUpForm = this.fb.group({
+      username: ["", [Validators.required]],
+      email: ["", [Validators.required, Validators.pattern(re)]],
+      password: ["", [Validators.required, Validators.minLength(6)]]
     });
-    
-    const emailFormControl = this.loginForm.get("email");
-    const passwordFormControl = this.loginForm.get("password");
-    
-    emailFormControl.valueChanges.subscribe(() =>
-    this.setMessage(emailFormControl)
-    );
-    passwordFormControl.valueChanges.subscribe(() =>
-    this.setMessage(passwordFormControl)
-    );
+
+    this.loginForm.valueChanges.subscribe(() => {
+      this.setMessage(this.loginForm);
+    });
+
+    this.signUpForm.valueChanges.subscribe(() => {
+      this.setMessage(this.signUpForm);
+    });
   }
-  
+
   /**
    * This method is responsible for disabling the login button
    * and changing the button text to Logging in...
@@ -64,6 +67,7 @@ export class LoginComponent implements OnInit {
   hideButton(): void {
     this.btnText = "Logging in...";
     this.disabled = true;
+    this.signUpBtnText = "Please wait...";
   }
 
   /**
@@ -73,8 +77,9 @@ export class LoginComponent implements OnInit {
   showButton(): void {
     this.btnText = "Login";
     this.disabled = false;
+    this.signUpBtnText = "Sign Up";
   }
-  
+
   /**
    * This method is responsible granting or declining user access to
    * the application
@@ -97,33 +102,74 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  signUp() {
+    this.hideButton();
+    const data = this.signUpForm.value;
+    this.authService.signUpUser(data).subscribe(
+      value => {
+        const { message } = value;
+        this.showSuccess(message);
+        this.signUpForm.reset();
+        this.signUpBtnText = "Sign Up";
+        this.tabIndex = 0;
+        this.showButton();
+      },
+      err => {
+        this.showButton();
+        const {
+          error: { body }
+        } = err;
+        this.showError(body);
+      }
+    );
+  }
+
   /**
-   * This method is responsible for setting the validation messages 
+   * This method is responsible for setting the validation messages
    * by matching the keys of the [[inputErrors]] object with those
    * from the errors collection of the form control or form group.
-   * 
+   *
    * @param c - form control or form group
    */
-  setMessage(c: AbstractControl): void {
+  setMessage(form: AbstractControl): void {
     this.validationMessage = "";
-    if ((c.touched || c.dirty) && c.errors) {
-      this.validationMessage = Object.keys(c.errors)
-        .map(key => (this.validationMessage += this.inputErrors[key]))
-        .join(" ");
+    const controls = [
+      form.get("username"),
+      form.get("email"),
+      form.get("password")
+    ];
+    for (let c of controls) {
+      if (c && (c.touched || c.dirty) && c.errors) {
+        this.validationMessage = Object.keys(c.errors)
+          .map(key => (this.validationMessage += this.inputErrors[key]))
+          .join(" ");
+      }
     }
   }
 
   /**
    * This method displays a red angular material snack bar
    * with an error message.
-   * 
+   *
    * @param message - message to display on the snack bar
    */
-  showError(message):void {
+  showError(message): void {
     this._snackBar.open(message, "close", {
       duration: 3000,
       verticalPosition: "bottom",
       panelClass: ["error-snackbar"]
     });
+  }
+
+  showSuccess(message): void {
+    this._snackBar.open(message, "close", {
+      duration: 4000,
+      verticalPosition: "bottom",
+      panelClass: ["success-snackbar"]
+    });
+  }
+
+  backToLogin() {
+    this.tabIndex = 0;
   }
 }

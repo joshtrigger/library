@@ -1,6 +1,11 @@
 .card-container {
   height: 100%;
 
+  .mat-tab-group{
+    border: solid #ddd6d6 1px;
+    border-radius: 8px;
+  }
+
   .mat-card {
     width: 500px;
     height: 400px;
@@ -28,6 +33,10 @@
     }
     a{
       color: #3498DB;
+
+      &:hover{
+        cursor: pointer;
+      }
     }
     span{
       color:red;

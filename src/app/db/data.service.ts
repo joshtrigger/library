@@ -6,14 +6,13 @@ import { Observable, of, throwError } from "rxjs";
   providedIn: "root"
 })
 export class DataService implements InMemoryDbService {
-
   constructor() {}
 
   /**
    * This method creates a "database" hash whose keys are collection
    * names and whose values are arrays of collection objects to return
    * or update.
-   * 
+   *
    * @returns object literals of the data collections
    */
   createDb() {
@@ -79,9 +78,9 @@ export class DataService implements InMemoryDbService {
   /**
    * This method is an override for the post method from an incoming
    * http request
-   * 
+   *
    * @param reqInfo information about the incoming http request
-   * 
+   *
    * @returns function call when endpoint is either login or
    * forgot-password otherwise undefined
    */
@@ -90,6 +89,8 @@ export class DataService implements InMemoryDbService {
       return this.authenticate(reqInfo);
     } else if (reqInfo.collectionName === "forgot-password") {
       return this.sendEmail(reqInfo);
+    } else if ((reqInfo.collectionName = "sign-up")) {
+      return this.addUser(reqInfo);
     } else {
       return undefined;
     }
@@ -98,9 +99,9 @@ export class DataService implements InMemoryDbService {
   /**
    * This method is an override for the put method from an incoming
    * http request
-   * 
+   *
    * @param reqInfo information about the incoming http request
-   * 
+   *
    * @returns function call when endpoint is 'reset-password' otherwise
    * undefined
    */
@@ -114,9 +115,9 @@ export class DataService implements InMemoryDbService {
   /**
    * This private function is responsible for resetting the user's
    * password
-   * 
+   *
    * @param reqInfo infomation about the incoming request
-   * 
+   *
    * @returns http response
    */
   private reset(reqInfo: RequestInfo) {
@@ -128,7 +129,7 @@ export class DataService implements InMemoryDbService {
     return reqInfo.utils.createResponse$(() => {
       if (user) {
         return {
-          status:200,
+          status: 200,
           body: { message: "Password has been reset" }
         };
       }
@@ -141,9 +142,9 @@ export class DataService implements InMemoryDbService {
   /**
    * This private function is responsible for processing
    * user's password reset request
-   * 
+   *
    * @param reqInfo infomation about the incoming request
-   * 
+   *
    * @returns http response
    */
   private sendEmail(reqInfo: RequestInfo) {
@@ -177,9 +178,9 @@ export class DataService implements InMemoryDbService {
   /**
    * This private function is responsible for granting the user
    * access to the application
-   * 
+   *
    * @param reqInfo infomation about the incoming request
-   * 
+   *
    * @returns http response
    */
   private authenticate(reqInfo: RequestInfo) {
@@ -208,6 +209,30 @@ export class DataService implements InMemoryDbService {
         headers,
         url,
         error: { body: "Incorrect email or password" }
+      };
+    });
+  }
+
+  private addUser(reqInfo: RequestInfo) {
+    const { headers, url, req } = reqInfo;
+    const { username, email, password } = req["body"];
+    const allLibrarians = this.createDb()["librarians"];
+    const user = allLibrarians.find(user => user.email === email);
+
+    return reqInfo.utils.createResponse$(() => {
+      if (user) {
+        return {
+          status: 409,
+          error: { body: "User already exists" }
+        };
+      }
+      return {
+        status: 200,
+        headers,
+        url,
+        body: {
+          message: "You're Welcome. Please login"
+        }
       };
     });
   }
