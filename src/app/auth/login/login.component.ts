@@ -102,6 +102,10 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  /**
+   * This method is responsible for creating a user account
+   * on the application
+   */
   signUp() {
     this.hideButton();
     const data = this.signUpForm.value;
@@ -129,7 +133,7 @@ export class LoginComponent implements OnInit {
    * by matching the keys of the [[inputErrors]] object with those
    * from the errors collection of the form control or form group.
    *
-   * @param c - form control or form group
+   * @param c - form group
    */
   setMessage(form: AbstractControl): void {
     this.validationMessage = "";
@@ -161,6 +165,12 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  /**
+   * This method displays a green angular material snack bar
+   * with an success message.
+   *
+   * @param message - message to display on the snack bar
+   */
   showSuccess(message): void {
     this._snackBar.open(message, "close", {
       duration: 4000,
@@ -169,6 +179,9 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  /**
+   * This method takes the user back to the login tab
+   */
   backToLogin() {
     this.tabIndex = 0;
   }
