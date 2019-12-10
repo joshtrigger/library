@@ -21,8 +21,6 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     HttpClientModule,
     InMemoryWebApiModule.forRoot(DataService),
     BrowserAnimationsModule,
-    AuthModule,
-    BooksModule,
     AppRoutingModule,
   ],
   providers: [],

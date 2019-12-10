@@ -71,6 +71,11 @@ export class AuthService {
     return this.http.put<any>(`${this.baseUrl}/reset-password`, payload);
   }
 
+  /**
+   * This method is responsible for creating the user account
+   * 
+   * @param payload user credentials
+   */
   signUpUser(payload): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/sign-up`, payload);
   }

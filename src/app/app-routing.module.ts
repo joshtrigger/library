@@ -3,7 +3,16 @@ import { Routes, RouterModule } from "@angular/router";
 import { PageNotFoundComponent } from "./components/page-not-found/page-not-found.component";
 
 const routes: Routes = [
-  { path: "", redirectTo: "login", pathMatch: "full" },
+  {
+    path: "books",
+    loadChildren: () =>
+      import("./Books/books.module").then(mod => mod.BooksModule)
+  },
+  {
+    path: "auth",
+    loadChildren: () => import("./auth/auth.module").then(mod => mod.AuthModule)
+  },
+  { path: "", redirectTo: "auth/login", pathMatch: "full" },
   { path: "**", component: PageNotFoundComponent }
 ];
 
