@@ -14,6 +14,8 @@ export interface Book {
   release_date: String;
   about: String;
   edition: String;
+  imageUrl: String;
+  count: Number;
 }
 
 export interface BorrowedBook {

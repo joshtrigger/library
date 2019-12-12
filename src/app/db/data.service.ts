@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { InMemoryDbService, RequestInfo } from "angular-in-memory-web-api";
 import { Observable, of, throwError } from "rxjs";
+import { Book, Librarian, BorrowedBook, Reader, Report } from "../interfaces";
 
 @Injectable({
   providedIn: "root"
@@ -16,33 +17,39 @@ export class DataService implements InMemoryDbService {
    * @returns object literals of the data collections
    */
   createDb() {
-    const librarians = [
+    const librarians: Array<Librarian> = [
       { id: 1, name: "josh", email: "me@me.com", password: "pass123" },
       { id: 2, name: "lugada", email: "me@email.com", password: "pass123" }
     ];
-    const books = [
+    const books: Array<Book> = [
       {
         id: 1,
-        title: "how to",
+        title: "What is life?",
         authors: "joshua lugada",
-        ISBN: "12-po43",
+        ISBN: "0143-8998-0990-9939",
         publisher: "MK books",
         release_date: "12-09-2019",
-        about: "somethings",
-        edition: "3rd"
+        about:
+          "In this award winning book, Joshua shares all of his outstanding experiences as a teenage boy all the way to adulthood. In the first week of it's release, What is life sold over 4 million copies in all mojor cities all over the world...",
+        edition: "3rd",
+        imageUrl: "/assets/images/sample-cover.jpeg",
+        count: 10
       },
       {
         id: 2,
         title: "angular 2",
         authors: "andrew payne",
-        ISBN: "143-8998-0990",
+        ISBN: "2003-1043-8998-0990",
         publisher: "MK books",
         release_date: "12-09-2019",
-        about: "somethings about the book",
-        edition: "1st"
+        about:
+          "This is a beginner's guide to Angular JS. Angular is one of the many frontend javascript frameworks, it has gained major popularity over the past few years and has since gained dominancy and is backed by the King of technology of the current generation in Gooogle. In this book , we look at how one can become a pro ...",
+        edition: "1st",
+        imageUrl: "/assets/images/sample-cover.jpeg",
+        count: 2
       }
     ];
-    const borrower_books = [
+    const borrower_books: Array<BorrowedBook> = [
       {
         id: 1,
         book_id: 1,
@@ -52,7 +59,7 @@ export class DataService implements InMemoryDbService {
         librarian_id: 1
       }
     ];
-    const readers = [
+    const readers: Array<Reader> = [
       {
         id: 1,
         name: "dan",
@@ -62,7 +69,7 @@ export class DataService implements InMemoryDbService {
         phone_number: "070877263"
       }
     ];
-    const reports = [
+    const reports: Array<Report> = [
       {
         id: 1,
         book_id: 1,
