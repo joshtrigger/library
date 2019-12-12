@@ -1,1 +1,28 @@
-<p>books works!</p>
+<div
+  class="card-container"
+  fxLayout="column wrap"
+  fxLayoutAlign="space-around center"
+  fxLayoutGap="16px"
+>
+  <mat-card fxLayout="row" *ngFor="let book of books">
+    <img src="/assets/images/sample-cover.jpeg" alt="" />
+    <div class="details">
+      <h1>{{ book.title | titlecase }}</h1>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between start">
+        <p class="italics">{{ book.authors | titlecase }}</p>
+        <p class="italics">{{ book.release_date }}</p>
+      </div>
+      <p class="italics">Copies left: {{ book.count }}</p>
+      <p>
+        {{ book.about }}
+      </p>
+      <br />
+      <mat-card-actions class="buttons">
+        <button mat-raised-button (click)="lend(book.id)">Lend Out</button>
+        <button mat-raised-button id="report" (click)="report(book.id)">
+          Report
+        </button>
+      </mat-card-actions>
+    </div>
+  </mat-card>
+</div>
