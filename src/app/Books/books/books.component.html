@@ -5,24 +5,27 @@
   fxLayoutGap="16px"
 >
   <mat-card fxLayout="row" *ngFor="let book of books">
-    <img src="/assets/images/sample-cover.jpeg" alt="" />
-    <div class="details">
+    <img src="{{book.imageUrl}}" alt="" />
+    <div class="details" fxLayout="column wrap">
       <h1>{{ book.title | titlecase }}</h1>
       <div fxLayout="row wrap" fxLayoutAlign="space-between start">
-        <p class="italics">{{ book.authors | titlecase }}</p>
-        <p class="italics">{{ book.release_date }}</p>
+        <p class="italics">Authors: {{ book.authors | titlecase }}</p>
+        <p class="italics">Release Date: {{ book.release_date }}</p>
       </div>
       <p class="italics">Copies left: {{ book.count }}</p>
       <p>
-        {{ book.about }}
+        {{ book.about | slice: 0:233}} ...
       </p>
-      <br />
       <mat-card-actions class="buttons">
         <button mat-raised-button (click)="lend(book.id)">Lend Out</button>
         <button mat-raised-button id="report" (click)="report(book.id)">
           Report
         </button>
+        <button mat-raised-button id="delete" (click)="delete(book.id)">
+          Delete
+        </button>
       </mat-card-actions>
     </div>
   </mat-card>
+  <button mat-raised-button id="add-btn">+</button>
 </div>

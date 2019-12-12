@@ -8,6 +8,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatGridListModule } from "@angular/material/grid-list";
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -22,7 +23,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatButtonModule,
     MatSnackBarModule,
     MatTabsModule,
-    MatGridListModule
+    MatGridListModule,
+    MatDialogModule
   ],
   exports: [
     FlexLayoutModule,
@@ -32,7 +34,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatButtonModule,
     MatSnackBarModule,
     MatTabsModule,
-    MatGridListModule
+    MatGridListModule,
+    MatDialogModule
   ]
 })
 export class MaterialModule {}
