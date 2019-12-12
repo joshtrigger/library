@@ -30,7 +30,7 @@ export class DataService implements InMemoryDbService {
         publisher: "MK books",
         release_date: "12-09-2019",
         about:
-          "In this award winning book, Joshua shares all of his outstanding experiences as a teenage boy all the way to adulthood. In the first week of it's release, What is life sold over 4 million copies in all mojor cities all over the world...",
+          "In this award winning book, Joshua shares all of his outstanding experiences as a teenage boy all the way to adulthood. In the first week of it's release, What is life sold over 4 million copies in all mojor cities all over the world",
         edition: "3rd",
         imageUrl: "/assets/images/sample-cover.jpeg",
         count: 10
@@ -43,9 +43,9 @@ export class DataService implements InMemoryDbService {
         publisher: "MK books",
         release_date: "12-09-2019",
         about:
-          "This is a beginner's guide to Angular JS. Angular is one of the many frontend javascript frameworks, it has gained major popularity over the past few years and has since gained dominancy and is backed by the King of technology of the current generation in Gooogle. In this book , we look at how one can become a pro ...",
+          "This is a beginner's guide to Angular JS. Angular is one of the many frontend javascript frameworks, it has gained major popularity over the past few years and has since gained dominancy and is backed by the King of technology of the current generation in Gooogle. In this book , we look at how one can become a pro.",
         edition: "1st",
-        imageUrl: "/assets/images/sample-cover.jpeg",
+        imageUrl: "/assets/images/angular2.png",
         count: 2
       }
     ];

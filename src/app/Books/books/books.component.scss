@@ -25,6 +25,30 @@
       button#report{
         background-color: rgb(119, 48, 15);
       }
+
+      button#delete{
+        background-color: rgb(187, 33, 28);
+      }
+    }
+  }
+
+  #add-btn{
+    border: none;
+    position: fixed;
+    right: 80px;
+    bottom: 80px;
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    font-size: xx-large;
+    color: white;
+    background-color: rgb(133, 212, 13);
+
+    &:focus{
+      outline: none;
+    }
+    &:hover{
+      cursor: pointer;
     }
   }
 }
