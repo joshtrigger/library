@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { BooksService } from "../books.service";
 import { Book } from "src/app/interfaces";
-import { MatDialog } from '@angular/material/dialog';
-import { ReportDialogComponent } from '../report-dialog/report-dialog.component';
+import { MatDialog } from "@angular/material/dialog";
+import { ReportDialogComponent } from "../report-dialog/report-dialog.component";
 
 @Component({
   selector: "app-books",
@@ -25,18 +25,27 @@ export class BooksComponent implements OnInit {
     );
   }
 
-  lend(bookId){
-    this.bookService.lendOutBook(bookId).subscribe(
-      value=>console.log(value),
-      err=>console.log(err)
-    )
-  }
-  
-  report(bookId){
-    this.dialog.open(ReportDialogComponent,{
-      width: '250px'
-    })
+  lend(bookId) {
+    // this.bookService.lendOutBook(bookId).subscribe(
+    //   value => console.log(value),
+    //   err => console.log(err)
+    // );
   }
 
-  addBook(){}
+  report(bookId) {
+    const dialogRef = this.dialog.open(ReportDialogComponent, {
+      width: "500px",
+      height: "400px",
+      data: bookId
+    });
+
+    dialogRef.afterClosed().subscribe(value => {
+      this.bookService.reportBook(value).subscribe(
+        value => console.log(value),
+        err => console.log(err)
+      );
+    });
+  }
+
+  addBook() {}
 }

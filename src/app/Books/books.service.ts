@@ -14,15 +14,11 @@ export class BooksService {
     return this.http.get<any>(`${this.baseUrl}/books`);
   }
 
-  lendOutBook(bookId): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/lend/books`, {
-      book_id: bookId
-    });
+  lendOutBook(data): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/borrowed_books`, data);
   }
 
-  reportBook(bookId): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/reports`, {
-      book_id: bookId
-    });
+  reportBook(data): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/reports`, data);
   }
 }

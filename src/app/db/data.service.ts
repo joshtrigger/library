@@ -49,7 +49,7 @@ export class DataService implements InMemoryDbService {
         count: 2
       }
     ];
-    const borrower_books: Array<BorrowedBook> = [
+    const borrowed_books: Array<BorrowedBook> = [
       {
         id: 1,
         book_id: 1,
@@ -79,7 +79,7 @@ export class DataService implements InMemoryDbService {
       }
     ];
 
-    return { librarians, books, borrower_books, readers, reports };
+    return { librarians, books, borrowed_books, readers, reports };
   }
 
   /**

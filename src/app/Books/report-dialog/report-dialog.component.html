@@ -1,0 +1,28 @@
+<div class="form-container" fxLayout="column wrap" fxLayoutAlign="space-around">
+  <div fxLayout="row wrap" fxLayoutAlign="space-between start">
+    <h1>Send report</h1>
+    <button id="close" (click)="closeModal()">&times;</button>
+  </div>
+  <div fxLayout="row wrap" fxLayoutAlign="space-between start">
+    <mat-form-field>
+      <mat-label>Type</mat-label>
+      <mat-select [(value)]="type">
+        <mat-option *ngFor="let type of types" [value]="type.value">
+          {{type.value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select [(value)]="status">
+        <mat-option *ngFor="let status of statuses" [value]="status.value">
+          {{ status.value }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <mat-form-field>
+    <textarea matInput [(ngModel)]="comment" name="comment" placeholder="Leave a comment"></textarea>
+  </mat-form-field>
+  <button id="send-btn" (click)="sendReport()">Send</button>
+</div>
