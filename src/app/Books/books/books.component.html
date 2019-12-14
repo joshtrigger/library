@@ -9,8 +9,8 @@
     <div class="details" fxLayout="column wrap">
       <h1>{{ book.title | titlecase }}</h1>
       <div fxLayout="row wrap" fxLayoutAlign="space-between start">
-        <p class="italics">Authors: {{ book.authors | titlecase }}</p>
-        <p class="italics">Release Date: {{ book.release_date }}</p>
+        <p class="italics"><strong>Authors: </strong> {{ book.authors | titlecase }} </p>
+        <p class="italics"><strong>Release Date: </strong> {{ book.release_date }} </p>
       </div>
       <p class="italics">Copies left: {{ book.count }}</p>
       <p>
