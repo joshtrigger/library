@@ -34,7 +34,7 @@ describe("BooksComponent", () => {
     expect(component).toBeTruthy();
   });
   it('should return error when calling fetchBooks function',()=>{
-    fixture.detectChanges()
     bookServiceSpy.fetchBooks.and.returnValue(throwError({}))
+    fixture.detectChanges()
   })
 });
