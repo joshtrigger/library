@@ -15,7 +15,10 @@ describe("LoginComponent", () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let router;
-  let authServiceSpy = jasmine.createSpyObj("AuthService", ["loginUser"]);
+  let authServiceSpy = jasmine.createSpyObj("AuthService", [
+    "loginUser",
+    "signUpUser"
+  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -46,12 +49,14 @@ describe("LoginComponent", () => {
     component.hideButton();
     expect(component.btnText).toEqual("Logging in...");
     expect(component.disabled).toBeTruthy();
+    expect(component.signUpBtnText).toEqual("Please wait...");
   });
 
   it("should show the button", () => {
     component.showButton();
     expect(component.btnText).toEqual("Login");
     expect(component.disabled).toBeFalsy();
+    expect(component.signUpBtnText).toEqual("Sign Up");
   });
 
   it("should have an invalid login form", () => {
@@ -89,7 +94,7 @@ describe("LoginComponent", () => {
     const passwordInput = fixture.nativeElement.querySelector(
       "input[type=password]"
     );
-    spyOn(component,'setMessage')
+    spyOn(component, "setMessage");
 
     emailInput.value = "me@me.com";
     passwordInput.value = "pass123";
@@ -98,7 +103,7 @@ describe("LoginComponent", () => {
     fixture.detectChanges();
 
     expect(component.loginForm.status).toEqual("VALID");
-    expect(component.setMessage).toHaveBeenCalledTimes(2)
+    expect(component.setMessage).toHaveBeenCalledTimes(2);
   });
 
   it("should test button click in DOM", () => {
@@ -139,6 +144,36 @@ describe("LoginComponent", () => {
 
     component.login();
 
+    expect(component.showError).toHaveBeenCalled();
+  });
+
+  it("should call backToLogin function", () => {
+    component.backToLogin();
+    expect(component.tabIndex).toEqual(0);
+  });
+  it("should call the sign up function", () => {
+    const mockResponse = { message: "success" };
+    spyOn(component, "showButton");
+    spyOn(component, "hideButton");
+
+    authServiceSpy.signUpUser.and.returnValue(of(mockResponse));
+    component.signUp();
+
+    expect(component.hideButton).toHaveBeenCalled();
+    expect(component.showButton).toHaveBeenCalled();
+    expect(component.signUpBtnText).toBe("Sign Up");
+    expect(component.tabIndex).toBe(0);
+  });
+
+  it("should call the sign up function", () => {
+    const mockResponse = { error: { body: "success" } };
+    spyOn(component, "showError");
+    spyOn(component, "showButton");
+
+    authServiceSpy.signUpUser.and.returnValue(throwError(mockResponse));
+    component.signUp();
+
+    expect(component.showButton).toHaveBeenCalled();
     expect(component.showError).toHaveBeenCalled();
   });
 });

@@ -58,7 +58,7 @@ export class ForgotPasswordComponent implements OnInit {
       value => {
         const {response:{message}}=value;
         this.showSuccess(message)
-        this.router.navigate(['reset-password'])
+        this.router.navigate(['auth/reset-password'])
       },
       err => {
         const {

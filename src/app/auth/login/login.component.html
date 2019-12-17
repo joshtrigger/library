@@ -1,15 +1,83 @@
 <div class="card-container" fxLayout="row wrap" fxLayoutAlign="center center">
-  <mat-card fxLayout="column wrap" fxLayoutAlign="space-evenly center" [formGroup]="loginForm">
-    <mat-card-title>Login</mat-card-title>
-    <mat-form-field>
-      <input matInput type="email" placeholder="Email" formControlName="email">
-      <mat-error>{{validationMessage}}</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput type="password" placeholder="Password" formControlName="password">
-      <mat-error>{{validationMessage}}</mat-error>
-    </mat-form-field>
-    <button mat-raised-button [disabled]="disabled" on-click="login()">{{btnText}}</button>
-    <a routerLink="/forgot-password">Forgot password?</a>
-  </mat-card>
+  <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="tabIndex">
+    <mat-tab label="LOGIN">
+      <mat-card
+        fxLayout="column wrap"
+        fxLayoutAlign="space-evenly center"
+        [formGroup]="loginForm"
+      >
+        <mat-card-title>Login</mat-card-title>
+        <mat-form-field>
+          <input
+            matInput
+            type="email"
+            placeholder="Email"
+            formControlName="email"
+          />
+          <mat-error>{{ validationMessage }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            type="password"
+            placeholder="Password"
+            formControlName="password"
+          />
+          <mat-error>{{ validationMessage }}</mat-error>
+        </mat-form-field>
+        <button
+          mat-raised-button
+          [disabled]="!loginForm.valid || disabled"
+          on-click="login()"
+        >
+          {{ btnText }}
+        </button>
+        <a routerLink="/auth/forgot-password">Forgot password?</a>
+      </mat-card>
+    </mat-tab>
+    <mat-tab label="SIGN UP">
+      <mat-card
+        fxLayout="column wrap"
+        fxLayoutAlign="space-evenly center"
+        [formGroup]="signUpForm"
+      >
+        <mat-card-title>Sign up</mat-card-title>
+        <mat-form-field>
+          <input
+            matInput
+            type="text"
+            placeholder="Username"
+            formControlName="username"
+          />
+          <mat-error>{{ validationMessage }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            type="email"
+            placeholder="Email"
+            formControlName="email"
+          />
+          <mat-error>{{ validationMessage }}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input
+            matInput
+            type="password"
+            placeholder="Password"
+            formControlName="password"
+          />
+          <mat-error>{{ validationMessage }}</mat-error>
+        </mat-form-field>
+        <button
+          mat-raised-button
+          [disabled]="!signUpForm.valid || disabled"
+          on-click="signUp()"
+        >
+          {{ signUpBtnText }}
+        </button>
+        <a (click)="backToLogin()">Already have an account?</a>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
 </div>

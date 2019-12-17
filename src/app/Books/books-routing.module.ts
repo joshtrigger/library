@@ -4,7 +4,7 @@ import { BooksComponent } from "./books/books.component";
 import { AuthGuard } from "../guards/auth.guard";
 
 const routes: Routes = [
-  { path: "books", component: BooksComponent, canActivate: [AuthGuard] }
+  { path: "", component: BooksComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

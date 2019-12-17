@@ -88,7 +88,7 @@ describe("ForgotPasswordComponent", () => {
 
     expect(component.showSuccess).toHaveBeenCalled();
     expect(component.showSuccess).toHaveBeenCalledWith("success");
-    expect(router.navigate).toHaveBeenCalledWith(["reset-password"]);
+    expect(router.navigate).toHaveBeenCalledWith(["auth/reset-password"]);
   });
 
   it("should not send email to user", () => {

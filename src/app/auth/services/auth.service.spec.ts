@@ -107,6 +107,20 @@ describe("AuthService", () => {
     expect(request.request.method).toEqual("PUT");
   });
 
+  it("should call sign up method", () => {
+    const { service, httpTestingController } = setUp();
+    const mockData = { username: "pass", email: "me@me.com", password:'pass123' };
+
+    service.signUpUser(mockData).subscribe(data => {
+      expect(data).toEqual("");
+    });
+
+    const request = httpTestingController.expectOne(
+      "http://localhost:8080/api/sign-up"
+    );
+    expect(request.request.method).toEqual("POST");
+  });
+
   afterEach(() => {
     const { httpTestingController } = setUp();
     httpTestingController.verify();

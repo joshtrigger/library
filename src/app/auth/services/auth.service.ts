@@ -14,7 +14,7 @@ export class AuthService {
   /**
    * This method checks if the user is logged in and token
    * is stored in the local storage
-   * 
+   *
    * @returns true if user is logged in otherwise false
    */
   getCurrentUser() {
@@ -29,11 +29,11 @@ export class AuthService {
    * This method sends user credentials to backend server via login
    * route and waits for a response that it in turn send to the bound
    * component
-   * 
+   *
    * @param payload object containing user info like username/email
    * and password
-   * 
-   * @returns Obervable containing the response from the backend server 
+   *
+   * @returns Obervable containing the response from the backend server
    */
   loginUser(payload): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/login`, payload);
@@ -42,7 +42,7 @@ export class AuthService {
   /**
    * This method fetch all the librarians stored in the in-memory
    * data collection.
-   * 
+   *
    * @returns Observable with http response from in-memory web api module
    */
   fetchLibrarians(): Observable<Librarian> {
@@ -51,23 +51,32 @@ export class AuthService {
 
   /**
    * This method processes request for user to reset password
-   * 
+   *
    * @param payload object containing user email
-   * 
+   *
    * @returns Observable with http response from in-memory web api module
    */
-  forgotPassword(payload):Observable<any>{
-    return this.http.post<any>(`${this.baseUrl}/forgot-password`,payload)
+  forgotPassword(payload): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/forgot-password`, payload);
   }
 
   /**
    * This method resets user's password
-   * 
+   *
    * @param payload object containig user's new password
-   * 
+   *
    * @returns Observable with http response from in-memory web api module
    */
-  resetPassword(payload):Observable<any>{
-    return this.http.put<any>(`${this.baseUrl}/reset-password`,payload)
+  resetPassword(payload): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/reset-password`, payload);
+  }
+
+  /**
+   * This method is responsible for creating the user account
+   * 
+   * @param payload user credentials
+   */
+  signUpUser(payload): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/sign-up`, payload);
   }
 }
