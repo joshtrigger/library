@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HttpService } from './http.service';
+import { SnackBarService } from './snack-bar.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('HttpService', () => {
@@ -11,7 +11,7 @@ describe('HttpService', () => {
   }));
 
   it('should be created', () => {
-    const service: HttpService = TestBed.get(HttpService);
+    const service: SnackBarService = TestBed.get(SnackBarService);
     expect(service).toBeTruthy();
   });
 });

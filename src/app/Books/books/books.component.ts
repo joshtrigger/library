@@ -3,6 +3,7 @@ import { BooksService } from "../books.service";
 import { Book } from "src/app/interfaces";
 import { MatDialog } from "@angular/material/dialog";
 import { ReportDialogComponent } from "../report-dialog/report-dialog.component";
+import { SnackBarService } from "src/app/services/snack-bar.service";
 
 @Component({
   selector: "app-books",
@@ -12,7 +13,11 @@ import { ReportDialogComponent } from "../report-dialog/report-dialog.component"
 export class BooksComponent implements OnInit {
   books: Array<Book>;
 
-  constructor(private bookService: BooksService, public dialog: MatDialog) {}
+  constructor(
+    private bookService: BooksService,
+    public dialog: MatDialog,
+    private snackBarService: SnackBarService
+  ) {}
 
   ngOnInit() {
     this.getAllBooks();
@@ -25,12 +30,7 @@ export class BooksComponent implements OnInit {
     );
   }
 
-  lend(bookId) {
-    // this.bookService.lendOutBook(bookId).subscribe(
-    //   value => console.log(value),
-    //   err => console.log(err)
-    // );
-  }
+  lend(bookId) {}
 
   report(bookId) {
     const dialogRef = this.dialog.open(ReportDialogComponent, {
@@ -41,11 +41,18 @@ export class BooksComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(value => {
       this.bookService.reportBook(value).subscribe(
-        value => console.log(value),
+        () => this.snackBarService.showSuccess("Report has been sent"),
         err => console.log(err)
       );
     });
   }
 
   addBook() {}
+
+  delete(bookId){
+    this.bookService.deleteBook(bookId).subscribe(
+      value=>console.log(value),
+      err=>console.log(err)
+    )
+  }
 }
