@@ -10,6 +10,8 @@ import { of, throwError } from "rxjs";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { SnackBarService } from 'src/app/services/snack-bar.service';
+
 
 describe("LoginComponent", () => {
   let component: LoginComponent;
@@ -18,6 +20,10 @@ describe("LoginComponent", () => {
   let authServiceSpy = jasmine.createSpyObj("AuthService", [
     "loginUser",
     "signUpUser"
+  ]);
+  let snackBarSpy = jasmine.createSpyObj("SnackBarService", [
+    "showError",
+    "showSuccess"
   ]);
 
   beforeEach(async(() => {
@@ -30,7 +36,10 @@ describe("LoginComponent", () => {
         RouterTestingModule,
         BrowserAnimationsModule
       ],
-      providers: [{ provide: AuthService, useValue: authServiceSpy }]
+      providers: [
+        { provide: AuthService, useValue: authServiceSpy },
+        { provide: SnackBarService, useValue: snackBarSpy }
+      ]
     }).compileComponents();
   }));
 
@@ -139,12 +148,12 @@ describe("LoginComponent", () => {
 
   it("should return error observer on login function call and showError function", () => {
     const error = { body: "error has occured" };
-    spyOn(component, "showError");
+
     authServiceSpy.loginUser.and.returnValue(throwError({ error }));
 
     component.login();
 
-    expect(component.showError).toHaveBeenCalled();
+    expect(snackBarSpy.showError).toHaveBeenCalled();
   });
 
   it("should call backToLogin function", () => {
@@ -167,13 +176,12 @@ describe("LoginComponent", () => {
 
   it("should call the sign up function", () => {
     const mockResponse = { error: { body: "success" } };
-    spyOn(component, "showError");
     spyOn(component, "showButton");
 
     authServiceSpy.signUpUser.and.returnValue(throwError(mockResponse));
     component.signUp();
 
     expect(component.showButton).toHaveBeenCalled();
-    expect(component.showError).toHaveBeenCalled();
+    expect(snackBarSpy.showError).toHaveBeenCalled();
   });
 });

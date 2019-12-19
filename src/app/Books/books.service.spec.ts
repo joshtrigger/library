@@ -15,7 +15,9 @@ describe("BooksService", () => {
 
   function setUp() {
     const service: BooksService = TestBed.get(BooksService);
-    const httpTestingController: HttpTestingController = TestBed.get(HttpTestingController);
+    const httpTestingController: HttpTestingController = TestBed.get(
+      HttpTestingController
+    );
     return { service, httpTestingController };
   }
 
@@ -66,6 +68,40 @@ describe("BooksService", () => {
       "http://localhost:8080/api/borrowed_books"
     );
     req.flush({ message: "thank you" });
+    expect(req.request.method).toBe("POST");
+  });
+
+  it("should call the deleteBook function", () => {
+    const { service, httpTestingController } = setUp();
+
+    service.deleteBook(1).subscribe(data => {
+      expect(data).toEqual({ message: "deleted book" });
+    });
+
+    const req = httpTestingController.expectOne(
+      "http://localhost:8080/api/books/1"
+    );
+    req.flush({ message: "deleted book" });
+
+    expect(req.request.method).toBe("DELETE");
+    expect(req.request.urlWithParams).toEqual(
+      "http://localhost:8080/api/books/1"
+    );
+  });
+
+  it("should call the addBook function", () => {
+    const { service, httpTestingController } = setUp();
+    const data = { title: "title", authors: "me" };
+
+    service.addBook(data).subscribe(data => {
+      expect(data).toEqual({ message: "added book" });
+    });
+
+    const req = httpTestingController.expectOne(
+      "http://localhost:8080/api/books"
+    );
+    req.flush({ message: "added book" });
+
     expect(req.request.method).toBe("POST");
   });
 

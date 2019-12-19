@@ -8,12 +8,16 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AuthService } from "../services/auth.service";
 import { By } from "@angular/platform-browser";
 import { of, throwError } from "rxjs";
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 describe("ResetPasswordComponent", () => {
   let component: ResetPasswordComponent;
   let fixture: ComponentFixture<ResetPasswordComponent>;
   let authServiceSpy = jasmine.createSpyObj("AuthService", ["resetPassword"]);
+  let snackBarSpy = jasmine.createSpyObj("SnackBarService", [
+    "showError",
+    "showSuccess"
+  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -24,7 +28,10 @@ describe("ResetPasswordComponent", () => {
         HttpClientTestingModule,
         BrowserAnimationsModule
       ],
-      providers: [{ provide: AuthService, useValue: authServiceSpy }]
+      providers: [
+        { provide: AuthService, useValue: authServiceSpy },
+        { provide: SnackBarService, useValue: snackBarSpy }
+      ]
     }).compileComponents();
   }));
 
@@ -91,7 +98,7 @@ describe("ResetPasswordComponent", () => {
     fixture.detectChanges();
 
     expect(component.passwordForm.status).toEqual("INVALID");
-    expect(component.validationMessage).toEqual('Minimum length is 6')
+    expect(component.validationMessage).toEqual("Minimum length is 6");
   });
 
   it("should call reset when DOM button is clicked", () => {
@@ -104,42 +111,22 @@ describe("ResetPasswordComponent", () => {
   });
 
   it("should reset password successfully", () => {
-    const mockResponse = { message: "success"  };
-    spyOn(component, "showSuccess");
+    const mockResponse = { message: "success" };
 
     authServiceSpy.resetPassword.and.returnValue(of(mockResponse));
     component.reset();
 
-    expect(component.showSuccess).toHaveBeenCalled();
-    expect(component.showSuccess).toHaveBeenCalledWith("success");
+    expect(snackBarSpy.showSuccess).toHaveBeenCalled();
+    expect(snackBarSpy.showSuccess).toHaveBeenCalledWith("success");
   });
 
   it("should fail to reset password", () => {
     const mockResponse = { error: { body: "error" } };
-    spyOn(component, "showError");
 
     authServiceSpy.resetPassword.and.returnValue(throwError(mockResponse));
     component.reset();
 
-    expect(component.showError).toHaveBeenCalled();
-    expect(component.showError).toHaveBeenCalledWith("error");
-  });
-
-  it("should show display success snack bar", () => {
-    const snackBar = fixture.debugElement.injector.get(MatSnackBar);
-
-    component.showSuccess("message");
-    snackBar.dismiss();
-
-    expect(component.showSuccess).toBeTruthy();
-  });
-
-  it("should show display error snack bar", () => {
-    const snackBar = fixture.debugElement.injector.get(MatSnackBar);
-
-    component.showError("error");
-    snackBar.dismiss();
-
-    expect(component.showError).toBeTruthy();
+    expect(snackBarSpy.showError).toHaveBeenCalled();
+    expect(snackBarSpy.showError).toHaveBeenCalledWith("error");
   });
 });

@@ -25,4 +25,8 @@ export class BooksService {
   deleteBook(bookId): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/books/${bookId}`);
   }
+
+  addBook(data): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/books`, data);
+  }
 }

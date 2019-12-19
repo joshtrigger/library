@@ -7,9 +7,8 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { DataService } from './db/data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AuthModule } from './auth/auth.module';
-import { BooksModule } from './Books/books.module';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { MaterialModule } from './material.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +20,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
     HttpClientModule,
     InMemoryWebApiModule.forRoot(DataService),
     BrowserAnimationsModule,
+    MaterialModule,
     AppRoutingModule,
   ],
   providers: [],

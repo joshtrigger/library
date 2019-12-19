@@ -4,6 +4,7 @@ import { Book } from "src/app/interfaces";
 import { MatDialog } from "@angular/material/dialog";
 import { ReportDialogComponent } from "../report-dialog/report-dialog.component";
 import { SnackBarService } from "src/app/services/snack-bar.service";
+import { AddBookComponent } from "../add-book/add-book.component";
 
 @Component({
   selector: "app-books",
@@ -42,17 +43,29 @@ export class BooksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(value => {
       this.bookService.reportBook(value).subscribe(
         () => this.snackBarService.showSuccess("Report has been sent"),
-        err => console.log(err)
+        err => {}
       );
     });
   }
 
-  addBook() {}
+  addBook() {
+    const dialogRef = this.dialog.open(AddBookComponent, {
+      width: "600px",
+      height: "500px"
+    });
 
-  delete(bookId){
+    dialogRef.afterClosed().subscribe(value => {
+      this.bookService.addBook(value).subscribe(
+        () => this.snackBarService.showSuccess("Successfully added book"),
+        err => this.snackBarService.showError(`Error while adding book ${err}`)
+      );
+    });
+  }
+
+  delete(bookId) {
     this.bookService.deleteBook(bookId).subscribe(
-      value=>console.log(value),
-      err=>console.log(err)
-    )
+      value => console.log(value),
+      err => console.log(err)
+    );
   }
 }

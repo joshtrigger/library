@@ -10,6 +10,9 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatSelectModule } from "@angular/material/select";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatIconModule } from "@angular/material/icon";
+import { MatNativeDateModule } from "@angular/material";
 
 import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -26,7 +29,10 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatTabsModule,
     MatGridListModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatIconModule,
+    MatNativeDateModule
   ],
   exports: [
     FlexLayoutModule,
@@ -38,7 +44,10 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatTabsModule,
     MatGridListModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDatepickerModule,
+    MatIconModule,
+    MatNativeDateModule
   ]
 })
 export class MaterialModule {}

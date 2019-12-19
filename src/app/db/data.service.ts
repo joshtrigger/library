@@ -26,7 +26,7 @@ export class DataService implements InMemoryDbService {
         id: 1,
         title: "What is life?",
         authors: "joshua lugada",
-        ISBN: "0143-8998-0990-9939",
+        isbn: "0143-8998-0990-9939",
         publisher: "MK books",
         release_date: "12-09-2019",
         about:
@@ -39,7 +39,7 @@ export class DataService implements InMemoryDbService {
         id: 2,
         title: "angular 2",
         authors: "andrew payne",
-        ISBN: "2003-1043-8998-0990",
+        isbn: "2003-1043-8998-0990",
         publisher: "MK books",
         release_date: "12-09-2019",
         about:
@@ -96,7 +96,7 @@ export class DataService implements InMemoryDbService {
       return this.authenticate(reqInfo);
     } else if (reqInfo.collectionName === "forgot-password") {
       return this.sendEmail(reqInfo);
-    } else if ((reqInfo.collectionName = "sign-up")) {
+    } else if ((reqInfo.collectionName === "sign-up")) {
       return this.addUser(reqInfo);
     } else {
       return undefined;

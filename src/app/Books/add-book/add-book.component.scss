@@ -1,7 +1,12 @@
-.form-container{
-  height: 100%;
-  
-  button#send-btn{
+.mat-form-field{
+  width: 250px;
+}
+
+.mat-form-field#description{
+  width: 100%;
+}
+
+button#add-btn{
     font-size: 18px;
     color: #ffffff;
     background-color: #3498DB;
@@ -13,5 +18,4 @@
     &:hover{
       cursor: pointer;
     }
-  }
 }
