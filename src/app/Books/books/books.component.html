@@ -14,7 +14,7 @@
       </div>
       <p class="italics">Copies left: {{ book.count }}</p>
       <p>
-        {{ book.about | slice: 0:233}} ...
+        {{ book.about | slice: 0:220}} ...
       </p>
       <mat-card-actions class="buttons">
         <button mat-raised-button (click)="lend(book.id)">Lend Out</button>

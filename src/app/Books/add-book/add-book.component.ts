@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { MatDialogRef } from "@angular/material/dialog";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-add-book",
@@ -7,41 +8,31 @@ import { MatDialogRef } from "@angular/material/dialog";
   styleUrls: ["./add-book.component.scss"]
 })
 export class AddBookComponent implements OnInit {
-  title: String;
-  authors: String;
-  publisher: String;
-  edition: String;
-  isbn: String;
-  release_date: String;
-  about: String;
+  addBookForm: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<AddBookComponent>) {}
+  constructor(
+    public dialogRef: MatDialogRef<AddBookComponent>,
+    private fb: FormBuilder
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.addBookForm = this.fb.group({
+      title: ["", Validators.required],
+      authors: ["", Validators.required],
+      publisher: ["", Validators.required],
+      edition: ["", Validators.required],
+      isbn: ["", Validators.required],
+      release_date: ["", Validators.required],
+      about: ["", Validators.required]
+    });
+  }
 
   closeModal() {
     this.dialogRef.close();
   }
 
   addBook() {
-    const {
-      title,
-      authors,
-      publisher,
-      edition,
-      isbn,
-      release_date,
-      about
-    } = this;
-    const data = {
-      title,
-      authors,
-      publisher,
-      edition,
-      isbn,
-      release_date,
-      about
-    };
+    const data = this.addBookForm.value;
     this.dialogRef.close(data);
   }
 }

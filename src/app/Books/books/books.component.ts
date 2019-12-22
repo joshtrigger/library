@@ -27,7 +27,8 @@ export class BooksComponent implements OnInit {
   getAllBooks(): void {
     this.bookService.fetchBooks().subscribe(
       value => (this.books = value),
-      err => console.log(err)
+      err =>
+        this.snackBarService.showError("Error occured when fetching records")
     );
   }
 
@@ -43,7 +44,8 @@ export class BooksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(value => {
       this.bookService.reportBook(value).subscribe(
         () => this.snackBarService.showSuccess("Report has been sent"),
-        err => {}
+        err =>
+          this.snackBarService.showError("Error occurred while sending report")
       );
     });
   }
@@ -57,15 +59,19 @@ export class BooksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(value => {
       this.bookService.addBook(value).subscribe(
         () => this.snackBarService.showSuccess("Successfully added book"),
-        err => this.snackBarService.showError(`Error while adding book ${err}`)
+        err => {
+          if (!err === null)
+            this.snackBarService.showError(`Error while adding book`);
+        }
       );
     });
   }
 
   delete(bookId) {
     this.bookService.deleteBook(bookId).subscribe(
-      value => console.log(value),
-      err => console.log(err)
+      () => this.snackBarService.showSuccess("Book has been deleted"),
+      err =>
+        this.snackBarService.showError("Error occurred when performing action")
     );
   }
 }
