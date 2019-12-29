@@ -1,0 +1,13 @@
+<div class="nav-bar" fxLayout="row wrap" fxLayoutAlign="space-between center">
+  <div class="left-side" fxLayout="row wrap" fxLayoutAlign="start center">
+    <h2>Library</h2>
+    <button mat-button>Home</button>
+  </div>
+  <div class="right-side">
+    <mat-icon [matMenuTriggerFor]="menu">account_circle</mat-icon>
+    <mat-menu #menu="matMenu">
+      <!-- <button mat-menu-item>My account</button> -->
+      <button mat-menu-item (click)="logOut()">Sign out</button>
+    </mat-menu>
+  </div>
+</div>

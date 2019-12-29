@@ -10,12 +10,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { MaterialModule } from './material.module';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,
@@ -24,6 +26,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     BrowserAnimationsModule,
     MaterialModule,
     AppRoutingModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent],
