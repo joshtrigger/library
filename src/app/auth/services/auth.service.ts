@@ -1,15 +1,18 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { Librarian } from "src/app/interfaces";
+import { Observable, BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   baseUrl: String = "http://localhost:8080/api";
+  public loggedInUser: BehaviorSubject<object>
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    const userObject = JSON.parse(localStorage.getItem('currentUser'));
+    this.loggedInUser = new BehaviorSubject<object>(userObject)
+  }
 
   /**
    * This method checks if the user is logged in and token
