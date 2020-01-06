@@ -5,11 +5,20 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from "@angular/common/http/testing";
+<<<<<<< HEAD
+=======
+import { Librarian } from "src/app/interfaces";
+import { RouterTestingModule } from "@angular/router/testing";
+import { Router } from "@angular/router";
+>>>>>>> wrote tests
 
 describe("AuthService", () => {
+  let routerSpy = jasmine.createSpyObj("Router", ["navigate"]);
+
   beforeEach(() =>
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
+      providers: [{ provide: Router, useValue: routerSpy }]
     })
   );
 
@@ -117,6 +126,16 @@ describe("AuthService", () => {
       "http://localhost:8080/api/sign-up"
     );
     expect(request.request.method).toEqual("POST");
+  });
+
+  it("should log out the user", () => {
+    const { service, httpTestingController } = setUp();
+    spyOn(localStorage, "removeItem");
+
+    service.logOut();
+
+    expect(routerSpy.navigate).toHaveBeenCalledWith(["/auth/login"]);
+    expect(localStorage.removeItem).toHaveBeenCalledWith("currentUser");
   });
 
   afterEach(() => {

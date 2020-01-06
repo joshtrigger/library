@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-nav-bar',
@@ -7,16 +9,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav-bar.component.scss']
 })
 export class NavBarComponent implements OnInit {
+  isLoggedIn$: Observable<Boolean>;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
-    console.log('object')
+    this.isLoggedIn$ = this.authService.isLoggedIn;
   }
 
-  logOut(){
-    localStorage.removeItem('currentUser')
-    this.router.navigate(['auth/login'])
+  /**
+   * This method calls the logout mehtod from the auth service
+   */
+  logOut():void{
+    this.authService.logOut()
   }
-
 }

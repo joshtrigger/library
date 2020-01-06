@@ -1,17 +1,23 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable, BehaviorSubject } from "rxjs";
+import { Router } from "@angular/router";
+import { tap } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   baseUrl: String = "http://localhost:8080/api";
-  public loggedInUser: BehaviorSubject<object>
+  private loggedIn: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(
+    false
+  );
 
-  constructor(private http: HttpClient) {
-    const userObject = JSON.parse(localStorage.getItem('currentUser'));
-    this.loggedInUser = new BehaviorSubject<object>(userObject)
+  constructor(private http: HttpClient, private router: Router) {
+    const currentUser = localStorage.getItem("currentUser");
+    if (currentUser) {
+      this.loggedIn.next(true);
+    }
   }
 
   /**
@@ -39,7 +45,9 @@ export class AuthService {
    * @returns Obervable containing the response from the backend server
    */
   loginUser(payload): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/login`, payload);
+    return this.http
+      .post<any>(`${this.baseUrl}/login`, payload)
+      .pipe(tap(() => this.loggedIn.next(true)));
   }
 
   /**
@@ -76,10 +84,23 @@ export class AuthService {
 
   /**
    * This method is responsible for creating the user account
-   * 
+   *
    * @param payload user credentials
    */
   signUpUser(payload): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/sign-up`, payload);
+  }
+
+  /**
+   * This method is responsible for logging out the user
+   */
+  logOut(): void {
+    localStorage.removeItem("currentUser");
+    this.loggedIn.next(false);
+    this.router.navigate(["/auth/login"]);
+  }
+
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
   }
 }

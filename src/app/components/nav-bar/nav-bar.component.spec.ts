@@ -1,16 +1,22 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { NavBarComponent } from './nav-bar.component';
+import { NavBarComponent } from "./nav-bar.component";
+import { MaterialModule } from "src/app/material.module";
+import { RouterTestingModule } from "@angular/router/testing";
+import { AuthService } from "src/app/auth/services/auth.service";
+import { By } from '@angular/platform-browser';
 
-describe('NavBarComponent', () => {
+describe("NavBarComponent", () => {
   let component: NavBarComponent;
   let fixture: ComponentFixture<NavBarComponent>;
+  const authServiceSpy = jasmine.createSpyObj("AuthService", ["logOut"]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavBarComponent ]
-    })
-    .compileComponents();
+      declarations: [NavBarComponent],
+      imports: [MaterialModule, RouterTestingModule],
+      providers: [{ provide: AuthService, useValue: authServiceSpy }]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +25,12 @@ describe('NavBarComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
+  });
+
+  it("should call the logout function", () => {
+    component.logOut();
+    expect(authServiceSpy.logOut).toHaveBeenCalled();
   });
 });
