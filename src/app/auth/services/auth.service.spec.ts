@@ -5,12 +5,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from "@angular/common/http/testing";
-<<<<<<< HEAD
-=======
-import { Librarian } from "src/app/interfaces";
-import { RouterTestingModule } from "@angular/router/testing";
 import { Router } from "@angular/router";
->>>>>>> wrote tests
 
 describe("AuthService", () => {
   let routerSpy = jasmine.createSpyObj("Router", ["navigate"]);
@@ -37,12 +32,13 @@ describe("AuthService", () => {
     const { service, httpTestingController } = setUp();
     const payload = { email: "me@me.com", password: "pass" };
     service.loginUser(payload).subscribe(data => {
-      expect(data).toEqual(null);
+      expect(data).toEqual({ message: "success" });
     });
 
     const req = httpTestingController.expectOne(
       "http://localhost:8080/api/login"
     );
+    req.flush({ message: "success" });
     expect(req.request.method).toBe("POST");
   });
 
@@ -87,12 +83,13 @@ describe("AuthService", () => {
     const mockData = { email: "me@me.com" };
 
     service.forgotPassword(mockData).subscribe(data => {
-      expect(data).toEqual("");
+      expect(data).toEqual({ message: "email has been sent" });
     });
 
     const request = httpTestingController.expectOne(
       "http://localhost:8080/api/forgot-password"
     );
+    request.flush({ message: "email has been sent" });
     expect(request.request.method).toEqual("POST");
   });
 
@@ -101,12 +98,13 @@ describe("AuthService", () => {
     const mockData = { newPassword: "pass", confirmPassword: "pass" };
 
     service.resetPassword(mockData).subscribe(data => {
-      expect(data).toEqual("");
+      expect(data).toEqual({ message: "password has been reset" });
     });
 
     const request = httpTestingController.expectOne(
       "http://localhost:8080/api/reset-password"
     );
+    request.flush({ message: "password has been reset" });
     expect(request.request.method).toEqual("PUT");
   });
 
@@ -119,23 +117,31 @@ describe("AuthService", () => {
     };
 
     service.signUpUser(mockData).subscribe(data => {
-      expect(data).toEqual("");
+      expect(data).toEqual({ message: "account has been created"});
     });
 
     const request = httpTestingController.expectOne(
       "http://localhost:8080/api/sign-up"
     );
+    request.flush({ message: "account has been created"});
     expect(request.request.method).toEqual("POST");
   });
 
   it("should log out the user", () => {
-    const { service, httpTestingController } = setUp();
+    const { service } = setUp();
     spyOn(localStorage, "removeItem");
 
     service.logOut();
 
     expect(routerSpy.navigate).toHaveBeenCalledWith(["/auth/login"]);
     expect(localStorage.removeItem).toHaveBeenCalledWith("currentUser");
+  });
+
+  it("should test for get isLoggedIn obervable", () => {
+    const { service } = setUp();
+    const observable = service.isLoggedIn;
+
+    expect(observable).toBeDefined();
   });
 
   afterEach(() => {
