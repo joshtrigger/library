@@ -4,7 +4,6 @@ import { NavBarComponent } from "./nav-bar.component";
 import { MaterialModule } from "src/app/material.module";
 import { RouterTestingModule } from "@angular/router/testing";
 import { AuthService } from "src/app/auth/services/auth.service";
-import { By } from '@angular/platform-browser';
 
 describe("NavBarComponent", () => {
   let component: NavBarComponent;
