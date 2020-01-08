@@ -10,7 +10,7 @@ import { of, throwError } from "rxjs";
 import { AuthService } from "../services/auth.service";
 import { Router } from "@angular/router";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { SnackBarService } from '../../services/snack-bar.service';
 
 
 describe("LoginComponent", () => {

@@ -8,7 +8,7 @@ import {
 import { AuthService } from "../services/auth.service";
 import { Librarian } from "src/app/interfaces";
 import { Router } from "@angular/router";
-import { SnackBarService } from 'src/app/services/snack-bar.service';
+import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: "app-login",
