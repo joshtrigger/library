@@ -24,6 +24,9 @@ export class BooksComponent implements OnInit {
     this.getAllBooks();
   }
 
+  /**
+   * this method fetches add the books available
+   */
   getAllBooks(): void {
     this.bookService.fetchBooks().subscribe(
       value => (this.books = value),
@@ -34,7 +37,12 @@ export class BooksComponent implements OnInit {
 
   lend(bookId) {}
 
-  report(bookId) {
+  /**
+   * this method is reponsible for reporting a book
+   *
+   * @param bookId id of the book to be reported
+   */
+  report(bookId: number): void {
     const dialogRef = this.dialog.open(ReportDialogComponent, {
       width: "500px",
       height: "400px",
@@ -44,13 +52,20 @@ export class BooksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(value => {
       this.bookService.reportBook(value).subscribe(
         () => this.snackBarService.showSuccess("Report has been sent"),
-        err =>
-          this.snackBarService.showError("Error occurred while sending report")
+        err => {
+          if (err !== null)
+            this.snackBarService.showError(
+              "Error occurred while sending report"
+            );
+        }
       );
     });
   }
 
-  addBook() {
+  /**
+   * this method adds new book
+   */
+  addBook(): void {
     const dialogRef = this.dialog.open(AddBookComponent, {
       width: "600px",
       height: "500px"
@@ -60,14 +75,19 @@ export class BooksComponent implements OnInit {
       this.bookService.addBook(value).subscribe(
         () => this.snackBarService.showSuccess("Successfully added book"),
         err => {
-          if (!err === null)
-            this.snackBarService.showError(`Error while adding book`);
+          if (err !== null)
+            this.snackBarService.showError("Error while adding book");
         }
       );
     });
   }
 
-  delete(bookId) {
+  /**
+   * this method is responsible for deletion of a book
+   *
+   * @param bookId the id of the book to be deleted
+   */
+  delete(bookId: number): void {
     this.bookService.deleteBook(bookId).subscribe(
       () => this.snackBarService.showSuccess("Book has been deleted"),
       err =>

@@ -1,12 +1,17 @@
 .card-container {
   height: auto;
   padding: 16px;
+
+  .mat-grid-tile{
+    border: 1px solid rgb(218, 214, 214);
+    border-radius: 5px;
+  }
   .mat-card {
-    height: 400px;
-    width: 50%;
+    height: 466px;
+    width: auto;
     padding: 0px;
     img {
-      height: 400px;
+      height: 468px;
       width: 400px;
     }
     .details {

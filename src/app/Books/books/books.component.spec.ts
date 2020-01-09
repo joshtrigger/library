@@ -2,13 +2,13 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { BooksComponent } from "./books.component";
 import { MaterialModule } from "src/app/material.module";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { BooksService } from "../books.service";
 import { of, throwError } from "rxjs";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { SnackBarService } from "src/app/services/snack-bar.service";
 import { Book } from "src/app/interfaces";
 import { MatDialog } from "@angular/material";
+import { By } from "@angular/platform-browser";
 
 describe("BooksComponent", () => {
   let component: BooksComponent;
@@ -17,7 +17,8 @@ describe("BooksComponent", () => {
     "fetchBooks",
     "lendOutBook",
     "reportBook",
-    "addBook"
+    "addBook",
+    "deleteBook"
   ]);
   let snackBarSpy = jasmine.createSpyObj("SnackBarService", [
     "showError",
@@ -92,9 +93,17 @@ describe("BooksComponent", () => {
 
     expect(bookServiceSpy.reportBook).toHaveBeenCalled();
     expect(matDialogSpy.open).toHaveBeenCalled();
-    expect(snackBarSpy.showError).toHaveBeenCalledWith(
-      "Error occurred while sending report"
-    );
+    expect(snackBarSpy.showError).toHaveBeenCalled();
+  });
+
+  it("should close modal when no report is sent", () => {
+    bookServiceSpy.reportBook.and.returnValue(throwError(null));
+    fixture.detectChanges();
+    component.report(1);
+
+    expect(bookServiceSpy.reportBook).toHaveBeenCalled();
+    expect(matDialogSpy.open).toHaveBeenCalled();
+    expect(snackBarSpy.showError).toHaveBeenCalled();
   });
   it("should be able to add a book", () => {
     bookServiceSpy.addBook.and.returnValue(of({}));
@@ -108,14 +117,47 @@ describe("BooksComponent", () => {
     );
   });
   it("should fail to add a book", () => {
-    bookServiceSpy.addBook.and.returnValue(throwError({}));
+    bookServiceSpy.addBook.and.returnValue(throwError({ msg: "error" }));
     fixture.detectChanges();
     component.addBook();
 
     expect(bookServiceSpy.addBook).toHaveBeenCalled();
     expect(matDialogSpy.open).toHaveBeenCalled();
-    // expect(snackBarSpy.showError).toHaveBeenCalledWith(
-    //   "Error while adding book"
-    // );
+    expect(snackBarSpy.showError).toHaveBeenCalled();
+  });
+
+  it("should close the modal when no book is added", () => {
+    bookServiceSpy.addBook.and.returnValue(throwError(null));
+    fixture.detectChanges();
+    component.addBook();
+
+    expect(bookServiceSpy.addBook).toHaveBeenCalled();
+    expect(matDialogSpy.open).toHaveBeenCalled();
+    expect(snackBarSpy.showError).toHaveBeenCalled();
+  });
+
+  it("should delete book successfully", () => {
+    bookServiceSpy.deleteBook.and.returnValue(of({ msg: "deleted book" }));
+    fixture.detectChanges();
+    component.delete(1);
+
+    expect(snackBarSpy.showSuccess).toHaveBeenCalled();
+  });
+
+  it("should fail to delete book", () => {
+    bookServiceSpy.deleteBook.and.returnValue(throwError({}));
+    fixture.detectChanges();
+    component.delete(1);
+
+    expect(snackBarSpy.showError).toHaveBeenCalled();
+  });
+
+  it("should call addBook function when '+' button is clicked", () => {
+    const btn = fixture.nativeElement.querySelector("button");
+    spyOn(component, "addBook");
+
+    btn.click();
+
+    expect(component.addBook).toHaveBeenCalled();
   });
 });
