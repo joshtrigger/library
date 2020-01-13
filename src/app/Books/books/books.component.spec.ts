@@ -87,7 +87,9 @@ describe("BooksComponent", () => {
     );
   });
   it("should fail to report a book", () => {
-    bookServiceSpy.reportBook.and.returnValue(throwError({}));
+    bookServiceSpy.reportBook.and.returnValue(
+      throwError({ body: { error: "messgae" } })
+    );
     fixture.detectChanges();
     component.report(1);
 
@@ -97,7 +99,9 @@ describe("BooksComponent", () => {
   });
 
   it("should close modal when no report is sent", () => {
-    bookServiceSpy.reportBook.and.returnValue(throwError(null));
+    bookServiceSpy.reportBook.and.returnValue(
+      throwError({ body: { error: "Cannot read property 'id' of null" } })
+    );
     fixture.detectChanges();
     component.report(1);
 
@@ -117,7 +121,9 @@ describe("BooksComponent", () => {
     );
   });
   it("should fail to add a book", () => {
-    bookServiceSpy.addBook.and.returnValue(throwError({ msg: "error" }));
+    bookServiceSpy.addBook.and.returnValue(
+      throwError({ body: { error: "error message" } })
+    );
     fixture.detectChanges();
     component.addBook();
 
@@ -127,7 +133,9 @@ describe("BooksComponent", () => {
   });
 
   it("should close the modal when no book is added", () => {
-    bookServiceSpy.addBook.and.returnValue(throwError(null));
+    bookServiceSpy.addBook.and.returnValue(
+      throwError({ body: { error: "Cannot read property 'id' of null" } })
+    );
     fixture.detectChanges();
     component.addBook();
 
