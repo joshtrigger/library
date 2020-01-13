@@ -53,6 +53,7 @@ describe("AuthService", () => {
     const req = httpTestingController.expectOne(
       "http://localhost:8080/api/librarians"
     );
+    req.flush([mockData])
     expect(req.request.method).toBe("GET");
   });
 

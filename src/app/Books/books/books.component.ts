@@ -94,4 +94,15 @@ export class BooksComponent implements OnInit {
         this.snackBarService.showError("Error occurred when performing action")
     );
   }
+
+  /**
+   * this method is reponsible for editing a specific book
+   * information
+   * 
+   * @param book this is the information of the book that
+   * is being edited by the user
+   */
+  edit(book: Book){
+    console.log(book)
+  }
 }

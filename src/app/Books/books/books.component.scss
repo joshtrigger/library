@@ -1,43 +1,68 @@
 .card-container {
   height: auto;
-  padding: 16px;
+  padding: 10px;
 
-  .mat-grid-tile{
-    border: 1px solid rgb(218, 214, 214);
+  .mat-grid-tile {
     border-radius: 5px;
+    @media screen and (min-width: 960px) and (max-width: 1279px) {
+      .mat-figure{
+        display: flex;
+        flex-flow: column wrap;
+      }
+    }
   }
   .mat-card {
-    height: 466px;
+    height: 306px;
     width: auto;
     padding: 0px;
     img {
-      height: 468px;
-      width: 400px;
+      height: 306px;
+      width: 230px;
     }
     .details {
-      padding: 16px;
+      padding: 6px;
       width: 70%;
-      .italics{
+
+      .mat-card-actions{
+        width: 40%;
+        margin: 0px;
+      }
+      .heading {
+        width: 100%;
+      }
+      h3,
+      p {
+        margin: 0px;
+      }
+      .italics {
         font-size: smaller;
         font-style: italic;
         color: gray;
       }
-      button{
-        background-color: #3498DB;
-        color: #ffffff;
-        width: 100px;
-      }
-      button#report{
-        background-color: rgb(119, 48, 15);
+      .mat-icon {
+        &:hover {
+          cursor: pointer;
+        }
       }
 
-      button#delete{
-        background-color: rgb(187, 33, 28);
+      #report-btn {
+        color: rgb(236, 124, 72);
+      }
+
+      #delete-btn {
+        color: rgb(226, 71, 66);
+      }
+
+      #edit-btn {
+        color: rgb(201, 193, 192);
+      }
+      #lend-btn {
+        color: #3498DB;
       }
     }
   }
 
-  #add-btn{
+  #add-btn {
     border: none;
     position: fixed;
     right: 80px;
@@ -49,10 +74,10 @@
     color: white;
     background-color: rgb(133, 212, 13);
 
-    &:focus{
+    &:focus {
       outline: none;
     }
-    &:hover{
+    &:hover {
       cursor: pointer;
     }
   }
