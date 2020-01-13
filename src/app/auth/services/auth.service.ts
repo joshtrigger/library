@@ -45,8 +45,8 @@ export class AuthService {
    *
    * @returns Observable with http response from in-memory web api module
    */
-  fetchLibrarians(): Observable<Librarian> {
-    return this.http.get<Librarian>(`${this.baseUrl}/librarians`);
+  fetchLibrarians(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/librarians`);
   }
 
   /**

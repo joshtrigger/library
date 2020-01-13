@@ -5,7 +5,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from "@angular/common/http/testing";
-import { Librarian } from "src/app/interfaces";
 
 describe("AuthService", () => {
   beforeEach(() =>
@@ -40,20 +39,14 @@ describe("AuthService", () => {
 
   it("should fetch all librarians", () => {
     const { service, httpTestingController } = setUp();
-    const mockData: Librarian = {
-      id: 1,
-      name: "john doe",
-      email: "me@me.com",
-      password: "pass"
-    };
     service.fetchLibrarians().subscribe(data => {
-      expect(data).toEqual(mockData);
+      expect(data).toEqual([{id:1,name:'joshua',email:'me@me.com',password:'pass2'}]);
     });
 
     const req = httpTestingController.expectOne(
       "http://localhost:8080/api/librarians"
     );
-    req.flush([mockData])
+    req.flush([{id:1,name:'joshua',email:'me@me.com',password:'pass2'}]);
     expect(req.request.method).toBe("GET");
   });
 
@@ -110,7 +103,11 @@ describe("AuthService", () => {
 
   it("should call sign up method", () => {
     const { service, httpTestingController } = setUp();
-    const mockData = { username: "pass", email: "me@me.com", password:'pass123' };
+    const mockData = {
+      username: "pass",
+      email: "me@me.com",
+      password: "pass123"
+    };
 
     service.signUpUser(mockData).subscribe(data => {
       expect(data).toEqual("");
