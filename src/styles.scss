@@ -22,3 +22,15 @@ body {
   background-color: #f8d950;
   color: white;
 }
+
+button#close{
+  font-size: 50px;
+  font-weight: 100;
+  border: none;
+  &:focus{
+    outline: none;
+  }
+  &:hover{
+    cursor: pointer;
+  }
+}

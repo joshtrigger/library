@@ -6,8 +6,8 @@ import {
   AbstractControl
 } from "@angular/forms";
 import { AuthService } from "../services/auth.service";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from '@angular/router';
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: "app-forgot-password",
@@ -22,7 +22,7 @@ export class ForgotPasswordComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private _snackBar: MatSnackBar,
+    private _snackBarService: SnackBarService,
     private router: Router
   ) {}
 
@@ -57,14 +57,14 @@ export class ForgotPasswordComponent implements OnInit {
     this.authService.forgotPassword(data).subscribe(
       value => {
         const {response:{message}}=value;
-        this.showSuccess(message)
+        this._snackBarService.showSuccess(message)
         this.router.navigate(['auth/reset-password'])
       },
       err => {
         const {
           error: { body }
         } = err;
-        this.showError(body);
+        this._snackBarService.showError(body);
       }
     );
   }
@@ -83,33 +83,5 @@ export class ForgotPasswordComponent implements OnInit {
         .map(key => (this.validationMessage += this.inputErrors[key]))
         .join(" ");
     }
-  }
-
-  /**
-   * This method displays a red angular material snack bar
-   * with an error message.
-   * 
-   * @param message - message to display on the snack bar
-   */
-  showError(message):void {
-    this._snackBar.open(message, "close", {
-      duration: 3000,
-      verticalPosition: "bottom",
-      panelClass: ["error-snackbar"]
-    });
-  }
-
-  /**
-   * This method displays a green angular material snack bar 
-   * with success message
-   * 
-   * @param message - message to display on the snack bar
-   */
-  showSuccess(message):void {
-    this._snackBar.open(message, "close", {
-      duration: 3000,
-      verticalPosition: "bottom",
-      panelClass: ["success-snackbar"]
-    });
   }
 }

@@ -1,5 +1,3 @@
-import { TestBed, async, inject } from "@angular/core/testing";
-
 import { AuthGuard } from "./auth.guard";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 
@@ -35,6 +33,9 @@ describe("AuthGuard", () => {
       url: "testUrl"
     } as RouterStateSnapshot);
 
-    expect(guard.canActivate).toBeTruthy();
+    expect(routerSpy.navigate).toHaveBeenCalled();
+    expect(routerSpy.navigate).toHaveBeenCalledWith(["/auth/login"], {
+      queryParams: { returnUrl: "testUrl" }
+    });
   });
 });

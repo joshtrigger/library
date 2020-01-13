@@ -1,0 +1,17 @@
+.form-container{
+  height: 100%;
+  
+  button#send-btn{
+    font-size: 18px;
+    color: #ffffff;
+    background-color: #3498DB;
+    padding: 7px;
+    border-radius: 5px;
+    &:focus{
+      outline: none;
+    }
+    &:hover{
+      cursor: pointer;
+    }
+  }
+}

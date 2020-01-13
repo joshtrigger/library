@@ -5,8 +5,8 @@ import {
   Validators,
   AbstractControl
 } from "@angular/forms";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { AuthService } from "../services/auth.service";
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 function passwordMatcher(
   c: AbstractControl
@@ -33,7 +33,7 @@ export class ResetPasswordComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private _snackBar: MatSnackBar,
+    private _snackBarService: SnackBarService,
     private authService: AuthService
   ) {}
 
@@ -72,13 +72,13 @@ export class ResetPasswordComponent implements OnInit {
     this.authService.resetPassword(data).subscribe(
       value => {
         const { message } = value;
-        this.showSuccess(message);
+        this._snackBarService.showSuccess(message);
       },
       err => {
         const {
           error: { body }
         } = err;
-        this.showError(body);
+        this._snackBarService.showError(body);
       }
     );
   }
@@ -97,33 +97,5 @@ export class ResetPasswordComponent implements OnInit {
         .map(key => (this.validationMessage += this.inputErrors[key]))
         .join(" ");
     }
-  }
-
-  /**
-   * This method displays a red angular material snack bar
-   * with an error message.
-   * 
-   * @param message - message to display on the snack bar
-   */
-  showError(message) {
-    this._snackBar.open(message, "close", {
-      duration: 3000,
-      verticalPosition: "bottom",
-      panelClass: ["error-snackbar"]
-    });
-  }
-
-  /**
-   * This method displays a green angular material snack bar 
-   * with success message
-   * 
-   * @param message - message to display on the snack bar
-   */
-  showSuccess(message) {
-    this._snackBar.open(message, "close", {
-      duration: 3000,
-      verticalPosition: "bottom",
-      panelClass: ["success-snackbar"]
-    });
   }
 }

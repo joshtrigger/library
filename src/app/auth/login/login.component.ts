@@ -8,7 +8,7 @@ import {
 import { AuthService } from "../services/auth.service";
 import { Librarian } from "src/app/interfaces";
 import { Router } from "@angular/router";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: "app-login",
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private _snackBar: MatSnackBar
+    private _snackBarService: SnackBarService
   ) {}
 
   private inputErrors = {
@@ -97,7 +97,7 @@ export class LoginComponent implements OnInit {
         const {
           error: { body }
         } = err;
-        this.showError(body);
+        this._snackBarService.showError(body);
       }
     );
   }
@@ -112,7 +112,7 @@ export class LoginComponent implements OnInit {
     this.authService.signUpUser(data).subscribe(
       value => {
         const { message } = value;
-        this.showSuccess(message);
+        this._snackBarService.showSuccess(message);
         this.signUpForm.reset();
         this.signUpBtnText = "Sign Up";
         this.tabIndex = 0;
@@ -123,7 +123,7 @@ export class LoginComponent implements OnInit {
         const {
           error: { body }
         } = err;
-        this.showError(body);
+        this._snackBarService.showError(body);
       }
     );
   }
@@ -149,34 +149,6 @@ export class LoginComponent implements OnInit {
           .join(" ");
       }
     }
-  }
-
-  /**
-   * This method displays a red angular material snack bar
-   * with an error message.
-   *
-   * @param message - message to display on the snack bar
-   */
-  showError(message): void {
-    this._snackBar.open(message, "close", {
-      duration: 3000,
-      verticalPosition: "bottom",
-      panelClass: ["error-snackbar"]
-    });
-  }
-
-  /**
-   * This method displays a green angular material snack bar
-   * with an success message.
-   *
-   * @param message - message to display on the snack bar
-   */
-  showSuccess(message): void {
-    this._snackBar.open(message, "close", {
-      duration: 4000,
-      verticalPosition: "bottom",
-      panelClass: ["success-snackbar"]
-    });
   }
 
   /**

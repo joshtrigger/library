@@ -1,1 +1,34 @@
-<p>books works!</p>
+<div class="card-container">
+  <mat-grid-list cols="2" rowHeight="3:2" gutterSize="10px">
+    <mat-grid-tile *ngFor="let book of books">
+      <mat-card fxLayout="row">
+        <img src="{{ book.imageUrl }}" alt="" />
+        <div class="details" fxLayout="column wrap">
+          <h1>{{ book.title | titlecase }}</h1>
+          <div fxLayout="row wrap" fxLayoutAlign="space-between start">
+            <p class="italics">
+              <strong>Authors: </strong> {{ book.authors | titlecase }}
+            </p>
+            <p class="italics">
+              <strong>Release Date: </strong> {{ book.release_date }}
+            </p>
+          </div>
+          <p class="italics">Copies left: {{ book.count }}</p>
+          <p>{{ book.about | slice: 0:250 }} ...</p>
+          <mat-card-actions class="buttons">
+            <button mat-raised-button id="lend-out" (click)="lend(book.id)">
+              Lend Out
+            </button>
+            <button mat-raised-button id="report" (click)="report(book.id)">
+              Report
+            </button>
+            <button mat-raised-button id="delete" (click)="delete(book.id)">
+              Delete
+            </button>
+          </mat-card-actions>
+        </div>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <button mat-raised-button id="add-btn" (click)="addBook()">+</button>
+</div>

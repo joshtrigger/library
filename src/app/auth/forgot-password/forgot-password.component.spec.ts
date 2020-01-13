@@ -10,25 +10,33 @@ import { Router } from "@angular/router";
 import { of, throwError } from "rxjs";
 import { By } from "@angular/platform-browser";
 import { AuthService } from "../services/auth.service";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 describe("ForgotPasswordComponent", () => {
   let component: ForgotPasswordComponent;
   let fixture: ComponentFixture<ForgotPasswordComponent>;
   let router;
   let authServiceSpy = jasmine.createSpyObj("AuthService", ["forgotPassword"]);
+  let snackBarSpy = jasmine.createSpyObj("SnackBarService", [
+    "showError",
+    "showSuccess"
+  ]);
+  let routerSpy = jasmine.createSpyObj("Router", ["navigate"]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ForgotPasswordComponent],
       imports: [
-        RouterTestingModule,
         HttpClientTestingModule,
         MaterialModule,
         ReactiveFormsModule,
         BrowserAnimationsModule
       ],
-      providers: [{ provide: AuthService, useValue: authServiceSpy }]
+      providers: [
+        { provide: AuthService, useValue: authServiceSpy },
+        { provide: SnackBarService, useValue: snackBarSpy },
+        { provide: Router, useValue: routerSpy }
+      ]
     }).compileComponents();
   }));
 
@@ -80,45 +88,25 @@ describe("ForgotPasswordComponent", () => {
 
   it("should successfully send email to user", () => {
     const mockResponse = { status: 200, response: { message: "success" } };
-    spyOn(router, "navigate");
-    spyOn(component, "showSuccess");
 
     authServiceSpy.forgotPassword.and.returnValue(of(mockResponse));
     component.send();
 
-    expect(component.showSuccess).toHaveBeenCalled();
-    expect(component.showSuccess).toHaveBeenCalledWith("success");
-    expect(router.navigate).toHaveBeenCalledWith(["auth/reset-password"]);
+    expect(snackBarSpy.showSuccess).toHaveBeenCalled();
+    expect(snackBarSpy.showSuccess).toHaveBeenCalledWith("success");
+    expect(routerSpy.navigate).toHaveBeenCalledWith(["auth/reset-password"]);
   });
 
   it("should not send email to user", () => {
     const mockResponse = { error: { body: "error has occurred" } };
-    spyOn(component, "showError");
 
     authServiceSpy.forgotPassword.and.returnValue(throwError(mockResponse));
     component.send();
 
-    expect(component.showError).toHaveBeenCalled();
-    expect(component.showError).toHaveBeenCalledWith("error has occurred");
+    expect(snackBarSpy.showError).toHaveBeenCalled();
+    expect(snackBarSpy.showError).toHaveBeenCalledWith("error has occurred");
   });
 
-  it("should show display success snack bar", () => {
-    const snackBar = fixture.debugElement.injector.get(MatSnackBar);
-
-    component.showSuccess("message");
-    snackBar.dismiss();
-
-    expect(component.showSuccess).toBeTruthy();
-  });
-
-  it("should show display error snack bar", () => {
-    const snackBar = fixture.debugElement.injector.get(MatSnackBar);
-
-    component.showError("error");
-    snackBar.dismiss();
-
-    expect(component.showError).toBeTruthy();
-  });
   it("should display error messages by calling setMessage function", () => {
     const emailInput = fixture.nativeElement.querySelector("input");
 

@@ -9,11 +9,13 @@ export interface Book {
   id: Number;
   title: String;
   authors: String;
-  ISBN: String;
+  isbn: String;
   publisher: String;
   release_date: String;
   about: String;
   edition: String;
+  imageUrl: String;
+  count: Number;
 }
 
 export interface BorrowedBook {
