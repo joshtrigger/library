@@ -1,5 +1,5 @@
 <div class="card-container">
-  <mat-grid-list cols="3" rowHeight="3:2" gutterSize="10px">
+  <mat-grid-list cols="3" rowHeight="3:2" gutterSize="20px">
     <mat-grid-tile *ngFor="let book of books">
       <mat-card fxLayout="row">
         <img src="{{ book.imageUrl }}" alt="" />
@@ -29,9 +29,11 @@
           >
             <mat-icon
               id="lend-btn"
+              matBadge="{{book.count}}"
+              matBadgeSize="small"
               (click)="lend(book.id)"
               matTooltip="Lend book"
-              >group_add</mat-icon
+              >forward</mat-icon
             >
             <mat-icon
               id="report-btn"

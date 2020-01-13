@@ -14,6 +14,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatIconModule } from "@angular/material/icon";
 import { MatNativeDateModule } from "@angular/material";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import {MatBadgeModule} from '@angular/material/badge';
 
 import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -34,7 +35,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatDatepickerModule,
     MatIconModule,
     MatNativeDateModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatBadgeModule
   ],
   exports: [
     FlexLayoutModule,
@@ -50,7 +52,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatDatepickerModule,
     MatIconModule,
     MatNativeDateModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatBadgeModule
   ]
 })
 export class MaterialModule {}

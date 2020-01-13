@@ -53,7 +53,7 @@ export class BooksComponent implements OnInit {
       this.bookService.reportBook(value).subscribe(
         () => this.snackBarService.showSuccess("Report has been sent"),
         err => {
-          if (err !== null)
+          if (err.body.error !== "Cannot read property 'id' of null")
             this.snackBarService.showError(
               "Error occurred while sending report"
             );
@@ -75,7 +75,7 @@ export class BooksComponent implements OnInit {
       this.bookService.addBook(value).subscribe(
         () => this.snackBarService.showSuccess("Successfully added book"),
         err => {
-          if (err !== null)
+          if (err.body.error !== "Cannot read property 'id' of null")
             this.snackBarService.showError("Error while adding book");
         }
       );
