@@ -18,6 +18,7 @@ export class ForgotPasswordComponent implements OnInit {
   emailForm: FormGroup;
   disabled: Boolean = true;
   validationMessage: String;
+  btnText: String = "Send";
 
   constructor(
     private fb: FormBuilder,
@@ -49,10 +50,29 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   /**
+   * this method disabled the button and 
+   * changs the button text to Sending...
+   */
+  hideButton() {
+    this.btnText = "Sending...";
+    this.disabled = true;
+  }
+
+  /**
+   * this method renables the button and 
+   * changs the button text to Send
+   */
+  showButton() {
+    this.btnText = "Send";
+    this.disabled = false;
+  }
+
+  /**
    * This method processes user's request to reset their
    * password
    */
-  send():void {
+  send(): void {
+    this.hideButton();
     const data = this.emailForm.value;
     this.authService.forgotPassword(data).subscribe(
       value => {
@@ -70,10 +90,10 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   /**
-   * This method is responsible for setting the validation messages 
+   * This method is responsible for setting the validation messages
    * by matching the keys of the [[inputErrors]] object with those
    * from the errors collection of the form control or form group.
-   * 
+   *
    * @param c - form control or form group
    */
   setMessage(c: AbstractControl): void {

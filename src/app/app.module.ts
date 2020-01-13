@@ -26,7 +26,6 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     BrowserAnimationsModule,
     MaterialModule,
     AppRoutingModule,
-    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent],
