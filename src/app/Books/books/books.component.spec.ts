@@ -145,14 +145,25 @@ describe("BooksComponent", () => {
   });
 
   it("should delete book successfully", () => {
+    dialogRefSpy.afterClosed.and.returnValue(of('confirmed'));
     bookServiceSpy.deleteBook.and.returnValue(of({ msg: "deleted book" }));
     fixture.detectChanges();
     component.delete(1);
-
+    
     expect(snackBarSpy.showSuccess).toHaveBeenCalled();
   });
+  
+  it("should fail to delete book", () => {    
+    dialogRefSpy.afterClosed.and.returnValue(of('confirmed'));
+    bookServiceSpy.deleteBook.and.returnValue(throwError({}));
+    fixture.detectChanges();
+    component.delete(1);
 
-  it("should fail to delete book", () => {
+    expect(snackBarSpy.showError).toHaveBeenCalled();
+  });
+
+  it("should fail to delete book when modal is closed", () => {    
+    dialogRefSpy.afterClosed.and.returnValue(of('null'));
     bookServiceSpy.deleteBook.and.returnValue(throwError({}));
     fixture.detectChanges();
     component.delete(1);

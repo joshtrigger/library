@@ -5,6 +5,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { ReportDialogComponent } from "../report-dialog/report-dialog.component";
 import { SnackBarService } from "src/app/services/snack-bar.service";
 import { AddBookComponent } from "../add-book/add-book.component";
+import { ConfirmationDialogComponent } from "src/app/components/confirmation-dialog/confirmation-dialog.component";
 
 @Component({
   selector: "app-books",
@@ -88,21 +89,32 @@ export class BooksComponent implements OnInit {
    * @param bookId the id of the book to be deleted
    */
   delete(bookId: number): void {
-    this.bookService.deleteBook(bookId).subscribe(
-      () => this.snackBarService.showSuccess("Book has been deleted"),
-      err =>
-        this.snackBarService.showError("Error occurred when performing action")
-    );
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: "400px",
+      height: "200px"
+    });
+
+    dialogRef.afterClosed().subscribe(value => {
+      if (value === "confirmed") {
+        this.bookService.deleteBook(bookId).subscribe(
+          () => this.snackBarService.showSuccess("Book has been deleted"),
+          err =>
+            this.snackBarService.showError(
+              "Error occurred when performing action"
+            )
+        );
+      }
+    });
   }
 
   /**
    * this method is reponsible for editing a specific book
    * information
-   * 
+   *
    * @param book this is the information of the book that
    * is being edited by the user
    */
-  edit(book: Book){
-    console.log(book)
+  edit(book: Book) {
+    console.log(book);
   }
 }
