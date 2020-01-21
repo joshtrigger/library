@@ -69,7 +69,8 @@ export class BooksComponent implements OnInit {
   addBook(): void {
     const dialogRef = this.dialog.open(AddBookComponent, {
       width: "600px",
-      height: "500px"
+      height: "500px",
+      data: {title:'add book'}
     });
 
     dialogRef.afterClosed().subscribe(value => {
@@ -115,6 +116,10 @@ export class BooksComponent implements OnInit {
    * is being edited by the user
    */
   edit(book: Book) {
-    console.log(book);
+    const dialogRef = this.dialog.open(AddBookComponent, {
+      width: "600px",
+      height: "500px",
+      data:{book, title:'edit book'}
+    });
   }
 }

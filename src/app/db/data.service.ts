@@ -41,7 +41,7 @@ export class DataService implements InMemoryDbService {
         authors: "andrew payne",
         isbn: "2003-1043-8998-0990",
         publisher: "MK books",
-        release_date: "12-09-2019",
+        release_date: "1579605836676",
         about:
           "This is a beginner's guide to Angular JS. Angular is one of the many frontend javascript frameworks, it has gained major popularity over the past few years and has since gained dominancy and is backed by the King of technology of the current generation in Gooogle. In this book , we look at how one can become a pro.",
         edition: "1st",
