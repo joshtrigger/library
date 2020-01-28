@@ -77,5 +77,4 @@ import 'core-js/es6/regexp';
 import 'core-js/es6/map';
 import 'core-js/es6/weak-map';
 import 'core-js/es6/set';
-import 'intl';
-import 'intl/locale-data/jsonp/en';
+
