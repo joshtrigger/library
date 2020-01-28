@@ -8,7 +8,7 @@
   </div>
   <div class="right-side" fxLayout="row wrap" fxLayoutAlign="space-between center">
     <div class="search-input">
-      <input matInput type="text" placeholder="Search">
+      <input matInput [(ngModel)]="searchText" type="text" placeholder="Search">
     </div>
     <div>
       <mat-icon [matMenuTriggerFor]="menu">account_circle</mat-icon>

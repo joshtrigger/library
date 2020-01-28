@@ -11,6 +11,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { MaterialModule } from './material.module';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     BrowserAnimationsModule,
     MaterialModule,
     AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

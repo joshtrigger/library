@@ -70,7 +70,7 @@ export class BooksComponent implements OnInit {
     const dialogRef = this.dialog.open(AddBookComponent, {
       width: "600px",
       height: "500px",
-      data: {title:'add book'}
+      data: { title: "add book" }
     });
 
     dialogRef.afterClosed().subscribe(value => {
@@ -119,7 +119,32 @@ export class BooksComponent implements OnInit {
     const dialogRef = this.dialog.open(AddBookComponent, {
       width: "600px",
       height: "500px",
-      data:{book, title:'edit book'}
+      data: { book, title: "edit book" }
     });
+    const { id } = book;
+
+    dialogRef.afterClosed().subscribe(val => {
+      const newDate = val.release_date
+        .toJSON()
+        .slice(0, 10)
+        .split("-")
+        .reverse()
+        .join("-");
+      val.id = id;
+      val.release_date = newDate;
+
+      this.bookService.editBook(id, val).subscribe(res => console.log(res));
+    });
+  }
+
+  /**
+   * this method is responsible for displaying the details of a
+   * specific book.
+   *
+   * @param book the book whose information is being displayed to
+   * the user
+   */
+  showDetails(book: Book): void {
+    console.log(book);
   }
 }

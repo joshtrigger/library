@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 import { AddBookComponent } from "./add-book.component";
 import { MaterialModule } from "src/app/material.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { MatDialogRef } from "@angular/material/dialog";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { By } from "@angular/platform-browser";
 import { MatDatepickerModule } from "@angular/material";
@@ -23,7 +23,10 @@ describe("AddBookComponent", () => {
         MatDatepickerModule,
         ReactiveFormsModule
       ],
-      providers: [{ provide: MatDialogRef, useValue: matDialogRefSpy }]
+      providers: [
+        { provide: MatDialogRef, useValue: matDialogRefSpy },
+        { provide: MAT_DIALOG_DATA, useValue: {} }
+      ]
     }).compileComponents();
   }));
 
@@ -53,17 +56,17 @@ describe("AddBookComponent", () => {
   });
 
   it("should listen when add button is clicked", () => {
-    const button = fixture.debugElement.queryAll(By.css('button'));
+    const button = fixture.debugElement.queryAll(By.css("button"));
 
-    spyOn(component, "addBook");
-    button[2].triggerEventHandler('click', null);
+    spyOn(component, "save");
+    button[2].triggerEventHandler("click", null);
 
-    expect(component.addBook).toHaveBeenCalled();
+    expect(component.save).toHaveBeenCalled();
     expect(matDialogRefSpy.close).toHaveBeenCalled();
   });
 
   it("should call the addBook function", () => {
-    component.addBook();
+    component.save();
     expect(matDialogRefSpy.close).toHaveBeenCalled();
   });
 });

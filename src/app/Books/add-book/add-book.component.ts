@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Inject } from "@angular/core";
+import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Book } from "src/app/interfaces";
 
 @Component({
   selector: "app-add-book",
@@ -11,7 +10,6 @@ import { Book } from "src/app/interfaces";
 export class AddBookComponent implements OnInit {
   addBookForm: FormGroup;
   modalTitle: String;
-  // @Input() book : Book
 
   constructor(
     public dialogRef: MatDialogRef<AddBookComponent>,
@@ -33,13 +31,14 @@ export class AddBookComponent implements OnInit {
         about: ["", Validators.required]
       });
     } else {
+      const date = new Date(book.release_date)
       this.addBookForm = this.fb.group({
         title: [book.title, Validators.required],
         authors: [book.authors, Validators.required],
         publisher: [book.publisher, Validators.required],
         edition: [book.edition, Validators.required],
         isbn: [book.isbn, Validators.required],
-        release_date: [book.release_date, Validators.required],
+        release_date: [date, Validators.required],
         about: [book.about, Validators.required]
       });
     }
@@ -50,8 +49,7 @@ export class AddBookComponent implements OnInit {
   }
 
   save() {
-    const data = this.addBookForm.value;
-    console.log(data)
-    // this.dialogRef.close(data);
+    const data =  this.addBookForm.value;
+    this.dialogRef.close(data);
   }
 }

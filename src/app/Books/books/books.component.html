@@ -14,7 +14,10 @@
             fxLayoutAlign="space-between start"
           >
             <h3>{{ book.title | titlecase }}</h3>
-            <mat-icon id="edit-btn" (click)="edit(book)">create</mat-icon>
+            <div class="top-icons" fxLayout="row" fxLayoutAlign="space-between start">
+              <mat-icon id="details-btn" (click)="showDetails(book)">description</mat-icon>
+              <mat-icon id="edit-btn" (click)="edit(book)">create</mat-icon>
+            </div>
           </div>
           <div fxLayout="row wrap" fxLayoutAlign="space-between start">
             <p class="italics">
