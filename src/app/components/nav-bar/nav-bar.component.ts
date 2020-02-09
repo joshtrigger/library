@@ -1,8 +1,7 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from "@angular/router";
 import { AuthService } from "src/app/auth/services/auth.service";
 import { Observable } from "rxjs";
-import { BooksService } from 'src/app/Books/books.service';
+import { BooksService } from "src/app/Books/books.service";
 
 @Component({
   selector: "app-nav-bar",
@@ -11,18 +10,16 @@ import { BooksService } from 'src/app/Books/books.service';
 })
 export class NavBarComponent implements OnInit {
   isLoggedIn$: Observable<Boolean>;
-  private _searchText: String;
+  options: Array<string> = ["angular", "testing"];
 
-  get searchText() :String {
-    return this._searchText;
+  set searchText(value: string) {
+    this.bookService.setSearchText(value);
   }
 
-  set searchText(value: String) {
-    // this._searchText = value;
-    this.bookService.searchText = value;
-  }
-
-  constructor(private router: Router, private authService: AuthService, private bookService: BooksService) {}
+  constructor(
+    private authService: AuthService,
+    private bookService: BooksService
+  ) {}
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn;

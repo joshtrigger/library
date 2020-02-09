@@ -16,6 +16,7 @@ import { MatNativeDateModule } from "@angular/material";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatBadgeModule } from "@angular/material/badge";
 import { MatMenuModule } from "@angular/material/menu";
+import { MatAutocompleteModule } from "@angular/material/autocomplete";
 
 import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -38,7 +39,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatNativeDateModule,
     MatTooltipModule,
     MatBadgeModule,
-    MatMenuModule
+    MatMenuModule,
+    MatAutocompleteModule
   ],
   exports: [
     FlexLayoutModule,
@@ -56,7 +58,8 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatNativeDateModule,
     MatTooltipModule,
     MatBadgeModule,
-    MatMenuModule
+    MatMenuModule,
+    MatAutocompleteModule
   ]
 })
 export class MaterialModule {}

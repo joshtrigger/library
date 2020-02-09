@@ -7,11 +7,24 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { By } from "@angular/platform-browser";
 import { MatDatepickerModule } from "@angular/material";
+import { Book } from 'src/app/interfaces';
 
 describe("AddBookComponent", () => {
   let component: AddBookComponent;
   let fixture: ComponentFixture<AddBookComponent>;
   const matDialogRefSpy = jasmine.createSpyObj("MatDialogRef", ["close"]);
+  const book: Book = {
+    id:1,
+    title:'title',
+    authors:'joshua',
+    isbn:'123-12',
+    release_date:'12-03-2019',
+    edition:'3rd',
+    count:2,
+    about:'some info',
+    imageUrl:'',
+    publisher:'mk'
+  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,7 +38,7 @@ describe("AddBookComponent", () => {
       ],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefSpy },
-        { provide: MAT_DIALOG_DATA, useValue: {} }
+        { provide: MAT_DIALOG_DATA, useValue: { book, title:'add-book'} }
       ]
     }).compileComponents();
   }));

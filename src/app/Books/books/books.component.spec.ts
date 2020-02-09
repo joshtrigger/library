@@ -9,30 +9,41 @@ import { SnackBarService } from "src/app/services/snack-bar.service";
 import { Book } from "src/app/interfaces";
 import { MatDialog } from "@angular/material";
 import { By } from "@angular/platform-browser";
+import { HttpClientTestingModule } from "@angular/common/http/testing";
 
-describe("BooksComponent", () => {
+fdescribe("BooksComponent", () => {
+  let bookService: BooksService;
   let component: BooksComponent;
   let fixture: ComponentFixture<BooksComponent>;
-  let bookServiceSpy = jasmine.createSpyObj("BookService", [
-    "fetchBooks",
-    "lendOutBook",
-    "reportBook",
-    "addBook",
-    "deleteBook"
-  ]);
   let snackBarSpy = jasmine.createSpyObj("SnackBarService", [
     "showError",
     "showSuccess"
   ]);
   let matDialogSpy = jasmine.createSpyObj("MatDialog", ["open"]);
   let dialogRefSpy = jasmine.createSpyObj("dialogRef", ["afterClosed"]);
+  const book: Book = {
+    id: 1,
+    authors: "josh",
+    title: "title",
+    release_date: "12-09-2019",
+    isbn: "123-34-54",
+    publisher: "MK",
+    count: 1,
+    imageUrl: "/path/file",
+    about: "something",
+    edition: "1st"
+  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [BooksComponent],
-      imports: [MaterialModule, BrowserAnimationsModule],
+      imports: [
+        MaterialModule,
+        BrowserAnimationsModule,
+        HttpClientTestingModule
+      ],
       providers: [
-        { provide: BooksService, useValue: bookServiceSpy },
+        BooksService,
         { provide: SnackBarService, useValue: snackBarSpy },
         { provide: MatDialog, useValue: matDialogSpy }
       ]
@@ -44,30 +55,19 @@ describe("BooksComponent", () => {
     component = fixture.componentInstance;
     matDialogSpy.open.and.returnValue(dialogRefSpy);
     dialogRefSpy.afterClosed.and.returnValue(of({}));
+    bookService = fixture.debugElement.injector.get(BooksService);
+    spyOnProperty(bookService, "searchText$").and.returnValue(of("string"));
   });
 
   it("should fetch all the books", () => {
-    const book: Book = {
-      id: 1,
-      authors: "josh",
-      title: "title",
-      release_date: "123",
-      isbn: "123-34-54",
-      publisher: "MK",
-      count: 1,
-      imageUrl: "/path/file",
-      about: "something",
-      edition: "1st"
-    };
-
-    bookServiceSpy.fetchBooks.and.returnValue(of([book]));
+    spyOn(bookService, "fetchBooks").and.returnValue(of([book]));
     fixture.detectChanges();
     expect(component).toBeTruthy();
     expect(component.books).toEqual([book]);
   });
 
   it("should return error when calling fetchBooks function", () => {
-    bookServiceSpy.fetchBooks.and.returnValue(throwError({}));
+    spyOn(bookService, "fetchBooks").and.returnValue(throwError({}));
     fixture.detectChanges();
 
     expect(snackBarSpy.showError).toHaveBeenCalledWith(
@@ -76,95 +76,98 @@ describe("BooksComponent", () => {
   });
 
   it("should be able to report a book", () => {
-    bookServiceSpy.reportBook.and.returnValue(of({}));
+    spyOn(bookService, "reportBook").and.returnValue(of({}));
     fixture.detectChanges();
     component.report(1);
 
-    expect(bookServiceSpy.reportBook).toHaveBeenCalled();
+    expect(bookService.reportBook).toHaveBeenCalled();
     expect(matDialogSpy.open).toHaveBeenCalled();
     expect(snackBarSpy.showSuccess).toHaveBeenCalledWith(
       "Report has been sent"
     );
   });
+
   it("should fail to report a book", () => {
-    bookServiceSpy.reportBook.and.returnValue(
+    spyOn(bookService, "reportBook").and.returnValue(
       throwError({ body: { error: "messgae" } })
     );
     fixture.detectChanges();
     component.report(1);
 
-    expect(bookServiceSpy.reportBook).toHaveBeenCalled();
+    expect(bookService.reportBook).toHaveBeenCalled();
     expect(matDialogSpy.open).toHaveBeenCalled();
     expect(snackBarSpy.showError).toHaveBeenCalled();
   });
 
   it("should close modal when no report is sent", () => {
-    bookServiceSpy.reportBook.and.returnValue(
+    spyOn(bookService, "reportBook").and.returnValue(
       throwError({ body: { error: "Cannot read property 'id' of null" } })
     );
     fixture.detectChanges();
     component.report(1);
 
-    expect(bookServiceSpy.reportBook).toHaveBeenCalled();
+    expect(bookService.reportBook).toHaveBeenCalled();
     expect(matDialogSpy.open).toHaveBeenCalled();
     expect(snackBarSpy.showError).toHaveBeenCalled();
   });
   it("should be able to add a book", () => {
-    bookServiceSpy.addBook.and.returnValue(of({}));
+    spyOn(bookService, "addBook").and.returnValue(of({}));
     fixture.detectChanges();
     component.addBook();
 
-    expect(bookServiceSpy.addBook).toHaveBeenCalled();
+    expect(bookService.addBook).toHaveBeenCalled();
     expect(matDialogSpy.open).toHaveBeenCalled();
     expect(snackBarSpy.showSuccess).toHaveBeenCalledWith(
       "Successfully added book"
     );
   });
   it("should fail to add a book", () => {
-    bookServiceSpy.addBook.and.returnValue(
+    spyOn(bookService, "addBook").and.returnValue(
       throwError({ body: { error: "error message" } })
     );
     fixture.detectChanges();
     component.addBook();
 
-    expect(bookServiceSpy.addBook).toHaveBeenCalled();
+    expect(bookService.addBook).toHaveBeenCalled();
     expect(matDialogSpy.open).toHaveBeenCalled();
     expect(snackBarSpy.showError).toHaveBeenCalled();
   });
 
   it("should close the modal when no book is added", () => {
-    bookServiceSpy.addBook.and.returnValue(
+    spyOn(bookService, "addBook").and.returnValue(
       throwError({ body: { error: "Cannot read property 'id' of null" } })
     );
     fixture.detectChanges();
     component.addBook();
 
-    expect(bookServiceSpy.addBook).toHaveBeenCalled();
+    expect(bookService.addBook).toHaveBeenCalled();
     expect(matDialogSpy.open).toHaveBeenCalled();
     expect(snackBarSpy.showError).toHaveBeenCalled();
   });
 
   it("should delete book successfully", () => {
-    dialogRefSpy.afterClosed.and.returnValue(of('confirmed'));
-    bookServiceSpy.deleteBook.and.returnValue(of({ msg: "deleted book" }));
+    dialogRefSpy.afterClosed.and.returnValue(of("confirmed"));
+    spyOn(bookService, "deleteBook").and.returnValue(
+      of({ msg: "deleted book" })
+    );
     fixture.detectChanges();
     component.delete(1);
-    
+
     expect(snackBarSpy.showSuccess).toHaveBeenCalled();
   });
-  
-  it("should fail to delete book", () => {    
-    dialogRefSpy.afterClosed.and.returnValue(of('confirmed'));
-    bookServiceSpy.deleteBook.and.returnValue(throwError({}));
+
+  it("should fail to delete book", () => {
+    dialogRefSpy.afterClosed.and.returnValue(of("confirmed"));
+    spyOn(bookService, "deleteBook").and.returnValue(throwError({}));
     fixture.detectChanges();
     component.delete(1);
 
     expect(snackBarSpy.showError).toHaveBeenCalled();
   });
 
-  it("should fail to delete book when modal is closed", () => {    
-    dialogRefSpy.afterClosed.and.returnValue(of('null'));
-    bookServiceSpy.deleteBook.and.returnValue(throwError({}));
+  it("should fail to delete book when modal is closed", () => {
+    dialogRefSpy.afterClosed.and.returnValue(of("null"));
+    spyOn(bookService, "deleteBook").and.returnValue(throwError({}));
     fixture.detectChanges();
     component.delete(1);
 
@@ -180,24 +183,19 @@ describe("BooksComponent", () => {
     expect(component.addBook).toHaveBeenCalled();
   });
 
-  it('should call the lend function',()=>{
+  it("should call the lend function", () => {
     // tests are yet to be written this is just for the case of test coverage coveralls
-    component.lend(1)
-  })
-  it('should call the edit function',()=>{
-    // tests are yet to be written this is just for the case of test coverage coveralls
-    const book: Book = {
-      id: 1,
-      authors: "josh",
-      title: "title",
-      release_date: "123",
-      isbn: "123-34-54",
-      publisher: "MK",
-      count: 1,
-      imageUrl: "/path/file",
-      about: "something",
-      edition: "1st"
-    };
-    component.edit(book)
-  })
+    component.lend(1);
+  });
+  it("should call the edit function", () => {
+    const { id, ...newBook } = book;
+    dialogRefSpy.afterClosed.and.returnValue(of(newBook));
+    spyOn(bookService, "editBook").and.returnValue(of({}));
+
+    component.edit(book);
+
+    expect(bookService.editBook).toHaveBeenCalled();
+    expect(matDialogSpy.open).toHaveBeenCalled();
+    expect(snackBarSpy.showSuccess).toHaveBeenCalled();
+  });
 });
