@@ -140,9 +140,8 @@ export class BooksComponent implements OnInit, OnDestroy {
     const { id } = book;
 
     dialogRef.afterClosed().subscribe(val => {
-      const newDate = val.release_date
-        .toJSON()
-        .slice(0, 10)
+      const newDate = JSON.stringify(val.release_date)
+        .slice(1, 11)
         .split("-")
         .reverse()
         .join("-");

@@ -38,7 +38,7 @@ describe("AddBookComponent", () => {
       ],
       providers: [
         { provide: MatDialogRef, useValue: matDialogRefSpy },
-        { provide: MAT_DIALOG_DATA, useValue: { book, title:'add-book'} }
+        { provide: MAT_DIALOG_DATA, useValue: { book, title:'edit book'} }
       ]
     }).compileComponents();
   }));
@@ -82,4 +82,11 @@ describe("AddBookComponent", () => {
     component.save();
     expect(matDialogRefSpy.close).toHaveBeenCalled();
   });
+
+  it('should open the add book dialog',()=>{
+    const d = fixture.debugElement.injector.get(MAT_DIALOG_DATA)
+    d.title = 'add book'
+    d.book = null
+    fixture.detectChanges()
+  })
 });

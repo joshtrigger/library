@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, BehaviorSubject } from "rxjs";
 import { Router } from "@angular/router";
 import { tap } from "rxjs/operators";
+import { UserObject } from "src/app/interfaces";
 
 @Injectable({
   providedIn: "root"
@@ -14,7 +15,9 @@ export class AuthService {
   );
 
   constructor(private http: HttpClient, private router: Router) {
-    const currentUser = localStorage.getItem("currentUser");
+    const currentUser: UserObject = JSON.parse(
+      localStorage.getItem("currentUser")
+    );
     if (currentUser) {
       this.loggedIn.next(true);
     }
@@ -27,7 +30,9 @@ export class AuthService {
    * @returns true if user is logged in otherwise false
    */
   getCurrentUser() {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const currentUser: UserObject = JSON.parse(
+      localStorage.getItem("currentUser")
+    );
     if (currentUser) {
       return true;
     }

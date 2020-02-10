@@ -43,3 +43,8 @@ export interface Report {
   status: String;
   notes: String;
 }
+
+export interface UserObject {
+  token: string,
+  user: Librarian
+}

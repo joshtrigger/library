@@ -9,7 +9,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 })
 export class AddBookComponent implements OnInit {
   addBookForm: FormGroup;
-  modalTitle: String;
+  modalTitle: string;
 
   constructor(
     public dialogRef: MatDialogRef<AddBookComponent>,

@@ -11,7 +11,7 @@ import { MatDialog } from "@angular/material";
 import { By } from "@angular/platform-browser";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 
-fdescribe("BooksComponent", () => {
+describe("BooksComponent", () => {
   let bookService: BooksService;
   let component: BooksComponent;
   let fixture: ComponentFixture<BooksComponent>;
@@ -186,6 +186,7 @@ fdescribe("BooksComponent", () => {
   it("should call the lend function", () => {
     // tests are yet to be written this is just for the case of test coverage coveralls
     component.lend(1);
+    component.showDetails(book)
   });
   it("should call the edit function", () => {
     const { id, ...newBook } = book;
@@ -197,5 +198,17 @@ fdescribe("BooksComponent", () => {
     expect(bookService.editBook).toHaveBeenCalled();
     expect(matDialogSpy.open).toHaveBeenCalled();
     expect(snackBarSpy.showSuccess).toHaveBeenCalled();
+  });
+
+  it("should call the edit function with errors", () => {
+    const { id, ...newBook } = book;
+    dialogRefSpy.afterClosed.and.returnValue(of(newBook));
+    spyOn(bookService, "editBook").and.returnValue(throwError({}));
+
+    component.edit(book);
+
+    expect(bookService.editBook).toHaveBeenCalled();
+    expect(matDialogSpy.open).toHaveBeenCalled();
+    expect(snackBarSpy.showError).toHaveBeenCalled();
   });
 });

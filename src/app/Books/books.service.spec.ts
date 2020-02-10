@@ -138,6 +138,12 @@ describe("BooksService", () => {
     expect(req.request.method).toBe("PUT");
   });
 
+  it('should call the getter', ()=>{
+    const {service}= setUp()
+    service.searchText$
+    expect(service.searchText$).toBeDefined()
+  })
+
   afterEach(() => {
     const { httpTestingController } = setUp();
     httpTestingController.verify();
