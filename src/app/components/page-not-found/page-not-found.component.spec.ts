@@ -22,4 +22,14 @@ describe('PageNotFoundComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it("should have a header with the correct text ",()=>{
+    const h1 = fixture.nativeElement.querySelector('h1')
+    expect(h1.textContent).toBe("Oops!! We seem not find what you're looking for")
+  })
+
+  it('should have an image',()=>{
+    const img = fixture.nativeElement.querySelector('img')
+    expect(img).toBeTruthy()
+  })
 });

@@ -8,14 +8,17 @@ import { DataService } from './db/data.service';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { MaterialModule } from './material.module';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,
@@ -24,6 +27,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     BrowserAnimationsModule,
     MaterialModule,
     AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

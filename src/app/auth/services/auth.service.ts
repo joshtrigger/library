@@ -1,15 +1,27 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { Librarian } from "src/app/interfaces";
+import { Observable, BehaviorSubject } from "rxjs";
+import { Router } from "@angular/router";
+import { tap } from "rxjs/operators";
+import { UserObject } from "src/app/interfaces";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   baseUrl: String = "http://localhost:8080/api";
+  private loggedIn: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(
+    false
+  );
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {
+    const currentUser: UserObject = JSON.parse(
+      localStorage.getItem("currentUser")
+    );
+    if (currentUser) {
+      this.loggedIn.next(true);
+    }
+  }
 
   /**
    * This method checks if the user is logged in and token
@@ -18,7 +30,9 @@ export class AuthService {
    * @returns true if user is logged in otherwise false
    */
   getCurrentUser() {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const currentUser: UserObject = JSON.parse(
+      localStorage.getItem("currentUser")
+    );
     if (currentUser) {
       return true;
     }
@@ -36,7 +50,9 @@ export class AuthService {
    * @returns Obervable containing the response from the backend server
    */
   loginUser(payload): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/login`, payload);
+    return this.http
+      .post<any>(`${this.baseUrl}/login`, payload)
+      .pipe(tap(() => this.loggedIn.next(true)));
   }
 
   /**
@@ -73,10 +89,23 @@ export class AuthService {
 
   /**
    * This method is responsible for creating the user account
-   * 
+   *
    * @param payload user credentials
    */
   signUpUser(payload): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/sign-up`, payload);
+  }
+
+  /**
+   * This method is responsible for logging out the user
+   */
+  logOut(): void {
+    localStorage.removeItem("currentUser");
+    this.loggedIn.next(false);
+    this.router.navigate(["/auth/login"]);
+  }
+
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
   }
 }

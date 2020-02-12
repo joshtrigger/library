@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { BooksService } from "../books.service";
 import { Book } from "src/app/interfaces";
 import { MatDialog } from "@angular/material/dialog";
@@ -6,14 +6,17 @@ import { ReportDialogComponent } from "../report-dialog/report-dialog.component"
 import { SnackBarService } from "src/app/services/snack-bar.service";
 import { AddBookComponent } from "../add-book/add-book.component";
 import { ConfirmationDialogComponent } from "src/app/components/confirmation-dialog/confirmation-dialog.component";
+import { Subscription, interval } from "rxjs";
+import { debounce } from "rxjs/operators";
 
 @Component({
   selector: "app-books",
   templateUrl: "./books.component.html",
   styleUrls: ["./books.component.scss"]
 })
-export class BooksComponent implements OnInit {
+export class BooksComponent implements OnInit, OnDestroy {
   books: Array<Book>;
+  sub: Subscription;
 
   constructor(
     private bookService: BooksService,
@@ -23,13 +26,26 @@ export class BooksComponent implements OnInit {
 
   ngOnInit() {
     this.getAllBooks();
+    this.performFilter();
+  }
+
+  /**
+   * this method is responsible for filtering through the
+   * available books
+   */
+  performFilter(): void {
+    this.sub = this.bookService.searchText$
+      .pipe(debounce(() => interval(2000)))
+      .subscribe(val => {
+        this.getAllBooks(val);
+      });
   }
 
   /**
    * this method fetches add the books available
    */
-  getAllBooks(): void {
-    this.bookService.fetchBooks().subscribe(
+  getAllBooks(arg?: string): void {
+    this.bookService.fetchBooks(arg).subscribe(
       value => (this.books = value),
       err =>
         this.snackBarService.showError("Error occured when fetching records")
@@ -69,7 +85,8 @@ export class BooksComponent implements OnInit {
   addBook(): void {
     const dialogRef = this.dialog.open(AddBookComponent, {
       width: "600px",
-      height: "500px"
+      height: "500px",
+      data: { title: "add book" }
     });
 
     dialogRef.afterClosed().subscribe(value => {
@@ -115,6 +132,42 @@ export class BooksComponent implements OnInit {
    * is being edited by the user
    */
   edit(book: Book) {
+    const dialogRef = this.dialog.open(AddBookComponent, {
+      width: "600px",
+      height: "500px",
+      data: { book, title: "edit book" }
+    });
+    const { id } = book;
+
+    dialogRef.afterClosed().subscribe(val => {
+      const newDate = JSON.stringify(val.release_date)
+        .slice(1, 11)
+        .split("-")
+        .reverse()
+        .join("-");
+      val.id = id;
+      val.release_date = newDate;
+
+      this.bookService.editBook(id, val).subscribe(
+        () => this.snackBarService.showSuccess("Book has been updated"),
+        err =>
+          this.snackBarService.showError("Error occured when updating the book")
+      );
+    });
+  }
+
+  /**
+   * this method is responsible for displaying the details of a
+   * specific book.
+   *
+   * @param book the book whose information is being displayed to
+   * the user
+   */
+  showDetails(book: Book): void {
     console.log(book);
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 }

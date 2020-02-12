@@ -3,8 +3,10 @@ import { TestBed } from "@angular/core/testing";
 import { BooksService } from "./books.service";
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
+  TestRequest
 } from "@angular/common/http/testing";
+import { Book } from "../interfaces";
 
 describe("BooksService", () => {
   beforeEach(() =>
@@ -35,7 +37,7 @@ describe("BooksService", () => {
     });
 
     const req = httpTestingController.expectOne(
-      "http://localhost:8080/api/books"
+      "http://localhost:8080/api/books?title="
     );
     req.flush(mockData);
     expect(req.request.method).toBe("GET");
@@ -104,6 +106,43 @@ describe("BooksService", () => {
 
     expect(req.request.method).toBe("POST");
   });
+
+  it("should call the setSearchText function", () => {
+    const { service } = setUp();
+    service.setSearchText("text");
+  });
+
+  it("should call the edit book function", () => {
+    const { service, httpTestingController } = setUp();
+    const book: Book = {
+      id: 1,
+      title: "title",
+      authors: "josh",
+      isbn: "123",
+      release_date: "12-09-2991",
+      about: "something",
+      edition: "2nd",
+      publisher: "mk",
+      count: 1,
+      imageUrl: ""
+    };
+
+    service.editBook(1, book).subscribe(d => {
+      expect(d).toBe("success");
+    });
+
+    const req: TestRequest = httpTestingController.expectOne(
+      "http://localhost:8080/api/books/1"
+    );
+    req.flush("success");
+    expect(req.request.method).toBe("PUT");
+  });
+
+  it('should call the getter', ()=>{
+    const {service}= setUp()
+    service.searchText$
+    expect(service.searchText$).toBeDefined()
+  })
 
   afterEach(() => {
     const { httpTestingController } = setUp();

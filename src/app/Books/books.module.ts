@@ -9,7 +9,13 @@ import { AddBookComponent } from "./add-book/add-book.component";
 
 @NgModule({
   declarations: [BooksComponent, ReportDialogComponent, AddBookComponent],
-  imports: [CommonModule, BooksRoutingModule, MaterialModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    BooksRoutingModule,
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
   entryComponents: [ReportDialogComponent, AddBookComponent]
 })
 export class BooksModule {}

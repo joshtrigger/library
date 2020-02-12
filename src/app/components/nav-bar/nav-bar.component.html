@@ -1,0 +1,43 @@
+<div
+  *ngIf="isLoggedIn$ | async as isLoggedIn"
+  class="nav-bar"
+  fxLayout="row wrap"
+  fxLayoutAlign="space-between center"
+>
+  <div class="left-side" fxLayout="row wrap" fxLayoutAlign="start center">
+    <h2>Library</h2>
+    <button routerLink="/books" mat-button>Books</button>
+    <button routerLink="/books/stats" mat-button>Stats</button>
+    <button routerLink="/books/reports" mat-button>Reports</button>
+    <button routerLink="/books/borrowed-books" mat-button>
+      Borrowed Books
+    </button>
+  </div>
+  <div
+    class="right-side"
+    fxLayout="row wrap"
+    fxLayoutAlign="space-between center"
+  >
+    <div class="search-input">
+      <input
+        matInput
+        [(ngModel)]="searchText"
+        type="text"
+        placeholder="Search"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of options" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+    <div>
+      <mat-icon [matMenuTriggerFor]="menu">account_circle</mat-icon>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>My account</button>
+        <button mat-menu-item (click)="logOut()">Sign out</button>
+      </mat-menu>
+    </div>
+  </div>
+</div>
