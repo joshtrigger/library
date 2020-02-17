@@ -1,0 +1,26 @@
+<div class="form-container">
+  <div class="header" fxLayout="row wrap" fxLayoutAlign="space-between start">
+    <h1>Add User</h1>
+    <button id="close" (click)="closeModal()">&times;</button>
+  </div>
+  <div class="bottom" [formGroup]="addUserForm" fxLayout="column wrap">
+    <mat-form-field>
+      <input matInput formControlName="name" type="text" placeholder="Name"/>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="email" type="text" placeholder="Email"/>
+    </mat-form-field>
+    <div fxLayout="row wrap" fxLayoutAlign="space-between start">
+      <mat-form-field>
+        <input matInput formControlName="idNumber" type="number" placeholder="ID number"/>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="idType" type="text" placeholder="ID type"/>
+      </mat-form-field>
+    </div>
+    <mat-form-field>
+      <input matInput formControlName="phoneNumber" type="text" placeholder="Phone Number"/>
+    </mat-form-field>
+    <button id="save-btn" (click)="saveUser()" [disabled]="!addUserForm.valid">Save</button>
+  </div>
+</div>

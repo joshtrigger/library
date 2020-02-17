@@ -23,7 +23,7 @@ body {
   color: white;
 }
 
-button#close{
+button#close, button{
   font-size: 50px;
   font-weight: 100;
   border: none;
@@ -33,4 +33,29 @@ button#close{
   &:hover{
     cursor: pointer;
   }
+}
+
+#add-btn {
+  border: none;
+  position: fixed;
+  right: 80px;
+  bottom: 80px;
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  font-size: xx-large;
+  color: white;
+  background-color: rgb(133, 212, 13);
+
+  &:focus {
+    outline: none;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.mat-spinner{
+  position: fixed;
+  left: 50%;
 }

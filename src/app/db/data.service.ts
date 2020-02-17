@@ -75,11 +75,21 @@ export class DataService implements InMemoryDbService {
     const readers: Array<Reader> = [
       {
         id: 1,
-        name: "dan",
+        name: "dan lugada",
         email: "dan@email.com",
         id_no: 12431,
         id_type: "work",
-        phone_number: "070877263"
+        phone_number: "070877263",
+        borrowed_books:1
+      },
+      {
+        id: 2,
+        name: "mark kakoma",
+        email: "mk@email.com",
+        id_no: 5653,
+        id_type: "student",
+        phone_number: "070123456",
+        borrowed_books:2
       }
     ];
     const reports: Array<Report> = [

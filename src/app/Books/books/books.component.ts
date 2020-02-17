@@ -17,6 +17,7 @@ import { debounce } from "rxjs/operators";
 export class BooksComponent implements OnInit, OnDestroy {
   books: Array<Book>;
   sub: Subscription;
+  showSpinner: boolean;
 
   constructor(
     private bookService: BooksService,
@@ -45,10 +46,16 @@ export class BooksComponent implements OnInit, OnDestroy {
    * this method fetches add the books available
    */
   getAllBooks(arg?: string): void {
+    this.showSpinner = true;
     this.bookService.fetchBooks(arg).subscribe(
-      value => (this.books = value),
-      err =>
+      value => {
+        this.books = value
+        this.showSpinner= false;
+      },
+      err =>{
+        this.showSpinner= false;
         this.snackBarService.showError("Error occured when fetching records")
+      }
     );
   }
 

@@ -34,6 +34,7 @@ export interface Reader {
   id_no: Number;
   id_type: String;
   phone_number: String;
+  borrowed_books: number
 }
 
 export interface Report {

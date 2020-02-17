@@ -1,0 +1,16 @@
+.table-container {
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  table {
+    width: 80%;
+    ::ng-deep san-letter-icon {
+      svg {
+        font-size: 200px !important;
+        height: 50px !important;
+        width: 50px !important;
+        margin: 5px 0 0 0 !important;
+      }
+    }
+  }
+}

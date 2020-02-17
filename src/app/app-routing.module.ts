@@ -12,6 +12,11 @@ const routes: Routes = [
     path: "auth",
     loadChildren: () => import("./auth/auth.module").then(mod => mod.AuthModule)
   },
+  {
+    path: "readers",
+    loadChildren: () =>
+      import("./readers/readers.module").then(mod => mod.ReadersModule)
+  },
   { path: "", redirectTo: "auth/login", pathMatch: "full" },
   { path: "**", component: PageNotFoundComponent }
 ];
