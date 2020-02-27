@@ -7,8 +7,9 @@ import { FormsModule } from "@angular/forms";
 import { BooksService } from "src/app/Books/books.service";
 import { By } from "@angular/platform-browser";
 import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
 
-describe("NavBarComponent", () => {
+fdescribe("NavBarComponent", () => {
   let component: NavBarComponent;
   let fixture: ComponentFixture<NavBarComponent>;
   const authServiceSpy = jasmine.createSpyObj("AuthService", ["logOut"]);
@@ -18,7 +19,7 @@ describe("NavBarComponent", () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [NavBarComponent],
-      imports: [MaterialModule, FormsModule],
+      imports: [MaterialModule, FormsModule, RouterTestingModule],
       providers: [
         { provide: AuthService, useValue: authServiceSpy },
         { provide: BooksService, useValue: bookServiceSpy }

@@ -1,9 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
 import { ReadersService } from './readers.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('ReadersService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+fdescribe('ReadersService', () => {
+  beforeEach(() => TestBed.configureTestingModule({
+    imports:[HttpClientTestingModule]
+  }));
 
   it('should be created', () => {
     const service: ReadersService = TestBed.get(ReadersService);

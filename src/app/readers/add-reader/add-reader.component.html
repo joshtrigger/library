@@ -5,22 +5,52 @@
   </div>
   <div class="bottom" [formGroup]="addUserForm" fxLayout="column wrap">
     <mat-form-field>
-      <input matInput formControlName="name" type="text" placeholder="Name"/>
+      <input matInput formControlName="name" type="text" placeholder="Name" />
+      <mat-error>{{ validationMessage }}</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput formControlName="email" type="text" placeholder="Email"/>
+      <input matInput formControlName="email" type="text" placeholder="Email" />
+      <mat-error>{{ validationMessage }}</mat-error>
     </mat-form-field>
     <div fxLayout="row wrap" fxLayoutAlign="space-between start">
       <mat-form-field>
-        <input matInput formControlName="idNumber" type="number" placeholder="ID number"/>
+        <input
+          matInput
+          formControlName="idNumber"
+          type="number"
+          placeholder="ID number"
+        />
+        <mat-error>{{ validationMessage }}</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput formControlName="idType" type="text" placeholder="ID type"/>
+        <mat-label>ID Type</mat-label>
+        <mat-select formControlName="idType">
+          <mat-option *ngFor="let option of options" [value]="option.value">
+              {{ option.value }}
+          </mat-option>
+        </mat-select>
+        <mat-error>{{ validationMessage }}</mat-error>
       </mat-form-field>
     </div>
-    <mat-form-field>
-      <input matInput formControlName="phoneNumber" type="text" placeholder="Phone Number"/>
+    <mat-form-field *ngIf="idSpecification">
+      <input
+        matInput
+        formControlName="specification"
+        type="text"
+        placeholder="Specify ID Type"
+      />
     </mat-form-field>
-    <button id="save-btn" (click)="saveUser()" [disabled]="!addUserForm.valid">Save</button>
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="phoneNumber"
+        type="text"
+        placeholder="Phone Number"
+      />
+      <mat-error>{{ validationMessage }}</mat-error>
+    </mat-form-field>
+    <button id="save-btn" (click)="saveUser()" [disabled]="!addUserForm.valid">
+      Save
+    </button>
   </div>
 </div>

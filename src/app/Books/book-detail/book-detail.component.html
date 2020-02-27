@@ -1,0 +1,25 @@
+<div fxLayout="row" fxLayoutAlign="space-between start">
+  <h1></h1>
+  <button (click)="closeModal()">&times;</button>
+</div>
+<div fxLayout="column">
+  <div>
+    <h1>{{ book.title | titlecase  }}</h1>
+    <div class="authors-section" fxLayout="row wrap" fxLayoutAlign="space-between">
+      <p><strong>Authors:</strong> {{ book.authors | titlecase }}</p>
+      <p><strong>Release Date:</strong> {{ book.release_date }}</p>
+      <p><strong>Edition:</strong> {{ book.edition }}</p>
+      <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+    </div>
+    <br>
+    <strong>About:</strong>
+    <p>
+      {{ book.about }}
+    </p>
+    <br>
+    <strong>ISBN</strong>
+    <p>
+      {{ book.isbn }}
+    </p>
+  </div>
+</div>

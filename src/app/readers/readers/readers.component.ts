@@ -39,7 +39,7 @@ export class ReadersComponent implements OnInit, OnDestroy {
     this.performFilter();
   }
 
-  performFilter() {
+  private performFilter() {
     this.sub = this.bookService.searchText$.subscribe(val => {
       this.filteredReaders = this.allReaders.filter(reader => {
         if (reader.name.includes(val)) {
@@ -51,16 +51,16 @@ export class ReadersComponent implements OnInit, OnDestroy {
   }
 
   fetchReaders(): void {
-    this.showSpinner=true
+    this.showSpinner = true;
     this.readersService.getReaders().subscribe(
       val => {
         this.allReaders = val;
         this.filteredReaders = val;
-        this.showSpinner=false
+        this.showSpinner = false;
       },
       err => {
-        this.snackBarService.showError(err)
-        this.showSpinner=false
+        this.snackBarService.showError(err);
+        this.showSpinner = false;
       }
     );
   }
@@ -68,7 +68,7 @@ export class ReadersComponent implements OnInit, OnDestroy {
   addReader(): void {
     const dialogRef = this.dialog.open(AddReaderComponent, {
       width: "550px",
-      height: "450px"
+      height: "500px"
     });
 
     dialogRef.afterClosed().subscribe(reader => {

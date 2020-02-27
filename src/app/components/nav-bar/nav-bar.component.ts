@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { AuthService } from "src/app/auth/services/auth.service";
 import { Observable } from "rxjs";
 import { BooksService } from "src/app/Books/books.service";
-import { Router, NavigationStart } from '@angular/router';
+import { Router, NavigationStart } from "@angular/router";
+import { NgModel } from "@angular/forms";
 
 @Component({
   selector: "app-nav-bar",
@@ -11,6 +12,7 @@ import { Router, NavigationStart } from '@angular/router';
 })
 export class NavBarComponent implements OnInit {
   isLoggedIn$: Observable<Boolean>;
+  @ViewChild(NgModel,{static: false}) filterInput: NgModel;
 
   set searchText(value: string) {
     this.bookService.setSearchText(value);
@@ -24,11 +26,11 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn$ = this.authService.isLoggedIn;
-    this.router.events.subscribe(event=>{
-      if (event instanceof NavigationStart){
-        this.searchText=''
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationStart) {
+        this.filterInput.control.setValue("")
       }
-    })
+    });
   }
 
   /**

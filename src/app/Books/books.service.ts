@@ -28,7 +28,7 @@ export class BooksService {
   /**
    * This method fetches all the books from the database
    */
-  fetchBooks(param = ""): Observable<any> {
+  fetchBooks(param: string = ""): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/books?title=${param}`);
   }
 
@@ -37,7 +37,7 @@ export class BooksService {
    *
    * @param data is the id of the book being lent out
    */
-  lendOutBook(data): Observable<any> {
+  lendOutBook(data: object): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/borrowed_books`, data);
   }
 
@@ -46,7 +46,7 @@ export class BooksService {
    *
    * @param data id of the book being reported
    */
-  reportBook(data): Observable<any> {
+  reportBook(data: object): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/reports`, data);
   }
 
@@ -55,7 +55,7 @@ export class BooksService {
    *
    * @param bookId id of the book being deleted from the database
    */
-  deleteBook(bookId): Observable<any> {
+  deleteBook(bookId: number): Observable<any> {
     return this.http.delete<any>(`${this.baseUrl}/books/${bookId}`);
   }
 
@@ -64,7 +64,7 @@ export class BooksService {
    *
    * @param data deteils of the new book being added to the database
    */
-  addBook(data): Observable<any> {
+  addBook(data: object): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/books`, data);
   }
 

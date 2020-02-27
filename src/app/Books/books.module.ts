@@ -6,9 +6,17 @@ import { MaterialModule } from "../material.module";
 import { ReportDialogComponent } from "./report-dialog/report-dialog.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AddBookComponent } from "./add-book/add-book.component";
+import { LendBookComponent } from "./lend-book/lend-book.component";
+import { BookDetailComponent } from "./book-detail/book-detail.component";
 
 @NgModule({
-  declarations: [BooksComponent, ReportDialogComponent, AddBookComponent],
+  declarations: [
+    BooksComponent,
+    ReportDialogComponent,
+    AddBookComponent,
+    LendBookComponent,
+    BookDetailComponent
+  ],
   imports: [
     CommonModule,
     BooksRoutingModule,
@@ -16,6 +24,11 @@ import { AddBookComponent } from "./add-book/add-book.component";
     FormsModule,
     ReactiveFormsModule
   ],
-  entryComponents: [ReportDialogComponent, AddBookComponent]
+  entryComponents: [
+    ReportDialogComponent,
+    AddBookComponent,
+    LendBookComponent,
+    BookDetailComponent
+  ]
 })
 export class BooksModule {}

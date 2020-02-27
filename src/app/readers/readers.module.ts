@@ -6,7 +6,7 @@ import { ReadersComponent } from "./readers/readers.component";
 import { MaterialModule } from "../material.module";
 import { NgSanLetterIconModule } from "ng-san-letter-icon";
 import { AddReaderComponent } from './add-reader/add-reader.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ReadersComponent, AddReaderComponent],
@@ -15,7 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReadersRoutingModule,
     MaterialModule,
     NgSanLetterIconModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   entryComponents:[AddReaderComponent]
 })
