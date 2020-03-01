@@ -11,7 +11,7 @@ import { MatDialog } from "@angular/material";
 import { By } from "@angular/platform-browser";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 
-fdescribe("BooksComponent", () => {
+describe("BooksComponent", () => {
   let bookService: BooksService;
   let component: BooksComponent;
   let fixture: ComponentFixture<BooksComponent>;

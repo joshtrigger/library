@@ -7,7 +7,7 @@ import { MatDialogRef, MatSelect, MatOption } from "@angular/material";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { By } from "@angular/platform-browser";
 
-fdescribe("AddReaderComponent", () => {
+describe("AddReaderComponent", () => {
   let component: AddReaderComponent;
   let fixture: ComponentFixture<AddReaderComponent>;
   let dialogRefSpy = jasmine.createSpyObj("MatDialogRef", ["close"]);
@@ -35,14 +35,11 @@ fdescribe("AddReaderComponent", () => {
     expect(dialogRefSpy.close).toHaveBeenCalledWith("closed");
   });
 
-  it("should get all input elements", () => {
+  it("should have a invalid form", () => {
     const inputs = fixture.nativeElement.querySelectorAll(
       "input"
     );
     const matSelect = fixture.debugElement.query(By.directive(MatSelect));
-    const btn: HTMLButtonElement = fixture.nativeElement.querySelector(
-      "button"
-    );
     const options: MatOption[] = component.matSelect.options.toArray();
 
     (<MatSelect>matSelect.componentInstance).selectionChange.emit()
@@ -57,12 +54,18 @@ fdescribe("AddReaderComponent", () => {
       inputs[index].dispatchEvent(new Event("input"));
     }
 
+    matSelect.triggerEventHandler('selectionChange',{value:''})
     options[1]._selectViaInteraction();
 
     fixture.detectChanges();
 
     expect(options.length).toBe(5);
     expect(options[1].selected).toBe(true);
-    expect(component.addUserForm.status).toEqual("VALID");
+    expect(component.addUserForm.status).toEqual("INVALID");
   });
+
+  it('should save the user',()=>{
+    component.saveUser()
+    expect(dialogRefSpy.close).toHaveBeenCalled()
+  })
 });

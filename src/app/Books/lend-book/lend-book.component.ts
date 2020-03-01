@@ -8,6 +8,7 @@ import {
   FormGroup,
   Validators
 } from "@angular/forms";
+import { SnackBarService } from 'src/app/services/snack-bar.service';
 
 @Component({
   selector: "app-lend-book",
@@ -23,7 +24,8 @@ export class LendBookComponent implements OnInit {
     public dialogRef: MatDialogRef<LendBookComponent>,
     @Inject(MAT_DIALOG_DATA) public data: number,
     private readerService: ReadersService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private snackBarService: SnackBarService
   ) {}
 
   ngOnInit() {
@@ -42,7 +44,7 @@ export class LendBookComponent implements OnInit {
   fetchAllReaders(): void {
     this.readerService.getReaders().subscribe(
       val => (this.readers = val),
-      err => console.error(err)
+      err => this.snackBarService.showError(err)
     );
   }
 

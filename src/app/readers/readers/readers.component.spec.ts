@@ -11,7 +11,7 @@ import { of, throwError } from "rxjs";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { Reader } from "src/app/interfaces";
 
-describe("ReadersComponent", () => {
+fdescribe("ReadersComponent", () => {
   let component: ReadersComponent;
   let fixture: ComponentFixture<ReadersComponent>;
   let readersServiceSpy = jasmine.createSpyObj("ReadersService", [

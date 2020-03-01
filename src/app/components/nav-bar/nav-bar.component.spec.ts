@@ -8,6 +8,7 @@ import { BooksService } from "src/app/Books/books.service";
 import { By } from "@angular/platform-browser";
 import { of } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 
 fdescribe("NavBarComponent", () => {
   let component: NavBarComponent;
@@ -16,6 +17,8 @@ fdescribe("NavBarComponent", () => {
   const bookServiceSpy = jasmine.createSpyObj("BooksService", [
     "setSearchText"
   ]);
+  let router: Router;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [NavBarComponent],
@@ -32,6 +35,8 @@ fdescribe("NavBarComponent", () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.isLoggedIn$ = of(true);
+    router = fixture.debugElement.injector.get(Router)
+    // spyOn(router,'events').and.returnValue(of(''))
   });
 
   it("should create", () => {
@@ -49,7 +54,7 @@ fdescribe("NavBarComponent", () => {
 
     expect(spy).toHaveBeenCalled()
   });
-  
+
   it("should send search to books service", () => {
     component.searchText = 'text'
 

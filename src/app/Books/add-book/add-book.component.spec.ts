@@ -9,7 +9,7 @@ import { By } from "@angular/platform-browser";
 import { MatDatepickerModule } from "@angular/material";
 import { Book } from 'src/app/interfaces';
 
-fdescribe("AddBookComponent", () => {
+describe("AddBookComponent", () => {
   let component: AddBookComponent;
   let fixture: ComponentFixture<AddBookComponent>;
   const matDialogRefSpy = jasmine.createSpyObj("MatDialogRef", ["close"]);
