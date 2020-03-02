@@ -11,7 +11,7 @@ import { of, throwError } from "rxjs";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 import { Reader } from "src/app/interfaces";
 
-fdescribe("ReadersComponent", () => {
+describe("ReadersComponent", () => {
   let component: ReadersComponent;
   let fixture: ComponentFixture<ReadersComponent>;
   let readersServiceSpy = jasmine.createSpyObj("ReadersService", [
@@ -52,24 +52,18 @@ fdescribe("ReadersComponent", () => {
     component = fixture.componentInstance;
     bookService = fixture.debugElement.injector.get(BooksService);
     spyOnProperty(bookService, "searchText$").and.returnValue(of("Joshua"));
-    readersServiceSpy.getReaders.and.returnValue(of([reader]));
   });
 
   it("should fetch all readers", () => {
+    readersServiceSpy.getReaders.and.returnValue(of([reader]));
     fixture.detectChanges();
     expect(component).toBeTruthy();
     expect(readersServiceSpy.getReaders).toHaveBeenCalled();
   });
 
-  it("should not fetch all readers", () => {
-    readersServiceSpy.getReaders.and.returnValue(throwError("error"));
-    fixture.detectChanges();
-    expect(readersServiceSpy.getReaders).toHaveBeenCalled();
-    expect(snackBarServiceSpy.showError).toHaveBeenCalledWith("error");
-    expect(component.showSpinner).toBe(false);
-  });
 
   it("should add a reader", () => {
+    // readersServiceSpy.getReaders.and.returnValue(of([reader]));
     const dialogRefSpy = jasmine.createSpyObj("dialogRef", ["afterClosed"]);
     dialogSpy.open.and.returnValue(dialogRefSpy);
     dialogRefSpy.afterClosed.and.returnValue(of([reader]));
@@ -85,6 +79,7 @@ fdescribe("ReadersComponent", () => {
   it("should fail to add a reader", () => {
     const dialogRefSpy = jasmine.createSpyObj("dialogRef", ["afterClosed"]);
     dialogSpy.open.and.returnValue(dialogRefSpy);
+    // readersServiceSpy.getReaders.and.returnValue(of([reader]));
     dialogRefSpy.afterClosed.and.returnValue(of([reader]));
     readersServiceSpy.addReader.and.returnValue(throwError('error'));
     fixture.detectChanges();
@@ -97,6 +92,7 @@ fdescribe("ReadersComponent", () => {
 
   it("should not add a reader when dialog is closed", () => {
     const dialogRefSpy = jasmine.createSpyObj("dialogRef", ["afterClosed"]);
+    // readersServiceSpy.getReaders.and.returnValue(of([reader]));
     dialogSpy.open.and.returnValue(dialogRefSpy);
     dialogRefSpy.afterClosed.and.returnValue(of("closed"));
     fixture.detectChanges();
@@ -105,9 +101,12 @@ fdescribe("ReadersComponent", () => {
     expect(dialogRefSpy.afterClosed).toHaveBeenCalled();
   });
 
-  it('should return false when search filter does not match records',()=>{
-    bookService.searchText$
-    fixture.detectChanges()
-    expect(component.filteredReaders.length).toBe(0)
-  })
+  it("should not fetch all readers", () => {
+    readersServiceSpy.getReaders.and.returnValue(throwError("error"));
+    fixture.detectChanges();
+    expect(readersServiceSpy.getReaders).toHaveBeenCalled();
+    expect(snackBarServiceSpy.showError).toHaveBeenCalledWith("error");
+    expect(component.showSpinner).toBe(false);
+  });
 });
+

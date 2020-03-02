@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { SnackBarService } from "src/app/services/snack-bar.service";
 import { Book } from "src/app/interfaces";
 import { MatDialog } from "@angular/material";
-import { By } from "@angular/platform-browser";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 describe("BooksComponent", () => {
