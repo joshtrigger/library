@@ -1,48 +1,48 @@
 export interface Librarian {
-  id: Number;
-  name: String;
-  email: String;
-  password: String;
+  id: number;
+  name: string;
+  email: string;
+  password: string;
 }
 
 export interface Book {
-  id: Number;
-  title: String;
-  authors: String;
-  isbn: String;
-  publisher: String;
-  release_date: String;
-  about: String;
-  edition: String;
-  imageUrl: String;
-  count: Number;
+  id: number;
+  title: string;
+  authors: string;
+  isbn: string;
+  publisher: string;
+  release_date: string;
+  about: string;
+  edition: string;
+  imageUrl: string;
+  count: number;
 }
 
 export interface BorrowedBook {
-  id: Number;
-  book_id: Number;
-  reader_id: Number;
-  date_issued: String;
-  return_date: String;
-  librarian_id: Number;
+  id: number;
+  book_id: number;
+  reader_id: number;
+  date_issued: string;
+  return_date: string;
+  librarian_id: number;
 }
 
 export interface Reader {
-  id: Number;
-  name: String;
-  email: String;
-  id_no: Number;
-  id_type: String;
-  phone_number: String;
+  id: number;
+  name: string;
+  email: string;
+  id_no: number;
+  id_type: string;
+  phone_number: string;
   borrowed_books: number
 }
 
 export interface Report {
-  id: Number;
-  book_id: Number;
-  type: String;
-  status: String;
-  notes: String;
+  id: number;
+  book_id: number;
+  type: string;
+  status: string;
+  notes: string;
 }
 
 export interface UserObject {
