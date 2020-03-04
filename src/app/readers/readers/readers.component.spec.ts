@@ -51,62 +51,70 @@ describe("ReadersComponent", () => {
     fixture = TestBed.createComponent(ReadersComponent);
     component = fixture.componentInstance;
     bookService = fixture.debugElement.injector.get(BooksService);
-    spyOnProperty(bookService, "searchText$").and.returnValue(of("Joshua"));
   });
 
   it("should fetch all readers", () => {
     readersServiceSpy.getReaders.and.returnValue(of([reader]));
     fixture.detectChanges();
     expect(component).toBeTruthy();
-    expect(readersServiceSpy.getReaders).toHaveBeenCalled();
+    expect(component.showSpinner).toBe(false);
+    expect(component.filteredReaders).toEqual([reader]);
+    expect(component.allReaders).toEqual([reader]);
   });
 
+  it("should fail to fetch all readers", () => {
+    readersServiceSpy.getReaders.and.returnValue(throwError("error"));
+    fixture.detectChanges();
+    expect(snackBarServiceSpy.showError).toHaveBeenCalledWith("error");
+    expect(component.showSpinner).toBe(false);
+  });
 
-  it("should add a reader", () => {
-    // readersServiceSpy.getReaders.and.returnValue(of([reader]));
-    const dialogRefSpy = jasmine.createSpyObj("dialogRef", ["afterClosed"]);
-    dialogSpy.open.and.returnValue(dialogRefSpy);
-    dialogRefSpy.afterClosed.and.returnValue(of([reader]));
+  it("should add user successfully", () => {
+    const spy = jasmine.createSpyObj("dialogRef", ["afterClosed"]);
+    dialogSpy.open.and.returnValue(spy);
+    spy.afterClosed.and.returnValue(of([reader]));
     readersServiceSpy.addReader.and.returnValue(of({}));
     fixture.detectChanges();
     component.addReader();
     expect(dialogSpy.open).toHaveBeenCalled();
-    expect(dialogRefSpy.afterClosed).toHaveBeenCalled();
     expect(readersServiceSpy.addReader).toHaveBeenCalled();
-    expect(snackBarServiceSpy.showSuccess).toHaveBeenCalled();
-  });
+    expect(snackBarServiceSpy.showSuccess).toHaveBeenCalledWith(
+      "User added successfully"
+      );
+    });
+    it("should fail to add a reader", () => {
+      const dialogRefSpy = jasmine.createSpyObj("dialogRef", ["afterClosed"]);
+      dialogSpy.open.and.returnValue(dialogRefSpy);
+      dialogRefSpy.afterClosed.and.returnValue(of([reader]));
+      readersServiceSpy.addReader.and.returnValue(throwError("error"));
+      fixture.detectChanges();
+      component.addReader();
+      expect(dialogSpy.open).toHaveBeenCalled();
+      expect(dialogRefSpy.afterClosed).toHaveBeenCalled();
+      expect(readersServiceSpy.addReader).toHaveBeenCalled();
+      expect(snackBarServiceSpy.showError).toHaveBeenCalledWith("error");
+    });
+    it("should not add a reader when dialog is closed", () => {
+      const dialogRefSpy = jasmine.createSpyObj("dialogRef", ["afterClosed"]);
+      dialogSpy.open.and.returnValue(dialogRefSpy);
+      dialogRefSpy.afterClosed.and.returnValue(of("closed"));
+      fixture.detectChanges();
+      component.addReader();
+      expect(dialogSpy.open).toHaveBeenCalled();
+      expect(dialogRefSpy.afterClosed).toHaveBeenCalled();
+    });
 
-  it("should fail to add a reader", () => {
-    const dialogRefSpy = jasmine.createSpyObj("dialogRef", ["afterClosed"]);
-    dialogSpy.open.and.returnValue(dialogRefSpy);
-    // readersServiceSpy.getReaders.and.returnValue(of([reader]));
-    dialogRefSpy.afterClosed.and.returnValue(of([reader]));
-    readersServiceSpy.addReader.and.returnValue(throwError('error'));
-    fixture.detectChanges();
-    component.addReader();
-    expect(dialogSpy.open).toHaveBeenCalled();
-    expect(dialogRefSpy.afterClosed).toHaveBeenCalled();
-    expect(readersServiceSpy.addReader).toHaveBeenCalled();
-    expect(snackBarServiceSpy.showError).toHaveBeenCalledWith('error');
-  });
+    it('should find match when user filters list',()=>{
+      readersServiceSpy.getReaders.and.returnValue(of([reader]));
+      spyOnProperty(bookService, "searchText$").and.returnValue(of("Joshua"));
+      fixture.detectChanges()
+      expect(component.filteredReaders).toEqual([reader])
+    })
 
-  it("should not add a reader when dialog is closed", () => {
-    const dialogRefSpy = jasmine.createSpyObj("dialogRef", ["afterClosed"]);
-    // readersServiceSpy.getReaders.and.returnValue(of([reader]));
-    dialogSpy.open.and.returnValue(dialogRefSpy);
-    dialogRefSpy.afterClosed.and.returnValue(of("closed"));
-    fixture.detectChanges();
-    component.addReader();
-    expect(dialogSpy.open).toHaveBeenCalled();
-    expect(dialogRefSpy.afterClosed).toHaveBeenCalled();
-  });
-
-  it("should not fetch all readers", () => {
-    readersServiceSpy.getReaders.and.returnValue(throwError("error"));
-    fixture.detectChanges();
-    expect(readersServiceSpy.getReaders).toHaveBeenCalled();
-    expect(snackBarServiceSpy.showError).toHaveBeenCalledWith("error");
-    expect(component.showSpinner).toBe(false);
-  });
+    it('should not find match when user filters list',()=>{
+      readersServiceSpy.getReaders.and.returnValue(of([reader]));
+      spyOnProperty(bookService, "searchText$").and.returnValue(of("asca"));
+      fixture.detectChanges()
+      expect(component.filteredReaders).toEqual([])
+    })
 });
-

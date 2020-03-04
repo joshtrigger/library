@@ -36,7 +36,7 @@ export class BooksComponent implements OnInit, OnDestroy {
    * this method is responsible for filtering through the
    * available books
    */
-  performFilter(): void {
+  private performFilter(): void {
     this.sub = this.bookService.searchText$
       .pipe(debounce(() => interval(2000)))
       .subscribe(val => {
