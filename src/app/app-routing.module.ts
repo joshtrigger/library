@@ -1,12 +1,14 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { PageNotFoundComponent } from "./components/page-not-found/page-not-found.component";
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path: "books",
+    canActivate:[AuthGuard],
     loadChildren: () =>
-      import("./Books/books.module").then(mod => mod.BooksModule)
+    import("./Books/books.module").then(mod => mod.BooksModule)
   },
   {
     path: "auth",
@@ -14,6 +16,7 @@ const routes: Routes = [
   },
   {
     path: "readers",
+    canActivate:[AuthGuard],
     loadChildren: () =>
       import("./readers/readers.module").then(mod => mod.ReadersModule)
   },

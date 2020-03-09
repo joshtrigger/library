@@ -31,6 +31,9 @@ export class ReadersService {
     } else if (err.status === 500) {
       errorMessage = err.statusText;
     }
+    else{
+      errorMessage = err.statusText
+    }
     return throwError(errorMessage);
   }
 }

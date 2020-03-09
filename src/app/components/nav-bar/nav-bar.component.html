@@ -6,10 +6,31 @@
 >
   <div class="left-side" fxLayout="row wrap" fxLayoutAlign="start center">
     <h2>Library</h2>
-    <button routerLink="/books" [routerLinkActive]="'activated'" mat-button>Books</button>
-    <button routerLink="/readers" [routerLinkActive]="'activated'" mat-button>Users</button>
-    <button routerLink="/books/stats" [routerLinkActive]="'activated'" mat-button>Stats</button>
-    <button routerLink="/books/reports" [routerLinkActive]="'activated'" mat-button>Reports</button>
+    <button
+      routerLink="/books"
+      [routerLinkActive]="'activated'"
+      [routerLinkActiveOptions]="{ exact: true }"
+      mat-button
+    >
+      Books
+    </button>
+    <button routerLink="/readers" [routerLinkActive]="'activated'" mat-button>
+      Users
+    </button>
+    <button
+      routerLink="/books/stats"
+      [routerLinkActive]="'activated'"
+      mat-button
+    >
+      Stats
+    </button>
+    <button
+      routerLink="/books/reports"
+      [routerLinkActive]="'activated'"
+      mat-button
+    >
+      Reports
+    </button>
   </div>
   <div
     class="right-side"

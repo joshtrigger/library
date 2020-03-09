@@ -74,4 +74,12 @@ describe("NavBarComponent", () => {
 
     expect(bookServiceSpy.setSearchText).toHaveBeenCalledWith("text");
   });
+
+  it("should reset search box value when routing occurs", () => {
+    fixture.detectChanges();
+    const btn = fixture.nativeElement.querySelector("button");
+    btn.click();
+    fixture.detectChanges();
+    expect(component.filterInput.value).toEqual("");
+  });
 });

@@ -184,4 +184,9 @@ describe("LoginComponent", () => {
     expect(component.showButton).toHaveBeenCalled();
     expect(snackBarSpy.showError).toHaveBeenCalled();
   });
+
+  it('should redirect user back to the route they were trying to access before logging in',()=>{
+    const service = fixture.debugElement.injector.get(AuthService)
+    console.log(service)
+  })
 });

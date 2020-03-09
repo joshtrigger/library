@@ -3,8 +3,7 @@ import {
   ComponentFixture,
   TestBed,
   fakeAsync,
-  flush,
-  tick
+  flush
 } from "@angular/core/testing";
 
 import { BooksComponent } from "./books.component";

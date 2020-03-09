@@ -9,8 +9,9 @@ describe("AuthGuard", () => {
       "getCurrentUser"
     ]);
     const routerSpy = jasmine.createSpyObj("router", ["navigate"]);
+    const snackBarSpy = jasmine.createSpyObj("SnackBarService", ["showError"]);
 
-    guard = new AuthGuard(routerSpy, authServiceSpy);
+    guard = new AuthGuard(routerSpy, authServiceSpy, snackBarSpy);
     authServiceSpy.getCurrentUser.and.returnValue(true);
 
     guard.canActivate(new ActivatedRouteSnapshot(), {
@@ -21,12 +22,13 @@ describe("AuthGuard", () => {
   });
 
   it("should deactivate route if user is not logged in", () => {
+    const snackBarSpy = jasmine.createSpyObj("SnackBarService", ["showError"]);
     const authServiceSpy = jasmine.createSpyObj("AuthService", [
       "getCurrentUser"
     ]);
     const routerSpy = jasmine.createSpyObj("router", ["navigate"]);
 
-    guard = new AuthGuard(routerSpy, authServiceSpy);
+    guard = new AuthGuard(routerSpy, authServiceSpy,snackBarSpy);
     authServiceSpy.getCurrentUser.and.returnValue(false);
 
     guard.canActivate(new ActivatedRouteSnapshot(), {
@@ -35,7 +37,7 @@ describe("AuthGuard", () => {
 
     expect(routerSpy.navigate).toHaveBeenCalled();
     expect(routerSpy.navigate).toHaveBeenCalledWith(["/auth/login"], {
-      queryParams: { returnUrl: "testUrl" }
+      queryParams: { redirectUrl: "testUrl" }
     });
   });
 });

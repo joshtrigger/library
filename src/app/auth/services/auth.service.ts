@@ -13,6 +13,7 @@ export class AuthService {
   private loggedIn: BehaviorSubject<Boolean> = new BehaviorSubject<Boolean>(
     false
   );
+  redirectUrl: string;
 
   constructor(private http: HttpClient, private router: Router) {
     const currentUser: UserObject = JSON.parse(

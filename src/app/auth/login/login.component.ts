@@ -8,7 +8,7 @@ import {
 import { AuthService } from "../services/auth.service";
 import { Librarian } from "src/app/interfaces";
 import { Router } from "@angular/router";
-import { SnackBarService } from '../../services/snack-bar.service';
+import { SnackBarService } from "../../services/snack-bar.service";
 
 @Component({
   selector: "app-login",
@@ -90,7 +90,11 @@ export class LoginComponent implements OnInit {
     this.authService.loginUser(data).subscribe(
       value => {
         localStorage.setItem("currentUser", JSON.stringify(value));
-        this.router.navigate(["/books"]);
+        if (this.authService.redirectUrl) {
+          this.router.navigate([this.authService.redirectUrl]);
+        } else {
+          this.router.navigate(["/books"]);
+        }
       },
       err => {
         this.showButton();
