@@ -1,5 +1,6 @@
 <div class="card-container">
-  <mat-grid-list cols="3" rowHeight="3:2" gutterSize="20px">
+  <mat-spinner *ngIf="showSpinner"></mat-spinner>
+  <mat-grid-list *ngIf="!showSpinner" cols="3" rowHeight="3:2" gutterSize="20px">
     <mat-grid-tile *ngFor="let book of books">
       <mat-card fxLayout="row">
         <img src="{{ book.imageUrl }}" alt="" />
@@ -15,8 +16,8 @@
           >
             <h3>{{ book.title | titlecase }}</h3>
             <div class="top-icons" fxLayout="row" fxLayoutAlign="space-between start">
-              <mat-icon id="details-btn" (click)="showDetails(book)">description</mat-icon>
-              <mat-icon id="edit-btn" (click)="edit(book)">create</mat-icon>
+              <mat-icon id="details-btn" matTooltip="Book Info" (click)="showDetails(book)">description</mat-icon>
+              <mat-icon id="edit-btn" matTooltip="Edit book" (click)="edit(book)">create</mat-icon>
             </div>
           </div>
           <div fxLayout="row wrap" fxLayoutAlign="space-between start">

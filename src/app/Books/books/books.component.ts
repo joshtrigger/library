@@ -8,6 +8,8 @@ import { AddBookComponent } from "../add-book/add-book.component";
 import { ConfirmationDialogComponent } from "src/app/components/confirmation-dialog/confirmation-dialog.component";
 import { Subscription, interval } from "rxjs";
 import { debounce } from "rxjs/operators";
+import { LendBookComponent } from "../lend-book/lend-book.component";
+import { BookDetailComponent } from '../book-detail/book-detail.component';
 
 @Component({
   selector: "app-books",
@@ -17,6 +19,7 @@ import { debounce } from "rxjs/operators";
 export class BooksComponent implements OnInit, OnDestroy {
   books: Array<Book>;
   sub: Subscription;
+  showSpinner: boolean;
 
   constructor(
     private bookService: BooksService,
@@ -33,7 +36,7 @@ export class BooksComponent implements OnInit, OnDestroy {
    * this method is responsible for filtering through the
    * available books
    */
-  performFilter(): void {
+  private performFilter(): void {
     this.sub = this.bookService.searchText$
       .pipe(debounce(() => interval(2000)))
       .subscribe(val => {
@@ -45,14 +48,35 @@ export class BooksComponent implements OnInit, OnDestroy {
    * this method fetches add the books available
    */
   getAllBooks(arg?: string): void {
+    this.showSpinner = true;
     this.bookService.fetchBooks(arg).subscribe(
-      value => (this.books = value),
-      err =>
-        this.snackBarService.showError("Error occured when fetching records")
+      value => {
+        this.books = value;
+        this.showSpinner = false;
+      },
+      err => {
+        this.showSpinner = false;
+        this.snackBarService.showError("Error occured when fetching records");
+      }
     );
   }
 
-  lend(bookId) {}
+  lend(bookId) {
+    const dialogRef = this.dialog.open(LendBookComponent, {
+      width: "500px",
+      height: "350px",
+      data: bookId
+    });
+
+    dialogRef.afterClosed().subscribe(val => {
+      if (val !== "closed") {
+        this.bookService.lendOutBook(val).subscribe(
+          () => this.snackBarService.showSuccess("Success"),
+          err => this.snackBarService.showError(err)
+        );
+      }
+    });
+  }
 
   /**
    * this method is reponsible for reporting a book
@@ -164,7 +188,11 @@ export class BooksComponent implements OnInit, OnDestroy {
    * the user
    */
   showDetails(book: Book): void {
-    console.log(book);
+    this.dialog.open(BookDetailComponent,{
+      width:'450px',
+      height:'700px',
+      data: book
+    })
   }
 
   ngOnDestroy() {

@@ -17,6 +17,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatBadgeModule } from "@angular/material/badge";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
+import { MatTableModule } from "@angular/material/table";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 import { FlexLayoutModule } from "@angular/flex-layout";
 
@@ -40,7 +42,9 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatTooltipModule,
     MatBadgeModule,
     MatMenuModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTableModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     FlexLayoutModule,
@@ -59,7 +63,9 @@ import { FlexLayoutModule } from "@angular/flex-layout";
     MatTooltipModule,
     MatBadgeModule,
     MatMenuModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTableModule,
+    MatProgressSpinnerModule
   ]
 })
 export class MaterialModule {}

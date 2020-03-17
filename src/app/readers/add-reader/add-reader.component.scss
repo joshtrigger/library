@@ -1,0 +1,16 @@
+.form-container{
+  height: 100%;
+  .bottom{
+    height: auto;
+  }
+  #save-btn {
+    font-size: 18px;
+    background-color: #3498db;
+    color: white;
+    padding: 7px;
+    border-radius: 5px;
+    &:disabled {
+      background-color: rgb(125, 191, 235);
+    }
+  }
+}

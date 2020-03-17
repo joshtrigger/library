@@ -1,0 +1,48 @@
+<div class="form-container">
+  <div class="header" fxLayout="row wrap" fxLayoutAlign="space-between start">
+    <h1>Lend book</h1>
+    <button id="close" (click)="closeModal()">&times;</button>
+  </div>
+  <div class="bottom" fxLayout="column wrap" [formGroup]="lendForm">
+    <mat-form-field>
+      <mat-label>Choose user</mat-label>
+      <mat-select formControlName="readerId">
+        <mat-option *ngFor="let reader of readers" [value]="reader.id">
+          {{ reader.name | titlecase }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div
+      class="date-fields"
+      fxLayout="row wrap"
+      fxLayoutAlign="space-between start"
+    >
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="issuingDate"
+          [matDatepicker]="picker1"
+          placeholder="Issued date"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker1">
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          [min]="date"
+          formControlName="returnDate"
+          [matDatepicker]="picker2"
+          placeholder="Return date"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker2">
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <br />
+    <button [disabled]="!lendForm.valid" id="lend-btn" (click)="lendBook()">Lend</button>
+  </div>
+</div>

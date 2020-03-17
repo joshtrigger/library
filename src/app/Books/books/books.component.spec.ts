@@ -1,4 +1,10 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import {
+  async,
+  ComponentFixture,
+  TestBed,
+  fakeAsync,
+  flush
+} from "@angular/core/testing";
 
 import { BooksComponent } from "./books.component";
 import { MaterialModule } from "src/app/material.module";
@@ -8,7 +14,6 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { SnackBarService } from "src/app/services/snack-bar.service";
 import { Book } from "src/app/interfaces";
 import { MatDialog } from "@angular/material";
-import { By } from "@angular/platform-browser";
 import { HttpClientTestingModule } from "@angular/common/http/testing";
 
 describe("BooksComponent", () => {
@@ -29,7 +34,7 @@ describe("BooksComponent", () => {
     isbn: "123-34-54",
     publisher: "MK",
     count: 1,
-    imageUrl: "/path/file",
+    imageUrl: "",
     about: "something",
     edition: "1st"
   };
@@ -56,7 +61,6 @@ describe("BooksComponent", () => {
     matDialogSpy.open.and.returnValue(dialogRefSpy);
     dialogRefSpy.afterClosed.and.returnValue(of({}));
     bookService = fixture.debugElement.injector.get(BooksService);
-    spyOnProperty(bookService, "searchText$").and.returnValue(of("string"));
   });
 
   it("should fetch all the books", () => {
@@ -183,11 +187,24 @@ describe("BooksComponent", () => {
     expect(component.addBook).toHaveBeenCalled();
   });
 
-  it("should call the lend function", () => {
-    // tests are yet to be written this is just for the case of test coverage coveralls
+  it("should lend out book successfully", () => {
+    spyOn(bookService, "lendOutBook").and.returnValue(of({}));
     component.lend(1);
-    component.showDetails(book)
+    expect(snackBarSpy.showSuccess).toHaveBeenCalledWith("Success");
   });
+
+  it("should not lend out book successfully", () => {
+    spyOn(bookService, "lendOutBook").and.returnValue(throwError("error"));
+    component.lend(1);
+    expect(snackBarSpy.showError).toHaveBeenCalledWith("error");
+  });
+
+  it("should not lend out book when dialog is just closed", () => {
+    dialogRefSpy.afterClosed.and.returnValue(of("closed"));
+    component.lend(1);
+    expect(snackBarSpy.showError).toHaveBeenCalledWith("error");
+  });
+
   it("should call the edit function", () => {
     const { id, ...newBook } = book;
     dialogRefSpy.afterClosed.and.returnValue(of(newBook));
@@ -211,4 +228,18 @@ describe("BooksComponent", () => {
     expect(matDialogSpy.open).toHaveBeenCalled();
     expect(snackBarSpy.showError).toHaveBeenCalled();
   });
+
+  it("should show book details", () => {
+    component.showDetails(book);
+    expect(matDialogSpy.open).toHaveBeenCalled();
+  });
+
+  it("should find a match when user filters", fakeAsync(() => {
+    spyOn(bookService, "fetchBooks").and.returnValue(of([book]));
+    spyOnProperty(bookService, "searchText$").and.returnValue(of("title"));
+    spyOn(component, "getAllBooks");
+    fixture.detectChanges();
+    flush();
+    expect(component.getAllBooks).toHaveBeenCalledWith("title");
+  }));
 });
